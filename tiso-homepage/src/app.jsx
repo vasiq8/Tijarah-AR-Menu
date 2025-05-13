@@ -112,11 +112,17 @@ function App() {
   const toggleSearch = () => {
     setSearchOpen(o => !o);
     if (menuOpen) setMenuOpen(false);
+    // Fetch data if opening search for first time
+    if (!searchOpen && Object.keys(apiProducts).length === 0) {
+      fetchMenuData();
+    }
     if (!searchOpen) setTimeout(() => document.querySelector(".search-input")?.focus(), 100);
   };
+
   const toggleMenu = () => {
     const newMenuState = !menuOpen;
     setMenuOpen(newMenuState);
+    // Fetch data if opening menu for first time
     if (newMenuState && Object.keys(apiProducts).length === 0) {
       fetchMenuData();
     }
