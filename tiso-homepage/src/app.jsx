@@ -1,189 +1,190 @@
 import { useState, useRef, useEffect } from 'react';
 import './App.css';
 
-// Navbar images
+// Navbar images (served from public/assets)
 import strikeImg from './assets/strike.jpeg';
 import searchImg from './assets/search.jpeg';
 
-// Food Gallery images (example)
-import pizzaImg from './assets/pizza.jpeg';
+// Food Gallery images
+import pizzaImg    from './assets/pizza.jpeg';
 import sandwichImg from './assets/sandwich.jpeg';
-import onigiriImg from './assets/onigiri.jpeg';
-import burgerImg from './assets/burger.jpeg';
-import fishImg from './assets/fish.jpeg';
-import noodlesImg from './assets/noodles.jpeg';
+import onigiriImg  from './assets/onigiri.jpeg';
+import burgerImg   from './assets/burger.jpeg';
+import fishImg     from './assets/fish.jpeg';
+import noodlesImg  from './assets/noodles.jpeg';
 import ricebowlImg from './assets/ricebowl.jpeg';
-import saladImg from './assets/salad.jpeg';
+import saladImg    from './assets/salad.jpeg';
 import shawarmaImg from './assets/shawarma.jpeg';
 
-// --- Products mapping for AR products ---
-const productsByCategory = {
-  PIZZA: [
-    {
-      name: "Pizza",
-      image: pizzaImg,
-      description: "Delicious pizza with fresh toppings. Enjoy our signature crust loaded with cheese and pepperoni.",
-      price: "$12",
-      calories: "300 kcal",
-      modelUrl: "/assets/pizza.glb",
-    },
-  ],
-  DESSERTS: [
-    {
-      name: "The Cake Is A Lie",
-      image: "/assets/the_cake_is_a_lie.glb",
-      description: "A mysterious dessert that defies expectations.",
-      price: "$8",
-      calories: "250 kcal",
-      modelUrl: "/assets/the_cake_is_a_lie.glb",
-    },
-    {
-      name: "Ice Cream",
-      image: "/assets/ice_cream_lp.glb",
-      description: "Cool and refreshing ice cream treat.",
-      price: "$5",
-      calories: "200 kcal",
-      modelUrl: "/assets/ice_cream_lp.glb",
-    },
-    {
-      name: "Candy",
-      image: "/assets/candy.glb",
-      description: "Sweet and delightful candy treat.",
-      price: "$3",
-      calories: "150 kcal",
-      modelUrl: "/assets/candy.glb",
-    },
-  ],
-  BURGERS: [
-    {
-      name: "Burger Lowpoly",
-      image: "/assets/burger_lowpoly.glb",
-      description: "Stylized low poly burger for a modern look.",
-      price: "$10",
-      calories: "400 kcal",
-      modelUrl: "/assets/burger_lowpoly.glb",
-    },
-    {
-      name: "Hamburger 3D",
-      image: "/assets/hamburger_3d_scan.glb",
-      description: "Realistic 3D scanned hamburger experience.",
-      price: "$11",
-      calories: "420 kcal",
-      modelUrl: "/assets/hamburger_3d_scan.glb",
-    },
-  ],
-  SALADS: [
-    {
-      name: "Fruit Muzli",
-      image: "/assets/fruit_muzli.glb",
-      description: "A refreshing and colorful fruit salad.",
-      price: "$7",
-      calories: "180 kcal",
-      modelUrl: "/assets/fruit_muzli.glb",
-    },
-    {
-      name: "Breakfast Food Dish",
-      image: "/assets/breakfast_food_dish.glb",
-      description: "Hearty and healthy breakfast salad dish.",
-      price: "$9",
-      calories: "220 kcal",
-      modelUrl: "/assets/breakfast_food_dish.glb",
-    },
-  ],
-};
-
 function App() {
-  // Navbar and dropdown states
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  // Navbar + search/menu
+  const [searchOpen, setSearchOpen]   = useState(false);
+  const [menuOpen, setMenuOpen]       = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // States for product details and AR view
+  // Product‑modal state
   const [currentCategoryProducts, setCurrentCategoryProducts] = useState([]);
-  const [productIndex, setProductIndex] = useState(0);
-  const [showAR, setShowAR] = useState(false);
+  const [productIndex, setProductIndex]                       = useState(0);
+  const [animClass, setAnimClass]                             = useState("");
 
-  // Refs for detecting outside clicks
+  // Refs for click‑outside & AR
   const searchRef = useRef(null);
-  const menuRef = useRef(null);
+  const menuRef   = useRef(null);
+  const arModelRef = useRef(null);
 
-  // Food categories (order as desired)
-  const foodCategories = [
-    "PIZZA",
-    "BURGERS",
-    "SANDWICHES",
-    "NOODLES",
-    "RICE BOWLS",
-    "SALADS",
-    "FISH",
-    "DESSERTS",
-    "DRINKS",
-  ];
+  // API data state
+  const [apiProducts, setApiProducts] = useState({});
+  const [companyName, setCompanyName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setSearchOpen(false);
+  // Move fetchMenuData outside useEffect
+  const fetchMenuData = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch('https://qa-k8s.tisostudio.com/menu?locationRef=6809c72fcd327059a03e1304&companyRef=6809c711cd327059a03e12d0&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false');
+      const data = await response.json();
+      
+      console.log('API Response:', data); // Debug log
+
+      if (!data) {
+        console.error('No data in API response');
+        return;
       }
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setMenuOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
-  const toggleSearch = () => {
-    setSearchOpen((prev) => !prev);
-    if (menuOpen) setMenuOpen(false);
-    if (!searchOpen) {
-      setTimeout(() => {
-        const input = document.querySelector(".search-input");
-        if (input) input.focus();
-      }, 100);
+      // Process categories
+      const categories = data.categories || [];
+      console.log('Categories:', categories); // Debug log
+
+      // Process products by category
+      const productsByCategory = {};
+      
+      // Initialize categories
+      categories.forEach(category => {
+        if (category.name?.en) {
+          productsByCategory[category.name.en] = [];
+        }
+      });
+
+      // Map products to categories
+      (data.results || []).forEach(product => {
+        const categoryName = product.category?.name?.en;
+        if (categoryName && product.name?.en) {
+          if (!productsByCategory[categoryName]) {
+            productsByCategory[categoryName] = [];
+          }
+
+          productsByCategory[categoryName].push({
+            name: product.name.en,
+            description: product.description || '',
+            price: product.price ? `$${product.price}` : 'N/A',
+            calories: product.nutritionalInformation?.calorieCount || 'N/A',
+            image: product.image || '',
+          });
+        }
+      });
+
+      console.log('Processed products:', productsByCategory); // Debug log
+      
+      setApiProducts(productsByCategory);
+      setCompanyName(data.company?.name || "");
+    } catch (error) {
+      console.error("Error fetching menu data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  // Flatten all products for search lookup
+  const allProducts = Object.values(apiProducts).flat();
+
+  // Hide dropdowns on outside click
+  useEffect(() => {
+    const handleClickOutside = e => {
+      if (searchRef.current && !searchRef.current.contains(e.target))
+        setSearchOpen(false);
+      if (menuRef.current && !menuRef.current.contains(e.target))
+        setMenuOpen(false);
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Toggle handlers
+  const toggleSearch = () => {
+    setSearchOpen(o => !o);
+    if (menuOpen) setMenuOpen(false);
+    if (!searchOpen) setTimeout(() => document.querySelector(".search-input")?.focus(), 100);
+  };
   const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
+    const newMenuState = !menuOpen;
+    setMenuOpen(newMenuState);
+    if (newMenuState && Object.keys(apiProducts).length === 0) {
+      fetchMenuData();
+    }
     if (searchOpen) setSearchOpen(false);
   };
 
-  const handleSearchClose = () => {
-    setSearchOpen(false);
-    setSearchQuery("");
-  };
-
-  const handleMenuClose = () => setMenuOpen(false);
-
-  // When a category is clicked, show the product details (with arrow navigation)
-  const handleCategoryClick = (category) => {
-    const items = productsByCategory[category];
-    if (items && items.length > 0) {
-      setCurrentCategoryProducts(items);
-      setProductIndex(0);
-    } else {
-      setCurrentCategoryProducts([]);
-      setProductIndex(0);
-    }
+  // Show details for a clicked category
+  const handleCategoryClick = category => {
+    const items = apiProducts[category] || [];
+    setCurrentCategoryProducts(items);
+    setProductIndex(0);
     setMenuOpen(false);
   };
 
+  // Search submit (on Enter)
+  const handleSearchSubmit = e => {
+    e.preventDefault();
+    const q = searchQuery.trim().toLowerCase();
+    if (!q) return;
+    const found = allProducts.find(p => p.name.toLowerCase().includes(q));
+    if (found) {
+      setCurrentCategoryProducts([found]);
+      setProductIndex(0);
+      setSearchOpen(false);
+    } else {
+      alert("No product found. Try another name.");
+    }
+  };
+
+  // Carousel arrows
   const handleNextProduct = () => {
     if (currentCategoryProducts.length < 2) return;
-    setProductIndex((prev) => (prev + 1) % currentCategoryProducts.length);
+    setAnimClass("slide-out-left");
+    setTimeout(() => {
+      setProductIndex(i => (i + 1) % currentCategoryProducts.length);
+      setAnimClass("slide-in-right");
+    }, 300);
+    setTimeout(() => setAnimClass(""), 600);
   };
-
   const handlePrevProduct = () => {
     if (currentCategoryProducts.length < 2) return;
-    setProductIndex(
-      (prev) => (prev - 1 + currentCategoryProducts.length) % currentCategoryProducts.length
-    );
+    setAnimClass("slide-out-right");
+    setTimeout(() => {
+      setProductIndex(i =>
+        (i - 1 + currentCategoryProducts.length) % currentCategoryProducts.length
+      );
+      setAnimClass("slide-in-left");
+    }, 300);
+    setTimeout(() => setAnimClass(""), 600);
   };
 
+  // Currently selected
   const selectedProduct =
-    currentCategoryProducts.length > 0 ? currentCategoryProducts[productIndex] : null;
+    currentCategoryProducts.length > 0
+      ? currentCategoryProducts[productIndex]
+      : null;
+
+  // Activate AR
+  const viewInAR = () => {
+    if (arModelRef.current?.activateAR) {
+      arModelRef.current.activateAR();
+    } else {
+      alert("AR not supported on this device/browser.");
+    }
+  };
+
+  const menuCategories = Object.keys(apiProducts);
 
   return (
     <div className="app">
@@ -191,15 +192,14 @@ function App() {
       <header
         className={`navbar ${menuOpen ? "menu-active" : ""} ${
           searchOpen ? "search-active" : ""
-        }`}
-      >
+        }`}>
         <img
           src={strikeImg}
           alt="Menu"
           className="icon menu-icon"
           onClick={toggleMenu}
         />
-        <h1 className="logo">TISO MEALS</h1>
+        <h1 className="logo">{companyName || "TISO MEALS"}</h1>
         <img
           src={searchImg}
           alt="Search"
@@ -208,7 +208,7 @@ function App() {
         />
       </header>
 
-      {/* Blur Overlay */}
+      {/* Blur overlay */}
       {(menuOpen || searchOpen || selectedProduct) && (
         <div
           className="blur-overlay"
@@ -219,41 +219,48 @@ function App() {
         />
       )}
 
-      {/* Menu Dropdown */}
+      {/* Menu dropdown */}
       {menuOpen && (
         <div className="menu-dropdown" ref={menuRef}>
           <div className="menu-header">
-            <button className="menu-close" onClick={handleMenuClose}>
+            <button className="menu-close" onClick={() => setMenuOpen(false)}>
               ×
             </button>
-            <div className="menu-title">TISO MEALS</div>
-            <div className="menu-search-icon">
-              <img
-                src={searchImg}
-                alt="Search"
-                className="icon small-icon"
-                onClick={() => {
-                  setMenuOpen(false);
-                  setSearchOpen(true);
-                }}
-              />
-            </div>
+            <div className="menu-title">{companyName || "TISO MEALS"}</div>
+            <img
+              src={searchImg}
+              alt="Search"
+              className="icon small-icon"
+              onClick={() => {
+                setMenuOpen(false);
+                setSearchOpen(true);
+              }}
+            />
           </div>
           <div className="menu-categories">
-            {foodCategories.map((category, index) => (
-              <div
-                key={index}
-                className="menu-category"
-                onClick={() => handleCategoryClick(category)}
-              >
-                {category}
-              </div>
-            ))}
+            {isLoading ? (
+              <div className="menu-category">Loading categories...</div>
+            ) : Object.keys(apiProducts).length > 0 ? (
+              Object.keys(apiProducts).map((category, index) => (
+                <div
+                  key={index}
+                  className="menu-category"
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  {category}
+                  <span className="item-count">
+                    ({apiProducts[category]?.length || 0})
+                  </span>
+                </div>
+              ))
+            ) : (
+              <div className="menu-category">No categories found</div>
+            )}
           </div>
         </div>
       )}
 
-      {/* Search Dropdown */}
+      {/* Search dropdown */}
       {searchOpen && (
         <div className="search-dropdown" ref={searchRef}>
           <div className="search-header">
@@ -262,31 +269,32 @@ function App() {
               onClick={() => {
                 setSearchOpen(false);
                 setMenuOpen(true);
-              }}
-            >
+              }}>
               ≡
             </div>
             <div className="search-title">SEARCH</div>
-            <button className="search-close" onClick={handleSearchClose}>
+            <button className="search-close" onClick={() => setSearchOpen(false)}>
               ×
             </button>
           </div>
-          <div className="search-input-container">
+          <form className="search-input-container" onSubmit={handleSearchSubmit}>
             <input
               type="text"
               className="search-input"
-              placeholder="SEARCH"
+              placeholder="Type & press Enter"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
-          </div>
+          </form>
         </div>
       )}
 
-      {/* Product Details Modal with Arrow Navigation */}
+      {/* Product Details Modal */}
       {selectedProduct && (
         <div className="product-details">
-          <button className="close-product" onClick={() => setCurrentCategoryProducts([])}>
+          <button
+            className="close-product"
+            onClick={() => setCurrentCategoryProducts([])}>
             ×
           </button>
 
@@ -301,56 +309,51 @@ function App() {
             </>
           )}
 
-          <img
-            src={selectedProduct.image}
-            alt={selectedProduct.name}
-            className="product-image"
-          />
-          <div className="product-info">
-            <h2>{selectedProduct.name}</h2>
-            <p>{selectedProduct.description}</p>
-            <p>Price: {selectedProduct.price}</p>
-            <p>Calories: {selectedProduct.calories}</p>
-            <button className="ar-button" onClick={() => setShowAR(true)}>
-              VIEW IN AR
+          <div className={`product-details-content ${animClass}`}>
+            <img
+              className="product-image"
+            />
+            <div className="product-info">
+              <h2>{selectedProduct.name}</h2>
+              <p>{selectedProduct.description}</p>
+              <p>Price: {selectedProduct.price}</p>
+              <p>Calories: {selectedProduct.calories}</p>
+            </div>
+
+            <div className="ar-preview">
+              <model-viewer
+                ref={arModelRef}
+                src={selectedProduct.modelUrl}
+                alt={`${selectedProduct.name} AR Model`}
+                camera-controls
+                auto-rotate
+                ar
+                ar-modes="scene-viewer webxr quick-look"
+                style={{
+                  width: "100%",
+                  maxWidth: "59%",
+                  height: "300px",
+                  margin: "0 auto",
+                }}
+              />
+            </div>
+            <button className="ar-button" onClick={viewInAR}>
+              View in AR
             </button>
           </div>
         </div>
       )}
 
-      {/* AR Modal */}
-      {showAR && selectedProduct && (
-        <div className="ar-modal">
-          <button className="close-ar" onClick={() => setShowAR(false)}>
-            ×
-          </button>
-          {/*
-            IMPORTANT: Include the model-viewer library in your index.html.
-            Example:
-            <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-          */}
-          <model-viewer
-            src={selectedProduct.modelUrl}
-            alt={`${selectedProduct.name} AR Model`}
-            ar
-            ar-modes="scene-viewer webxr quick-look"
-            camera-controls
-            auto-rotate
-            style={{ width: "100%", height: "100%" }}
-          ></model-viewer>
-        </div>
-      )}
-
-      {/* Food Gallery (Background Animation) */}
+      {/* Food Gallery */}
       <div className="food-gallery">
-        <img src={pizzaImg} alt="Pizza" className="food food1" />
+        <img src={pizzaImg}    alt="Pizza"    className="food food1" />
         <img src={sandwichImg} alt="Sandwich" className="food food2" />
-        <img src={onigiriImg} alt="Onigiri" className="food food3" />
-        <img src={burgerImg} alt="Burger" className="food food4" />
-        <img src={fishImg} alt="Fish" className="food food5" />
-        <img src={noodlesImg} alt="Noodles" className="food food6" />
-        <img src={ricebowlImg} alt="Rice Bowl" className="food food7" />
-        <img src={saladImg} alt="Salad" className="food food8" />
+        <img src={onigiriImg}  alt="Onigiri"  className="food food3" />
+        <img src={burgerImg}   alt="Burger"   className="food food4" />
+        <img src={fishImg}     alt="Fish"     className="food food5" />
+        <img src={noodlesImg}  alt="Noodles"  className="food food6" />
+        <img src={ricebowlImg} alt="Rice Bowl"className="food food7" />
+        <img src={saladImg}    alt="Salad"    className="food food8" />
         <img src={shawarmaImg} alt="Shawarma" className="food food9" />
       </div>
     </div>
