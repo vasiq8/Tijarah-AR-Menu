@@ -21,6 +21,7 @@ function App() {
   const [searchOpen, setSearchOpen]   = useState(false);
   const [menuOpen, setMenuOpen]       = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   // Product‑modal state
   const [currentCategoryProducts, setCurrentCategoryProducts] = useState([]);
@@ -37,54 +38,52 @@ function App() {
   const [companyName, setCompanyName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Move fetchMenuData outside useEffect
   const fetchMenuData = async () => {
     setIsLoading(true);
     try {
       const response = await fetch('https://qa-k8s.tisostudio.com/menu?locationRef=6809c72fcd327059a03e1304&companyRef=6809c711cd327059a03e12d0&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false');
       const data = await response.json();
       
-      console.log('API Response:', data); // Debug log
-
       if (!data) {
         console.error('No data in API response');
         return;
       }
 
-      // Process categories
-      const categories = data.categories || [];
-      console.log('Categories:', categories); // Debug log
-
       // Process products by category
       const productsByCategory = {};
       
-      // Initialize categories
-      categories.forEach(category => {
-        if (category.name?.en) {
-          productsByCategory[category.name.en] = [];
-        }
-      });
-
-      // Map products to categories
+      // Group products by category
       (data.results || []).forEach(product => {
-        const categoryName = product.category?.name?.en;
-        if (categoryName && product.name?.en) {
+        const categoryName = product.category?.name;
+        if (categoryName) {
           if (!productsByCategory[categoryName]) {
             productsByCategory[categoryName] = [];
           }
 
+          // Get price from variants for specific location
+          let price = '';
+          if (product.variants && product.variants.length > 0) {
+            const locationPrice = product.variants[0].prices.find(
+              p => p.locationRef === "6809c72fcd327059a03e1304"
+            );
+            price = locationPrice ? `${product.currency} ${locationPrice.price}` : '';
+          }
+
+          // Create product object in the same format as product details modal
           productsByCategory[categoryName].push({
-            name: product.name.en,
+            name: product.name.en || '',
             description: product.description || '',
-            price: product.price ? `$${product.price}` : 'N/A',
-            calories: product.nutritionalInformation?.calorieCount || 'N/A',
+            price: price,
+            calories: product.nutritionalInformation?.calorieCount 
+              ? `${product.nutritionalInformation.calorieCount} kcal` 
+              : '',
             image: product.image || '',
+            modelUrl: product.glbFileUrl || '', // Use glbFileUrl for AR model
           });
         }
       });
 
-      console.log('Processed products:', productsByCategory); // Debug log
-      
+      console.log('Processed categories:', Object.keys(productsByCategory));
       setApiProducts(productsByCategory);
       setCompanyName(data.company?.name || "");
     } catch (error) {
@@ -126,6 +125,9 @@ function App() {
 
   // Show details for a clicked category
   const handleCategoryClick = category => {
+    console.log('Clicked category:', category);
+    console.log('Available products:', apiProducts[category]);
+    
     const items = apiProducts[category] || [];
     setCurrentCategoryProducts(items);
     setProductIndex(0);
@@ -145,6 +147,24 @@ function App() {
     } else {
       alert("No product found. Try another name.");
     }
+  };
+
+  // Update search handler to show live results
+  const handleSearchChange = e => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    
+    if (!query) {
+      setSearchResults([]);
+      return;
+    }
+
+    // Search through all products
+    const results = allProducts.filter(product => 
+      product.name.toLowerCase().includes(query)
+    ).slice(0, 5); // Limit to 5 results for preview
+
+    setSearchResults(results);
   };
 
   // Carousel arrows
@@ -281,10 +301,28 @@ function App() {
             <input
               type="text"
               className="search-input"
-              placeholder="Type & press Enter"
+              placeholder="Type to search..."
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={handleSearchChange}
             />
+            {searchResults.length > 0 && (
+              <div className="search-results-preview">
+                {searchResults.map((product, index) => (
+                  <div 
+                    key={index} 
+                    className="search-result-item"
+                    onClick={() => {
+                      setCurrentCategoryProducts([product]);
+                      setProductIndex(0);
+                      setSearchOpen(false);
+                    }}
+                  >
+                    <h4>{product.name}</h4>
+                    <p>{product.price}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </form>
         </div>
       )}
