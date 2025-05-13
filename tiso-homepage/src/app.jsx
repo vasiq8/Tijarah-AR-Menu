@@ -41,7 +41,7 @@ function App() {
   const fetchMenuData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://qa-k8s.tisostudio.com/menu?locationRef=6809c72fcd327059a03e1304&companyRef=6809c711cd327059a03e12d0&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false');
+      const response = await fetch('https://qa-k8s.tisostudio.com/menu?locationRef=6776b529b1e5f59c624c9326&companyRef=66ac5d46c264420e80368c57&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false');
       const data = await response.json();
       
       if (!data) {
@@ -64,7 +64,7 @@ function App() {
           let price = '';
           if (product.variants && product.variants.length > 0) {
             const locationPrice = product.variants[0].prices.find(
-              p => p.locationRef === "6809c72fcd327059a03e1304"
+              p => p.locationRef === "6776b529b1e5f59c624c9326"
             );
             price = locationPrice ? `${product.currency} ${locationPrice.price}` : '';
           }
@@ -263,7 +263,7 @@ function App() {
               }}
             />
           </div>
-          <div className="menu-categories">
+          <div className="menu-categories" style={{ height: 'calc(100vh - 180px)', overflowY: 'auto' }}>
             {isLoading ? (
               <div className="menu-category">Loading categories...</div>
             ) : Object.keys(apiProducts).length > 0 ? (
