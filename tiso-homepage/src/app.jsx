@@ -358,10 +358,10 @@ function App() {
               className="product-image"
             />
             <div className="product-info">
-              <h2>{selectedProduct.name}</h2>
-              <p>{selectedProduct.description}</p>
-              <p>Price: {selectedProduct.price}</p>
-              <p>Calories: {selectedProduct.calories}</p>
+              <h2>{selectedProduct.name || 'Unnamed Product'}</h2>
+              <p>{selectedProduct.description || 'Description not available'}</p>
+              <p>Price: {selectedProduct.price || 'Price not available'}</p>
+              <p>Calories: {selectedProduct.calories || 'Calories not available'}</p>
             </div>
 
             <div className="ar-preview">
