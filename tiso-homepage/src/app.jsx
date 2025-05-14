@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import './App.css';
+import './app.css';
 
 // Navbar images (served from public/assets)
 import strikeImg from './assets/strike.jpeg';
