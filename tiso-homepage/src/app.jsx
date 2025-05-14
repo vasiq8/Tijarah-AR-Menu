@@ -391,10 +391,10 @@ function App() {
       {/* Food Gallery */}
       <div className="food-gallery">
         <img src={pizzaImg}    alt="Pizza"    className="food food1" />
-        <img src={sandwichImg} alt="Sandwich" className="food food2" />
+        {/* <img src={sandwichImg} alt="Sandwich" className="food food2" /> */}
         <img src={onigiriImg}  alt="Onigiri"  className="food food3" />
         <img src={burgerImg}   alt="Burger"   className="food food4" />
-        <img src={fishImg}     alt="Fish"     className="food food5" />
+        {/* <img src={fishImg}     alt="Fish"     className="food food5" /> */}
         <img src={noodlesImg}  alt="Noodles"  className="food food6" />
         <img src={ricebowlImg} alt="Rice Bowl"className="food food7" />
         <img src={saladImg}    alt="Salad"    className="food food8" />

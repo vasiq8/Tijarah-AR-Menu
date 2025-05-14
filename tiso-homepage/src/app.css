@@ -6,14 +6,15 @@ body, html, #root {
   padding: 0;
   background: white;
   font-family: 'Montserrat', sans-serif;
-  width: 100vw;
+  /* width: 100vw; */
   overflow-x: hidden;
 }
 
 /* Ensure the app fills the viewport height */
 .app {
-  position: relative;
-  min-height: 100vh;
+  /* position: relative;
+  min-height: 100vh; */
+  height: 100%;
 }
 
 /* Navbar */
@@ -142,7 +143,8 @@ body, html, #root {
   animation: zoomIn 20s linear infinite;
 }
 
-.food1 { top: 8%;   left: 14%; animation-delay:  0s; }
+.food1 { top: 8%;   left: 34%; animation-delay:  0s; }
+.food2 { top: 20%;   left: 21%; animation-delay:  0s; }
 .food3 { top: 55%;  left: 10%; animation-delay:  3s; }
 .food4 { top: 69%;  left: 50%; animation-delay:  3s; }
 .food6 { top: 25%;  left: 52%; animation-delay:  4s; }
