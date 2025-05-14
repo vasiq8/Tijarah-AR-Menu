@@ -263,7 +263,7 @@ function App() {
               }}
             />
           </div>
-          <div className="menu-categories" style={{ height: 'calc(100vh - 385px)', overflowY: 'auto' }}>
+          <div className="menu-categories" style={{ height: 'calc(100vh - 400x)', overflowY: 'auto' }}>
             {isLoading ? (
               <div className="menu-category">Loading categories...</div>
             ) : Object.keys(apiProducts).length > 0 ? (
