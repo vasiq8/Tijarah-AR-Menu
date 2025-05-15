@@ -233,7 +233,8 @@ body, html, #root {
   padding: 8px;
   border: none;
   border-bottom: 1px solid #ccc;
-  font-size: 16px;
+  font-size: 16px; /* Minimum size to prevent zoom */
+  -webkit-text-size-adjust: 100%;
   outline: none;
 }
 
@@ -373,7 +374,11 @@ body, html, #root {
   .menu-header, .search-header { padding: 10px; }
   .menu-title, .search-title { font-size: 1.2rem; }
   .search-input-container { padding: 18px; }
-  .search-input { font-size: 0.9rem; }
+  .search-input { 
+    font-size: 16px; /* Ensure minimum size on mobile */
+    padding: 6px 8px; /* Slightly reduced padding for mobile */
+    -webkit-text-size-adjust: 100%;
+  }
 
   /* ——— NEW SUGGESTIONS LIST STYLING ——— */
   .suggestions-list {
