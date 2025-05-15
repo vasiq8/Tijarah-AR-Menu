@@ -220,6 +220,9 @@ body, html, #root {
   background: none;
   border: none;
   cursor: pointer;
+  color: black; /* Add this line */
+  -webkit-appearance: none; /* Add this to remove iOS default styling */
+  appearance: none; /* Add this for other browsers */
 }
 
 /* Search Input */
