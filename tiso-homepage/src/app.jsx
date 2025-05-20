@@ -16,6 +16,22 @@ import ricebowlImg from './assets/ricebowl.jpeg';
 import saladImg    from './assets/salad.jpeg';
 import shawarmaImg from './assets/shawarma.jpeg';
 
+// Add this helper function before the App component
+const getCategoryColor = (category) => {
+  const colors = {
+    'Pizza': 'pizza',
+    'Burgers': 'burgers',
+    'Sandwiches': 'sandwiches',
+    'Noodles': 'noodles',
+    'Salads': 'salads',
+    'Donuts': 'donuts',
+    'Fish': 'fish',
+    'Desserts': 'desserts',
+    'Drinks': 'drinks'
+  };
+  return colors[category] || 'pizza'; // default to pizza color if not found
+};
+
 function App() {
   // Navbar + search/menu
   const [searchOpen, setSearchOpen]   = useState(false);
@@ -37,6 +53,9 @@ function App() {
   const [apiProducts, setApiProducts] = useState({});
   const [companyName, setCompanyName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Add selected category state
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
   const fetchMenuData = async () => {
     setIsLoading(true);
@@ -96,6 +115,11 @@ function App() {
   // Flatten all products for search lookup
   const allProducts = Object.values(apiProducts).flat();
 
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchMenuData();
+  }, []);
+
   // Hide dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = e => {
@@ -129,15 +153,10 @@ function App() {
     if (searchOpen) setSearchOpen(false);
   };
 
-  // Show details for a clicked category
+  // Update category click handler
   const handleCategoryClick = category => {
-    console.log('Clicked category:', category);
+    setSelectedCategory(category);
     console.log('Available products:', apiProducts[category]);
-    
-    const items = apiProducts[category] || [];
-    setCurrentCategoryProducts(items);
-    setProductIndex(0);
-    setMenuOpen(false);
   };
 
   // Search submit (on Enter)
@@ -219,12 +238,6 @@ function App() {
         className={`navbar ${menuOpen ? "menu-active" : ""} ${
           searchOpen ? "search-active" : ""
         }`}>
-        <img
-          src={strikeImg}
-          alt="Menu"
-          className="icon menu-icon"
-          onClick={toggleMenu}
-        />
         <h1 className="logo">{companyName || "TISO MEALS"}</h1>
         <img
           src={searchImg}
@@ -244,6 +257,55 @@ function App() {
           }}
         />
       )}
+
+      {/* Main Content */}
+      <div className="main-layout">
+        {/* Categories Grid */}
+        <div className="categories-container">
+          {isLoading ? (
+            <div>Loading categories...</div>
+          ) : (
+            <div className="categories-grid">
+              {Object.keys(apiProducts).map(category => (
+                <div
+                  key={category}
+                  className={`category-box ${getCategoryColor(category)} ${
+                    selectedCategory === category ? 'active' : ''
+                  }`}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  <h3>{category}</h3>
+                  <span className="item-count">({apiProducts[category]?.length || 0})</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Products Display */}
+        {selectedCategory && (
+          <div className="products-container">
+            <div className="products-grid">
+              {apiProducts[selectedCategory]?.map((product, index) => (
+                <div
+                  key={index}
+                  className="product-card"
+                  onClick={() => {
+                    setCurrentCategoryProducts([product]);
+                    setProductIndex(0);
+                  }}
+                >
+                  {product.image && (
+                    <img src={product.image} alt={product.name} className="product-image" />
+                  )}
+                  <h3>{product.name}</h3>
+                  <p>{product.price}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Menu dropdown */}
       {menuOpen && (
@@ -387,19 +449,6 @@ function App() {
           </div>
         </div>
       )}
-
-      {/* Food Gallery */}
-      <div className="food-gallery">
-        <img src={pizzaImg}    alt="Pizza"    className="food food1" />
-        {/* <img src={sandwichImg} alt="Sandwich" className="food food2" /> */}
-        <img src={onigiriImg}  alt="Onigiri"  className="food food3" />
-        <img src={burgerImg}   alt="Burger"   className="food food4" />
-        {/* <img src={fishImg}     alt="Fish"     className="food food5" /> */}
-        <img src={noodlesImg}  alt="Noodles"  className="food food6" />
-        <img src={ricebowlImg} alt="Rice Bowl"className="food food7" />
-        <img src={saladImg}    alt="Salad"    className="food food8" />
-        <img src={shawarmaImg} alt="Shawarma" className="food food9" />
-      </div>
     </div>
   );
 }

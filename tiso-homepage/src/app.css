@@ -65,22 +65,6 @@ body, html, #root {
   }
 }
 
-.navbar.menu-active {
-  animation: navbarMenu 0.5s forwards;
-}
-
-@keyframes navbarMenu {
-  from {
-    transform: translateX(-50%) scale(1);
-  }
-  50% {
-    transform: translateX(-50%) scale(0.95);
-  }
-  to {
-    transform: translateX(-50%) scale(1);
-  }
-}
-
 .logo {
   font-size: 20px;
   font-weight: 1000;
@@ -97,10 +81,6 @@ body, html, #root {
   transition: transform 0.3s ease;
 }
 
-.navbar.menu-active .menu-icon {
-  transform: rotate(90deg);
-}
-
 .navbar.search-active .search-icon {
   transform: rotate(90deg);
 }
@@ -108,49 +88,6 @@ body, html, #root {
 .icon:hover {
   transform: scale(1.1);
 }
-
-/* Food Gallery (Background Animation) */
-.food-gallery {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  perspective: 800px;
-}
-
-@keyframes zoomIn {
-  0% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
-  80% {
-    transform: scale(2.5) rotate(0deg);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(3) rotate(0deg);
-    opacity: 0;
-  }
-}
-
-.food {
-  position: absolute;
-  width: 130px;
-  height: 130px;
-  object-fit: contain;
-  animation: zoomIn 20s linear infinite;
-}
-
-.food1 { top: 8%;   left: 34%; animation-delay:  0s; }
-.food2 { top: 20%;   left: 21%; animation-delay:  0s; }
-.food3 { top: 55%;  left: 10%; animation-delay:  3s; }
-.food4 { top: 69%;  left: 50%; animation-delay:  3s; }
-.food6 { top: 25%;  left: 52%; animation-delay:  4s; }
-.food7 { top: 79%;  left: 17%; animation-delay:  2s; }
-.food8 { top: 50%;  left: 58%; animation-delay:  4s; }
-.food9 { top: 33%;  left: 11%; animation-delay:  4s; }
 
 /* Blur Overlay */
 .blur-overlay {
@@ -359,6 +296,97 @@ body, html, #root {
 .product-details-content.slide-in-right  { animation: slideInRight 0.5s forwards; }
 .product-details-content.slide-out-right { animation: slideOutRight 0.5s forwards; }
 .product-details-content.slide-in-left  { animation: slideInLeft 0.5s forwards; }
+
+/* Categories Grid */
+.categories-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.category-box {
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background: #F8F8F8;
+}
+
+.category-box h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.category-box .item-count {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.category-box:hover {
+  transform: translateY(-2px);
+}
+
+.category-box.active {
+  background: #000;
+  color: #fff;
+}
+
+/* Category background colors */
+.category-box.pizza { background-color: #FFE5E5; }
+.category-box.burgers { background-color: #FFE9D2; }
+.category-box.sandwiches { background-color: #E5FFFF; }
+.category-box.drinks { background-color: #E5FFE5; }
+.category-box.desserts { background-color: #FFE5F2; }
+
+.products-container {
+  flex: 1;
+  padding-left: 30px;
+  border-left: 1px solid #eee;
+}
+
+/* Categories Layout */
+.main-layout {
+  margin-top: 120px;
+  padding: 20px;
+  display: flex;
+  gap: 30px;
+}
+
+.categories-container {
+  width: 280px;
+  min-width: 280px;
+}
+
+.products-grid {
+  flex: 1;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  overflow-y: auto;
+}
+
+.product-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 15px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.product-image {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 4px;
+}
 
 /* Mobile Media Queries */
 @media (max-width: 600px) {
