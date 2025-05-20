@@ -262,45 +262,53 @@ function App() {
               onClick={() => handleCategoryClick(category)}
             >
               {category}
-              <span className="item-count">({apiProducts[category]?.length || 0})</span>
             </div>
           ))}
         </div>
 
         {/* Products Grid */}
         {selectedCategory && (
-          <div className="products-grid">
+          <div className="products-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', // increased from default
+            gap: '20px',
+            padding: '20px'
+          }}>
             {apiProducts[selectedCategory]?.map((product, index) => (
-              <div key={index} className="product-card">
+              <div key={index} className="product-card" style={{
+                padding: '15px',
+                border: '1px solid #ddd',
+                borderRadius: '8px',
+                minHeight: '300px', // set minimum height
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
                 <h3>{product.name}</h3>
                 <p>{product.description}</p>
                 <p> {product.price}</p>
                 <p>Calories: {product.calories}</p>
-                <div className="ar-preview">
-                  <model-viewer
-                    id={`model-viewer-${index}`}
-                    src={product.modelUrl}
-                    alt={`${product.name} AR Model`}
-                    camera-controls
-                    auto-rotate
-                    ar
-                    ar-modes="scene-viewer webxr quick-look"
-                    ar-scale="fixed"
-                    camera-orbit="0deg 75deg auto"
-                    min-camera-orbit="auto 0deg auto"
-                    max-camera-orbit="auto 90deg auto"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      position: "absolute",
-                      top: 0,
-                      left: 0
-                    }}
-                  />
-                </div>
+                <img 
+                  src={product.image}
+                  alt={product.name}
+                  className="product-image"
+                  style={{
+                    width: "100%",
+                    height: "150px", // increased from 100px
+                    objectFit: "cover",
+                    marginTop: "2px",
+                    marginBottom: "2px"
+                  }}
+                />
                 <button 
                   className="ar-button" 
                   onClick={() => viewInAR(index, product.modelUrl)}
+                  style={{
+                    padding: '5px 10px', // smaller padding
+                    fontSize: '0.9rem', // smaller font
+                    width: 'auto', // auto width instead of full width
+                    alignSelf: 'center' // center the button
+                  }}
                 >
                   View in AR
                 </button>
