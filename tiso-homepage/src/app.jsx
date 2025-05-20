@@ -104,6 +104,15 @@ function App() {
     fetchMenuData();
   }, []);
 
+  // Add effect to select first category after data loads
+  useEffect(() => {
+    if (!isLoading && Object.keys(apiProducts).length > 0) {
+      const firstCategory = Object.keys(apiProducts)[0];
+      setSelectedCategory(firstCategory);
+      handleCategoryClick(firstCategory);
+    }
+  }, [isLoading, apiProducts]);
+
   // Hide dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = e => {
@@ -265,7 +274,7 @@ function App() {
               <div key={index} className="product-card">
                 <h3>{product.name}</h3>
                 <p>{product.description}</p>
-                <p>Price: {product.price}</p>
+                <p> {product.price}</p>
                 <p>Calories: {product.calories}</p>
                 <div className="ar-preview">
                   <model-viewer
