@@ -16,22 +16,6 @@ import ricebowlImg from './assets/ricebowl.jpeg';
 import saladImg    from './assets/salad.jpeg';
 import shawarmaImg from './assets/shawarma.jpeg';
 
-// Add this helper function before the App component
-const getCategoryColor = (category) => {
-  const colors = {
-    'Pizza': 'pizza',
-    'Burgers': 'burgers',
-    'Sandwiches': 'sandwiches',
-    'Noodles': 'noodles',
-    'Salads': 'salads',
-    'Donuts': 'donuts',
-    'Fish': 'fish',
-    'Desserts': 'desserts',
-    'Drinks': 'drinks'
-  };
-  return colors[category] || 'pizza'; // default to pizza color if not found
-};
-
 function App() {
   // Navbar + search/menu
   const [searchOpen, setSearchOpen]   = useState(false);
@@ -221,9 +205,10 @@ function App() {
       : null;
 
   // Activate AR
-  const viewInAR = () => {
-    if (arModelRef.current?.activateAR) {
-      arModelRef.current.activateAR();
+  const viewInAR = (index, modelUrl) => {
+    const modelViewer = document.getElementById(`model-viewer-${index}`);
+    if (modelViewer?.activateAR) {
+      modelViewer.activateAR();
     } else {
       alert("AR not supported on this device/browser.");
     }
@@ -234,18 +219,17 @@ function App() {
   return (
     <div className="app">
       {/* Navbar */}
-      <header
-        className={`navbar ${menuOpen ? "menu-active" : ""} ${
-          searchOpen ? "search-active" : ""
-        }`}>
-        <h1 className="logo">{companyName || "TISO MEALS"}</h1>
+      <header className={`navbar ${searchOpen ? "search-active" : ""}`}>
+        <h1 className="logo">TISO MEALS</h1>
+      </header>
+      <div className="search-icon-wrapper">
         <img
           src={searchImg}
           alt="Search"
           className="icon search-icon"
           onClick={toggleSearch}
         />
-      </header>
+      </div>
 
       {/* Blur overlay */}
       {(menuOpen || searchOpen || selectedProduct) && (
@@ -260,49 +244,59 @@ function App() {
 
       {/* Main Content */}
       <div className="main-layout">
-        {/* Categories Grid */}
-        <div className="categories-container">
-          {isLoading ? (
-            <div>Loading categories...</div>
-          ) : (
-            <div className="categories-grid">
-              {Object.keys(apiProducts).map(category => (
-                <div
-                  key={category}
-                  className={`category-box ${getCategoryColor(category)} ${
-                    selectedCategory === category ? 'active' : ''
-                  }`}
-                  onClick={() => handleCategoryClick(category)}
-                >
-                  <h3>{category}</h3>
-                  <span className="item-count">({apiProducts[category]?.length || 0})</span>
-                </div>
-              ))}
+        {/* Categories Container */}
+        <div className="categories-sidebar">
+          {Object.keys(apiProducts).map((category, i) => (
+            <div
+              key={i}
+              className={`category-box ${selectedCategory === category ? 'active' : ''}`}
+              onClick={() => handleCategoryClick(category)}
+            >
+              {category}
+              <span className="item-count">({apiProducts[category]?.length || 0})</span>
             </div>
-          )}
+          ))}
         </div>
 
-        {/* Products Display */}
+        {/* Products Grid */}
         {selectedCategory && (
-          <div className="products-container">
-            <div className="products-grid">
-              {apiProducts[selectedCategory]?.map((product, index) => (
-                <div
-                  key={index}
-                  className="product-card"
-                  onClick={() => {
-                    setCurrentCategoryProducts([product]);
-                    setProductIndex(0);
-                  }}
-                >
-                  {product.image && (
-                    <img src={product.image} alt={product.name} className="product-image" />
-                  )}
-                  <h3>{product.name}</h3>
-                  <p>{product.price}</p>
+          <div className="products-grid">
+            {apiProducts[selectedCategory]?.map((product, index) => (
+              <div key={index} className="product-card">
+                <h3>{product.name}</h3>
+                <p>{product.description}</p>
+                <p>Price: {product.price}</p>
+                <p>Calories: {product.calories}</p>
+                <div className="ar-preview">
+                  <model-viewer
+                    id={`model-viewer-${index}`}
+                    src={product.modelUrl}
+                    alt={`${product.name} AR Model`}
+                    camera-controls
+                    auto-rotate
+                    ar
+                    ar-modes="scene-viewer webxr quick-look"
+                    ar-scale="fixed"
+                    camera-orbit="0deg 75deg auto"
+                    min-camera-orbit="auto 0deg auto"
+                    max-camera-orbit="auto 90deg auto"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      position: "absolute",
+                      top: 0,
+                      left: 0
+                    }}
+                  />
                 </div>
-              ))}
-            </div>
+                <button 
+                  className="ar-button" 
+                  onClick={() => viewInAR(index, product.modelUrl)}
+                >
+                  View in AR
+                </button>
+              </div>
+            ))}
           </div>
         )}
       </div>
