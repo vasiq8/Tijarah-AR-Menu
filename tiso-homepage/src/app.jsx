@@ -44,7 +44,7 @@ function App() {
   const fetchMenuData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://qa-k8s.tisostudio.com/menu?locationRef=6776b529b1e5f59c624c9326&companyRef=66ac5d46c264420e80368c57&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false');
+      const response = await fetch('https://qa-k8s.tisostudio.com/menu?locationRef=67a396bc0e2b3511b0396447&companyRef=67a395910e2b3511b0396281&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false');
       const data = await response.json();
       
       if (!data) {
@@ -215,8 +215,15 @@ function App() {
 
   // Activate AR
   const viewInAR = (index, modelUrl) => {
-    const modelViewer = document.getElementById(`model-viewer-${index}`);
+    if (!modelUrl) {
+      alert("No AR model available for this product");
+      return;
+    }
+
+    // Try to find the specific model viewer
+    const modelViewer = document.querySelector('model-viewer');
     if (modelViewer?.activateAR) {
+      modelViewer.src = modelUrl;  // Set the source URL before activating AR
       modelViewer.activateAR();
     } else {
       alert("AR not supported on this device/browser.");
@@ -440,12 +447,13 @@ function App() {
             <div className="ar-preview">
               <model-viewer
                 ref={arModelRef}
-                src={selectedProduct.modelUrl}
-                alt={`${selectedProduct.name} AR Model`}
+                src={selectedProduct?.modelUrl || ''}
+                alt={`${selectedProduct?.name || 'Product'} AR Model`}
                 camera-controls
                 auto-rotate
                 ar
                 ar-modes="scene-viewer webxr quick-look"
+                ar-scale="fixed"
                 style={{
                   width: "100%",
                   maxWidth: "59%",
@@ -454,8 +462,12 @@ function App() {
                 }}
               />
             </div>
-            <button className="ar-button" onClick={viewInAR}>
-              View in AR
+            <button 
+              className="ar-button" 
+              onClick={() => viewInAR(productIndex, selectedProduct?.modelUrl)}
+              disabled={!selectedProduct?.modelUrl}
+            >
+              {selectedProduct?.modelUrl ? 'View in AR' : 'No AR Available'}
             </button>
           </div>
         </div>
