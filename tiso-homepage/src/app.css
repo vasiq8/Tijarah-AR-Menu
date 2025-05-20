@@ -287,6 +287,44 @@ body, html, #root {
   align-items:center;
   justify-content:center;
 }
+
+.ar-modal.desktop {
+  background: #fff;
+  color: #333;
+}
+
+.ar-modal.desktop .model-viewer-container {
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.desktop-ar-content {
+  text-align: center;
+  padding: 40px;
+  max-width: 600px;
+}
+
+.desktop-ar-content h2 {
+  margin-bottom: 20px;
+}
+
+.desktop-ar-content .message {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+/* Update close button color for desktop */
+.ar-modal.desktop .close-ar {
+  color: #333;
+}
+
 .close-ar {
   position:absolute;
   top:20px; right:20px;

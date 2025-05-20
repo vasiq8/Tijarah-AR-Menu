@@ -41,6 +41,16 @@ function App() {
   // Add selected category state
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  // Add state for desktop modal
+  const [showDesktopModal, setShowDesktopModal] = useState(false);
+
+  // Add device detection
+  const isMobile = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  };
+
   const fetchMenuData = async () => {
     setIsLoading(true);
     try {
@@ -213,20 +223,27 @@ function App() {
       ? currentCategoryProducts[productIndex]
       : null;
 
-  // Activate AR
-  const viewInAR = (index, modelUrl) => {
+  // Modify viewInAR function
+  const viewInAR = (index, modelUrl, product) => {
     if (!modelUrl) {
       alert("No AR model available for this product");
       return;
     }
 
-    // Try to find the specific model viewer
-    const modelViewer = document.querySelector('model-viewer');
-    if (modelViewer?.activateAR) {
-      modelViewer.src = modelUrl;  // Set the source URL before activating AR
-      modelViewer.activateAR();
+    // Set the selected product when viewing in AR
+    setCurrentCategoryProducts([product]);
+    setProductIndex(0);
+
+    if (isMobile()) {
+      // Mobile behavior - launch AR
+      const modelViewer = document.querySelector('model-viewer');
+      if (modelViewer?.activateAR) {
+        modelViewer.src = modelUrl;
+        modelViewer.activateAR();
+      }
     } else {
-      alert("AR not supported on this device/browser.");
+      // Desktop behavior - show white modal
+      setShowDesktopModal(true);
     }
   };
 
@@ -309,7 +326,7 @@ function App() {
                 />
                 <button 
                   className="ar-button" 
-                  onClick={() => viewInAR(index, product.modelUrl)}
+                  onClick={() => viewInAR(index, product.modelUrl, product)}
                   style={{
                     padding: '5px 10px', // smaller padding
                     fontSize: '0.9rem', // smaller font
@@ -469,6 +486,39 @@ function App() {
             >
               {selectedProduct?.modelUrl ? 'View in AR' : 'No AR Available'}
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Add Desktop Modal */}
+      {showDesktopModal && (
+        <div className="ar-modal desktop">
+          <button 
+            className="close-ar"
+            onClick={() => {
+              setShowDesktopModal(false);
+              setCurrentCategoryProducts([]); // Clear the selected product
+            }}
+          >
+            ×
+          </button>
+          <div className="desktop-ar-content">
+            <h2>{selectedProduct?.name}</h2>
+            <div className="model-viewer-container">
+              <model-viewer
+                src={selectedProduct?.modelUrl}
+                alt={selectedProduct?.name}
+                camera-controls
+                auto-rotate
+                shadow-intensity="1"
+                exposure="1"
+                style={{
+                  width: "400px",
+                  height: "400px",
+                  margin: "20px auto",
+                }}
+              />
+            </div>
           </div>
         </div>
       )}
