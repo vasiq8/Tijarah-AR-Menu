@@ -230,22 +230,26 @@ function App() {
       return;
     }
 
+    // Check if mobile device
     if (isMobile()) {
-      // For iOS devices
+      // Direct AR launch for iOS
       if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
         window.location.href = modelUrl;
-      } 
-      // For Android devices
-      else if (/Android/.test(navigator.userAgent)) {
+        return;
+      }
+      
+      // Direct AR launch for Android
+      if (/Android/.test(navigator.userAgent)) {
         const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;end;`;
         window.location.href = sceneViewerUrl;
+        return;
       }
-    } else {
-      // Desktop behavior - show white modal
-      setShowDesktopModal(true);
-      setCurrentCategoryProducts([product]);
-      setProductIndex(0);
     }
+
+    // Desktop only: show modal with 3D viewer
+    setShowDesktopModal(true);
+    setCurrentCategoryProducts([product]);
+    setProductIndex(0);
   };
 
   const menuCategories = Object.keys(apiProducts);
@@ -335,7 +339,7 @@ function App() {
                     alignSelf: 'center' // center the button
                   }}
                 >
-                  View in AR
+                  AR
                 </button>
               </div>
             ))}
