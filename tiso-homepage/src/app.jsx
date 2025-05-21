@@ -235,19 +235,27 @@ function App() {
     const isAndroid = /Android/.test(ua);
 
     if (isIOS) {
-      // Open modal and auto-launch AR
-      setShowDesktopModal(true);
-      setCurrentCategoryProducts([product]);
-      setProductIndex(0);
+      // Create and append white overlay
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'white';
+      overlay.style.zIndex = '99999';
+      document.body.appendChild(overlay);
 
-      // Programmatically activate AR after modal mounts
+      // Create hidden anchor tag to trigger AR
+      const anchor = document.createElement('a');
+      anchor.setAttribute('rel', 'ar');
+      anchor.href = modelUrl;
+      anchor.click();
+
+      // Remove overlay after a delay
       setTimeout(() => {
-        if (arModelRef.current?.activateAR) {
-          arModelRef.current.activateAR();
-        } else if (arModelRef.current?.enterAR) {
-          arModelRef.current.enterAR();
-        }
-      }, 200);
+        document.body.removeChild(overlay);
+      }, 1000);
       return;
     }
 
