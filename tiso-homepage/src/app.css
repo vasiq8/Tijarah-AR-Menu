@@ -270,6 +270,7 @@ body, html, #root {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px; /* Add rounded corners like Info button */
 }
 
 /* Close Button for Product */
@@ -441,7 +442,7 @@ body, html, #root {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 20px;
-  padding: 20px 35px;
+  padding: 20px 35px 40px 35px; /* Add extra bottom padding */
   background: #f9f9f9;
   align-items: start;
   overflow-y: auto;
@@ -682,7 +683,7 @@ body, html, #root {
     width: 100%;
     min-width: 0;
     flex: 1;
-    padding: 8px;                /* Increased from 4px */
+    padding: 8px 8px 32px 8px; /* Add extra bottom padding for mobile */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;                   /* Increased from 6px */
