@@ -342,8 +342,8 @@ function App() {
                   alt={product.name}
                   className="product-image"
                   style={{
-                    width: "89.6px", // Reduced from 140px (20% reduction)
-                    height: "89.6px", // Reduced from 140px (20% reduction)
+                    width: "89.6px",
+                    height: "89.6px",
                     objectFit: "cover",
                     borderRadius: "50%",
                     border: "8px solid #000",
@@ -364,29 +364,15 @@ function App() {
                   alignSelf: 'flex-end',
                   marginTop: 'auto' 
                 }}>
-                  <button 
+                  <button
                     className="info-button"
                     onClick={() => setShowDescription(product)}
-                    style={{
-                      padding: '5px 10px',
-                      fontSize: '0.9rem',
-                      backgroundColor: '#f0f0f0',
-                      border: '1px solid #ddd',
-                      borderRadius: '8px',
-                      cursor: 'pointer'
-                    }}
                   >
                     Info
                   </button>
-                  <button 
-                    className="ar-button" 
+                  <button
+                    className="ar-button"
                     onClick={() => viewInAR(index, product.modelUrl, product)}
-                    style={{
-                      padding: '5px 10px',
-                      fontSize: '0.9rem',
-                      width: 'auto',
-                      borderRadius: '8px'
-                    }}
                   >
                     AR
                   </button>
