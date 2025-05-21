@@ -230,16 +230,19 @@ function App() {
       return;
     }
 
-    // Set the selected product when viewing in AR
+    // Set the selected product
     setCurrentCategoryProducts([product]);
     setProductIndex(0);
 
     if (isMobile()) {
-      // Mobile behavior - launch AR
-      const modelViewer = document.querySelector('model-viewer');
-      if (modelViewer?.activateAR) {
-        modelViewer.src = modelUrl;
-        modelViewer.activateAR();
+      // For iOS devices
+      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        window.location.href = `quicklook-modern://` + modelUrl;
+      } 
+      // For Android devices
+      else if (/Android/.test(navigator.userAgent)) {
+        const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;end;`;
+        window.location.href = sceneViewerUrl;
       }
     } else {
       // Desktop behavior - show white modal
