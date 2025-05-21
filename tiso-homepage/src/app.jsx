@@ -5,7 +5,16 @@ import './app.css';
 import strikeImg from './assets/strike.jpeg';
 import searchImg from './assets/search.jpeg';
 
-
+// Food Gallery images
+import pizzaImg    from './assets/pizza.jpeg';
+import sandwichImg from './assets/sandwich.jpeg';
+import onigiriImg  from './assets/onigiri.jpeg';
+import burgerImg   from './assets/burger.jpeg';
+import fishImg     from './assets/fish.jpeg';
+import noodlesImg  from './assets/noodles.jpeg';
+import ricebowlImg from './assets/ricebowl.jpeg';
+import saladImg    from './assets/salad.jpeg';
+import shawarmaImg from './assets/shawarma.jpeg';
 
 function App() {
   // Navbar + search/menu
@@ -226,29 +235,19 @@ function App() {
     const isAndroid = /Android/.test(ua);
 
     if (isIOS) {
-      // Create and append white overlay first
-      const overlay = document.createElement('div');
-      overlay.style.position = 'fixed';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      overlay.style.backgroundColor = 'white';
-      overlay.style.zIndex = '99999';
-      document.body.appendChild(overlay);
+      // Open modal and auto-launch AR
+      setShowDesktopModal(true);
+      setCurrentCategoryProducts([product]);
+      setProductIndex(0);
 
-      // Add delay before triggering AR
+      // Programmatically activate AR after modal mounts
       setTimeout(() => {
-        const anchor = document.createElement('a');
-        anchor.setAttribute('rel', 'ar');
-        anchor.href = modelUrl;
-        anchor.click();
-      }, 500); // 500ms delay before triggering AR
-
-      // Remove overlay after AR launches
-      setTimeout(() => {
-        document.body.removeChild(overlay);
-      }, 1500); // Increased to 1.5s to account for the initial delay
+        if (arModelRef.current?.activateAR) {
+          arModelRef.current.activateAR();
+        } else if (arModelRef.current?.enterAR) {
+          arModelRef.current.enterAR();
+        }
+      }, 200);
       return;
     }
 
