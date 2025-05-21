@@ -5,16 +5,7 @@ import './app.css';
 import strikeImg from './assets/strike.jpeg';
 import searchImg from './assets/search.jpeg';
 
-// Food Gallery images
-import pizzaImg    from './assets/pizza.jpeg';
-import sandwichImg from './assets/sandwich.jpeg';
-import onigiriImg  from './assets/onigiri.jpeg';
-import burgerImg   from './assets/burger.jpeg';
-import fishImg     from './assets/fish.jpeg';
-import noodlesImg  from './assets/noodles.jpeg';
-import ricebowlImg from './assets/ricebowl.jpeg';
-import saladImg    from './assets/salad.jpeg';
-import shawarmaImg from './assets/shawarma.jpeg';
+
 
 function App() {
   // Navbar + search/menu
