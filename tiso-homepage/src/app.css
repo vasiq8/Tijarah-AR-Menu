@@ -440,6 +440,7 @@ body, html, #root {
   align-items: start;
   overflow-y: auto;
   height: calc(100vh - 80px); /* Ensure grid fills available height */
+  align-content: start; /* Pack rows at the top, keep row gap consistent */
   /* Add a custom scrollbar if desired */
   scrollbar-width: thin;
   scrollbar-color: #bbb #f9f9f9;
@@ -684,6 +685,7 @@ body, html, #root {
     align-items: start;
     max-height: calc(100vh - 100px);
     overflow-y: auto;
+    align-content: start; /* Pack rows at the top, keep row gap consistent */
   }
 
   .product-card {
