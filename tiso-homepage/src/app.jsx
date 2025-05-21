@@ -319,36 +319,41 @@ function App() {
               <div key={index} className="product-card" style={{
                 padding: '15px',
                 border: '1px solid #ddd',
-                borderRadius: '8px',
-                minHeight: '300px', // set minimum height
+                borderRadius: '15px', // added rounded corners
+                minHeight: '300px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between'
               }}>
-                <h3>{product.name}</h3>
-                <p>{product.description}</p>
-                <p> {product.price}</p>
-                <p>Calories: {product.calories}</p>
                 <img 
                   src={product.image}
                   alt={product.name}
                   className="product-image"
                   style={{
                     width: "100%",
-                    height: "150px", // increased from 100px
-                    objectFit: "cover",
+                    height: "150px",
+                    objectFit: "contain", // make sure the complete image fits
                     marginTop: "2px",
-                    marginBottom: "2px"
+                    marginBottom: "2px",
+                    borderRadius: '10px' // rounded corners for the image
                   }}
                 />
+                <div>
+                  <h3>{product.name}</h3>
+                  <p>{product.description}</p>
+                  <p> {product.price}</p>
+                  <p>Calories: {product.calories}</p>
+                </div>
                 <button 
                   className="ar-button" 
                   onClick={() => viewInAR(index, product.modelUrl, product)}
                   style={{
-                    padding: '5px 10px', // smaller padding
-                    fontSize: '0.9rem', // smaller font
-                    width: 'auto', // auto width instead of full width
-                    alignSelf: 'center' // center the button
+                    padding: '5px 10px',
+                    fontSize: '0.9rem',
+                    width: 'auto',
+                    alignSelf: 'flex-end', // bottom right
+                    marginTop: 'auto', // push to bottom
+                    borderRadius: '8px' // round the corners
                   }}
                 >
                   AR
