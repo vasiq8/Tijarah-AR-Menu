@@ -230,14 +230,10 @@ function App() {
       return;
     }
 
-    // Set the selected product
-    setCurrentCategoryProducts([product]);
-    setProductIndex(0);
-
     if (isMobile()) {
       // For iOS devices
       if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-        window.location.href = `quicklook-modern://` + modelUrl;
+        window.location.href = modelUrl;
       } 
       // For Android devices
       else if (/Android/.test(navigator.userAgent)) {
@@ -247,6 +243,8 @@ function App() {
     } else {
       // Desktop behavior - show white modal
       setShowDesktopModal(true);
+      setCurrentCategoryProducts([product]);
+      setProductIndex(0);
     }
   };
 
