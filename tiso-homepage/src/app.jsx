@@ -230,23 +230,35 @@ function App() {
       return;
     }
 
-    // Check if mobile device
-    if (isMobile()) {
-      // Direct AR launch for iOS
-      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-        window.location.href = modelUrl;
-        return;
-      }
-      
-      // Direct AR launch for Android
-      if (/Android/.test(navigator.userAgent)) {
-        const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;end;`;
-        window.location.href = sceneViewerUrl;
-        return;
-      }
+    const ua = navigator.userAgent || "";
+    const isIOS = /iPad|iPhone|iPod/.test(ua);
+    const isAndroid = /Android/.test(ua);
+
+    if (isIOS) {
+      // Open modal and auto-launch AR
+      setShowDesktopModal(true);
+      setCurrentCategoryProducts([product]);
+      setProductIndex(0);
+
+      // Programmatically activate AR after modal mounts
+      setTimeout(() => {
+        if (arModelRef.current?.activateAR) {
+          arModelRef.current.activateAR();
+        } else if (arModelRef.current?.enterAR) {
+          arModelRef.current.enterAR();
+        }
+      }, 200);
+      return;
     }
 
-    // Desktop only: show modal with 3D viewer
+    if (isAndroid) {
+      // Keep existing Android Scene Viewer launch
+      const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${modelUrl}&mode=ar_preferred#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;end;`;
+      window.location.href = sceneViewerUrl;
+      return;
+    }
+
+    // Desktop behavior remains unchanged
     setShowDesktopModal(true);
     setCurrentCategoryProducts([product]);
     setProductIndex(0);
@@ -511,10 +523,14 @@ function App() {
             <h2>{selectedProduct?.name}</h2>
             <div className="model-viewer-container">
               <model-viewer
+                ref={arModelRef}
                 src={selectedProduct?.modelUrl}
                 alt={selectedProduct?.name}
                 camera-controls
                 auto-rotate
+                ar
+                ar-modes="scene-viewer quick-look webxr"
+                ar-scale="fixed"
                 shadow-intensity="1"
                 exposure="1"
                 style={{
