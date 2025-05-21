@@ -235,7 +235,7 @@ function App() {
     const isAndroid = /Android/.test(ua);
 
     if (isIOS) {
-      // Create and append white overlay
+      // Create and append white overlay first
       const overlay = document.createElement('div');
       overlay.style.position = 'fixed';
       overlay.style.top = '0';
@@ -246,16 +246,18 @@ function App() {
       overlay.style.zIndex = '99999';
       document.body.appendChild(overlay);
 
-      // Create hidden anchor tag to trigger AR
-      const anchor = document.createElement('a');
-      anchor.setAttribute('rel', 'ar');
-      anchor.href = modelUrl;
-      anchor.click();
+      // Add delay before triggering AR
+      setTimeout(() => {
+        const anchor = document.createElement('a');
+        anchor.setAttribute('rel', 'ar');
+        anchor.href = modelUrl;
+        anchor.click();
+      }, 500); // 500ms delay before triggering AR
 
-      // Remove overlay after a delay
+      // Remove overlay after AR launches
       setTimeout(() => {
         document.body.removeChild(overlay);
-      }, 1000);
+      }, 1500); // Increased to 1.5s to account for the initial delay
       return;
     }
 
