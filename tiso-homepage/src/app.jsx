@@ -54,6 +54,9 @@ function App() {
   // Add locationRef state
   const [locationRef, setLocationRef] = useState("");
 
+  // Add state for description modal
+  const [showDescription, setShowDescription] = useState(null);
+
   const fetchMenuData = async () => {
     setIsLoading(true);
     try {
@@ -321,7 +324,7 @@ function App() {
         {selectedCategory && (
           <div className="products-grid" style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', // increased from default
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', // Reduced from 300px
             gap: '20px',
             padding: '20px'
           }}>
@@ -330,49 +333,120 @@ function App() {
                 padding: '10px',
                 border: '1px solid #ddd',
                 borderRadius: '15px',
-                minHeight: '200px', // reduced from 300px
+                minHeight: '200px',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'center'
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                background: '#222326'
               }}>
                 <img 
                   src={product.image}
                   alt={product.name}
                   className="product-image"
                   style={{
-                    width: "40%",
-                    height: "80px", // reduced from 100px
+                    width: "89.6px", // Reduced from 140px (20% reduction)
+                    height: "89.6px", // Reduced from 140px (20% reduction)
                     objectFit: "cover",
+                    borderRadius: "50%",
+                    border: "8px solid #000",
+                    background: "#fff",
                     marginTop: "2px",
-                    marginBottom: "2px",
-                    borderRadius: '10px',
+                    marginBottom: "10px",
                     alignSelf: 'center'
                   }}
                 />
-                <div>
-                  <h3>{product.name}</h3>
-                  <p>{product.description}</p>
-                  <p> {product.price}</p>
-                  <p>Calories: {product.calories}</p>
+                <div style={{ textAlign: 'left', width: '100%' }}>
+                  <h3 style={{ color: '#fff', marginBottom: '5px' }}>{product.name}</h3>
+                  <p style={{ color: '#fff', marginBottom: '5px' }}>{product.price}</p>
+                  <p style={{ color: '#fff', marginBottom: '5px' }}>Calories: {product.calories}</p>
                 </div>
-                <button 
-                  className="ar-button" 
-                  onClick={() => viewInAR(index, product.modelUrl, product)}
-                  style={{
-                    padding: '5px 10px',
-                    fontSize: '0.9rem',
-                    width: 'auto',
-                    alignSelf: 'flex-end', // bottom right
-                    marginTop: 'auto', // push to bottom
-                    borderRadius: '8px' // round the corners
-                  }}
-                >
-                  AR
-                </button>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '10px', 
+                  alignSelf: 'flex-end',
+                  marginTop: 'auto' 
+                }}>
+                  <button 
+                    className="info-button"
+                    onClick={() => setShowDescription(product)}
+                    style={{
+                      padding: '5px 10px',
+                      fontSize: '0.9rem',
+                      backgroundColor: '#f0f0f0',
+                      border: '1px solid #ddd',
+                      borderRadius: '8px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Info
+                  </button>
+                  <button 
+                    className="ar-button" 
+                    onClick={() => viewInAR(index, product.modelUrl, product)}
+                    style={{
+                      padding: '5px 10px',
+                      fontSize: '0.9rem',
+                      width: 'auto',
+                      borderRadius: '8px'
+                    }}
+                  >
+                    AR
+                  </button>
+                </div>
               </div>
             ))}
           </div>
+        )}
+
+        {/* Description Modal */}
+        {showDescription && (
+          <div className="description-modal" style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'white',
+            padding: '20px',
+            borderRadius: '15px',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            zIndex: 1000,
+            maxWidth: '90%',
+            width: '400px'
+          }}>
+            <button 
+              onClick={() => setShowDescription(null)}
+              style={{
+                position: 'absolute',
+                right: '10px',
+                top: '10px',
+                border: 'none',
+                background: 'none',
+                fontSize: '20px',
+                cursor: 'pointer'
+              }}
+            >
+              ×
+            </button>
+            <h3>{showDescription.name}</h3>
+            <p style={{ marginTop: '15px' }}>{showDescription.description}</p>
+          </div>
+        )}
+
+        {/* Add overlay when description modal is open */}
+        {showDescription && (
+          <div 
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              zIndex: 999
+            }}
+            onClick={() => setShowDescription(null)}
+          />
         )}
       </div>
 

@@ -257,7 +257,7 @@ body, html, #root {
 
 /* AR Button */
 .ar-button {
-  background: #000;
+  background: #16c784; /* Changed from #000 to green */
   color: #fff;
   border: none;
   padding: 10px 20px;
