@@ -51,10 +51,20 @@ function App() {
     );
   };
 
+  // Add locationRef state
+  const [locationRef, setLocationRef] = useState("");
+
   const fetchMenuData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch('https://qa-k8s.tisostudio.com/menu?locationRef=67a396bc0e2b3511b0396447&companyRef=67a395910e2b3511b0396281&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false');
+      const apiUrl = 'https://qa-k8s.tisostudio.com/menu?locationRef=67a396bc0e2b3511b0396447&companyRef=67a395910e2b3511b0396281&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false';
+      
+      // Extract locationRef from URL
+      const urlParams = new URL(apiUrl).searchParams;
+      const extractedLocationRef = urlParams.get('locationRef');
+      setLocationRef(extractedLocationRef);
+      
+      const response = await fetch(apiUrl);
       const data = await response.json();
       
       if (!data) {
@@ -73,16 +83,16 @@ function App() {
             productsByCategory[categoryName] = [];
           }
 
-          // Get price from variants for specific location
+          // Find the price from variants
           let price = '';
           if (product.variants && product.variants.length > 0) {
-            const locationPrice = product.variants[0].prices.find(
-              p => p.locationRef === "6776b529b1e5f59c624c9326"
-            );
-            price = locationPrice ? `${product.currency} ${locationPrice.price}` : '';
+            const variant = product.variants[0];
+            const matchingPrice = variant.prices.find(p => p.locationRef === extractedLocationRef);
+            if (matchingPrice) {
+              price = `${product.currency} ${matchingPrice.price}`;
+            }
           }
 
-          // Create product object in the same format as product details modal
           productsByCategory[categoryName].push({
             name: product.name.en || '',
             description: product.description || '',
@@ -91,7 +101,7 @@ function App() {
               ? `${product.nutritionalInformation.calorieCount} kcal` 
               : '',
             image: product.image || '',
-            modelUrl: product.glbFileUrl || '', // Use glbFileUrl for AR model
+            modelUrl: product.glbFileUrl || '',
           });
         }
       });
