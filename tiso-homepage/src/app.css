@@ -109,6 +109,7 @@ body, html, #root {
   width: 100%;
   height: 100%;
   background: rgba(255,255,255,0.4);
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   z-index: 15;
   animation: fadeIn 0.3s ease;
@@ -187,6 +188,7 @@ body, html, #root {
   border-bottom: 1px solid #ccc;
   font-size: 16px; /* Minimum size to prevent zoom */
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   outline: none;
 }
 
@@ -551,6 +553,7 @@ body, html, #root {
     font-size: 16px; /* Ensure minimum size on mobile */
     padding: 6px 8px; /* Slightly reduced padding for mobile */
     -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   /* ——— NEW SUGGESTIONS LIST STYLING ——— */

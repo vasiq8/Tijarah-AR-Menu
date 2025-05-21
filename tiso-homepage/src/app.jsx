@@ -327,25 +327,27 @@ function App() {
           }}>
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div key={index} className="product-card" style={{
-                padding: '15px',
+                padding: '10px',
                 border: '1px solid #ddd',
-                borderRadius: '15px', // added rounded corners
-                minHeight: '300px',
+                borderRadius: '15px',
+                minHeight: '200px', // reduced from 300px
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+                alignItems: 'center'
               }}>
                 <img 
                   src={product.image}
                   alt={product.name}
                   className="product-image"
                   style={{
-                    width: "100%",
-                    height: "150px",
-                    objectFit: "contain", // make sure the complete image fits
+                    width: "40%",
+                    height: "80px", // reduced from 100px
+                    objectFit: "cover",
                     marginTop: "2px",
                     marginBottom: "2px",
-                    borderRadius: '10px' // rounded corners for the image
+                    borderRadius: '10px',
+                    alignSelf: 'center'
                   }}
                 />
                 <div>
