@@ -315,19 +315,16 @@ function App() {
               className={`category-box ${selectedCategory === category ? 'active' : ''}`}
               onClick={() => handleCategoryClick(category)}
             >
-              {category}
+              <div className="text-wrapper">
+                {category}
+              </div>
             </div>
           ))}
         </div>
 
         {/* Products Grid */}
         {selectedCategory && (
-          <div className="products-grid" style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', // Reduced from 300px
-            gap: '20px',
-            padding: '20px'
-          }}>
+          <div className="products-grid">
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div key={index} className="product-card" style={{
                 padding: '10px',
