@@ -572,7 +572,7 @@ function App() {
             </div>
             <button 
               className="ar-button" 
-              onClick={() => viewInAR(productIndex, selectedProduct?.modelUrl)}
+              onClick={() => viewInAR(productIndex, selectedProduct?.modelUrl, selectedProduct)}
               disabled={!selectedProduct?.modelUrl}
             >
               {selectedProduct?.modelUrl ? 'View in AR' : 'No AR Available'}
