@@ -104,10 +104,11 @@ function App() {
 
   const searchBarContainerStyle = {
     position: 'fixed',
-    top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '160px', // moved a bit down
-    left: isSmallMobile ? '10px' : isMobileScreen ? '16vw' : '195px',
-    width: isSmallMobile ? '90vw' : isMobileScreen ? '78vw' : '276px',
-    maxWidth: isMobileScreen ? '95vw' : '276px',
+    top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '160px',
+    left: isSmallMobile ? '130px' : isMobileScreen ? '65px' : '195px', // start even more right on mobile
+    right: isSmallMobile ? '18px' : isMobileScreen ? '18px' : undefined,
+    width: isSmallMobile || isMobileScreen ? undefined : '276px',
+    maxWidth: isMobileScreen ? undefined : '276px',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -517,7 +518,7 @@ function App() {
                     right: 0,
                     bottom: 0,
                     height: '75%',
-                    background: '#888',
+                    background: '#f7f6f5', // changed from grey to requested color
                     zIndex: 0,
                     borderTopLeftRadius: '15px',
                     borderTopRightRadius: '15px',
