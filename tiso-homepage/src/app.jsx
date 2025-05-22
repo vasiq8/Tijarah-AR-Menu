@@ -22,7 +22,6 @@ function App() {
   const [animClass, setAnimClass]                             = useState("");
 
   // Refs for click‑outside & AR
-  const searchRef = useRef(null);
   const menuRef   = useRef(null);
   const arModelRef = useRef(null);
 
@@ -51,6 +50,9 @@ function App() {
 
   // Add state for description modal
   const [showDescription, setShowDescription] = useState(null);
+
+  // Add screenWidth state
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   const fetchMenuData = async () => {
     setIsLoading(true);
@@ -144,8 +146,6 @@ function App() {
   // Hide dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = e => {
-      if (searchRef.current && !searchRef.current.contains(e.target))
-        setSearchOpen(false);
       if (menuRef.current && !menuRef.current.contains(e.target))
         setMenuOpen(false);
     };
@@ -153,17 +153,16 @@ function App() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Toggle handlers
-  const toggleSearch = () => {
-    setSearchOpen(o => !o);
-    if (menuOpen) setMenuOpen(false);
-    // Fetch data if opening search for first time
-    if (!searchOpen && Object.keys(apiProducts).length === 0) {
-      fetchMenuData();
-    }
-    if (!searchOpen) setTimeout(() => document.querySelector(".search-input")?.focus(), 100);
-  };
+  // Add effect to handle screen width changes
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
+  // Toggle handlers
   const toggleMenu = () => {
     const newMenuState = !menuOpen;
     setMenuOpen(newMenuState);
@@ -171,7 +170,6 @@ function App() {
     if (newMenuState && Object.keys(apiProducts).length === 0) {
       fetchMenuData();
     }
-    if (searchOpen) setSearchOpen(false);
   };
 
   // Update category click handler
@@ -189,7 +187,6 @@ function App() {
     if (found) {
       setCurrentCategoryProducts([found]);
       setProductIndex(0);
-      setSearchOpen(false);
     } else {
       alert("No product found. Try another name.");
     }
@@ -286,43 +283,109 @@ function App() {
 
   return (
     <div className="app">
-      {/* Navbar */}
-      <header className={`navbar navbar-nobox ${searchOpen ? "search-active" : ""}`}>
+      <header className="navbar navbar-nobox">
         <h1 className="logo">{companyName || "TISO MEALS"}</h1>
       </header>
-      <img
-        src={searchImg}
-        alt="Search"
-        className="icon search-icon"
-        onClick={toggleSearch}
+
+      {/* Search Bar with Inline Results */}
+      <div
         style={{
           position: 'fixed',
-          top: 35, // moved up from 42/45 to 28
-          right: 18,
-          zIndex: 10,
-          background: 'white',
-          padding: 8,
-          borderRadius: '50%',
-          boxShadow: 'none',
-          cursor: 'pointer',
-          width: 28,
-          height: 28
+          top: screenWidth <= 600 ? '100px' : '140px',
+          left: screenWidth <= 600 ? '123px' : '195px',
+          width: screenWidth <= 440 ? '180px' : '276px', // Increased width for all screens
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          zIndex: 6,
+          pointerEvents: 'auto',
         }}
-      />
-
-      {/* Blur overlay */}
-      {(menuOpen || searchOpen || selectedProduct) && (
+      >
         <div
-          className="blur-overlay"
-          onClick={() => {
-            setMenuOpen(false);
-            setSearchOpen(false);
+          style={{
+            position: 'relative',
+            width: '100%',
+            margin: '0 auto'
           }}
-        />
-      )}
+        >
+          <img
+            src={searchImg}
+            alt="Search"
+            style={{
+              width: 22,
+              height: 22,
+              position: 'absolute',
+              left: 16,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              opacity: 0.5,
+              pointerEvents: 'none'
+            }}
+          />
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            style={{
+              width: '100%',
+              height: 44,
+              borderRadius: 18,
+              border: 'none',
+              background: '#fff',
+              boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
+              padding: '0 16px 0 44px',
+              fontSize: '1.08rem',
+              outline: 'none',
+              color: '#222',
+              fontFamily: 'inherit'
+            }}
+          />
+          {/* Update search results UI */}
+          {searchResults.length > 0 && searchQuery && (
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              right: 0,
+              background: 'white',
+              borderRadius: '12px',
+              marginTop: '8px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              overflow: 'hidden',
+              zIndex: 10
+            }}>
+              {searchResults.map((product, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    setCurrentCategoryProducts([product]);
+                    setProductIndex(0);
+                    setSearchQuery(''); // Clear search
+                    setSearchResults([]); // Clear results
+                  }}
+                  style={{
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    borderBottom: index !== searchResults.length - 1 ? '1px solid #eee' : 'none',
+                    ':hover': { background: '#f5f5f5' }
+                  }}
+                >
+                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px' }}>
+                    {product.name}
+                  </div>
+                  <div style={{ fontSize: '0.8rem', color: '#666' }}>
+                    {product.price}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Main Content */}
-      <div className="main-layout">
+      <div className="main-layout" style={{ marginTop: '140px' }}>
         {/* Categories Container */}
         <div className="categories-sidebar">
           {Object.keys(apiProducts).map((category, i) => (
@@ -567,53 +630,6 @@ function App() {
               <div className="menu-category">No categories found</div>
             )}
           </div>
-        </div>
-      )}
-
-      {/* Search dropdown */}
-      {searchOpen && (
-        <div className="search-dropdown" ref={searchRef}>
-          <div className="search-header">
-            <div
-              className="search-hamburger"
-              onClick={() => {
-                setSearchOpen(false);
-                setMenuOpen(true);
-              }}>
-              ≡
-            </div>
-            <div className="search-title">SEARCH</div>
-            <button className="search-close" onClick={() => setSearchOpen(false)}>
-              ×
-            </button>
-          </div>
-          <form className="search-input-container" onSubmit={handleSearchSubmit}>
-            <input
-              type="text"
-              className="search-input"
-              placeholder="Type to search..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            {searchResults.length > 0 && (
-              <div className="search-results-preview">
-                {searchResults.map((product, index) => (
-                  <div 
-                    key={index} 
-                    className="search-result-item"
-                    onClick={() => {
-                      setCurrentCategoryProducts([product]);
-                      setProductIndex(0);
-                      setSearchOpen(false);
-                    }}
-                  >
-                    <h4>{product.name}</h4>
-                    <p>{product.price}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </form>
         </div>
       )}
 
