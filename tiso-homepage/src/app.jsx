@@ -582,31 +582,49 @@ function App() {
                     position: 'relative'
                   }}
                 />
-                <div style={{ textAlign: 'left', width: '100%', zIndex: 1, position: 'relative', marginTop: '0px' }}>
+                <div style={{
+                  textAlign: 'left',
+                  width: '100%',
+                  zIndex: 1,
+                  position: 'relative',
+                  marginTop: '0px',
+                  fontFamily: "'Red Hat Display', sans-serif"
+                }}>
                   <h3
                     style={{
                       color: '#fff',
-                      marginBottom: '10px',
+                      marginBottom: '2px',
                       fontSize: '1rem',
                       overflow: 'hidden',
                       display: '-webkit-box',
                       WebkitLineClamp: 1,
                       WebkitBoxOrient: 'vertical',
-                      textOverflow: 'ellipsis'
+                      textOverflow: 'ellipsis',
+                      fontFamily: "'Red Hat Display', sans-serif"
                     }}
                     title={product.name}
                   >
                     {product.name}
                   </h3>
-                  <div style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: '5px' }}>
+                  <div style={{
+                    display: 'flex',
+                    width: '100%',
+                    alignItems: 'center',
+                    marginBottom: '2px',
+                    fontFamily: "'Red Hat Display', sans-serif"
+                  }}>
                     <div style={{ width: '50%' }}>
                       <p style={{
                         color: '#fff',
-                        marginBottom: 0,
+                        marginBottom: '8px',
                         fontSize: '0.76rem',
-                        overflow: 'hidden',
+                        overflow: 'visible',
                         textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
+                        whiteSpace: 'nowrap',
+                        lineHeight: 1.18,
+                        maxWidth: '100%',
+                        wordBreak: 'break-all',
+                        fontFamily: "'Red Hat Display', sans-serif"
                       }}>
                         {product.price}
                       </p>
@@ -614,9 +632,13 @@ function App() {
                         color: '#fff',
                         marginBottom: 0,
                         fontSize: '0.76rem',
-                        overflow: 'hidden',
+                        overflow: 'visible',
                         textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap'
+                        whiteSpace: 'nowrap',
+                        lineHeight: 1.18,
+                        maxWidth: '100%',
+                        wordBreak: 'break-all',
+                        fontFamily: "'Red Hat Display', sans-serif"
                       }}>
                         {product.calories}
                       </p>
@@ -644,7 +666,8 @@ function App() {
                           alignItems: 'center',
                           justifyContent: 'center',
                           borderRadius: '8px',
-                          boxShadow: 'none'
+                          boxShadow: 'none',
+                          fontFamily: "'Red Hat Display', sans-serif"
                         }}
                         disabled={!product.modelUrl}
                       >
