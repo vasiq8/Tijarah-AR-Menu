@@ -9,6 +9,9 @@ import searchImg from './assets/searchbutton.png';
 import arIcon from './assets/AR icon.png';
 import arUnavailableIcon from './assets/AR unavailable.png'; // <-- Add this line
 
+// Add white background image import
+import whiteBg from './assets/white background.png';
+
 function App() {
   // Navbar + search/menu
   const [searchOpen, setSearchOpen]   = useState(false);
@@ -283,6 +286,20 @@ function App() {
 
   return (
     <div className="app">
+      {/* White background image at top left */}
+      <img
+        src={whiteBg}
+        alt="white background"
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '5px',
+          zIndex: 0,
+          width: '115px', // Reduced size
+          height: '115px', // Reduced size
+          pointerEvents: 'none'
+        }}
+      />
       <header className="navbar navbar-nobox">
         <h1 className="logo">{companyName || "TISO MEALS"}</h1>
       </header>
@@ -486,8 +503,10 @@ function App() {
                       color: '#fff',
                       marginBottom: '10px',
                       fontSize: '1rem',
-                      whiteSpace: 'nowrap',
                       overflow: 'hidden',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 1,
+                      WebkitBoxOrient: 'vertical',
                       textOverflow: 'ellipsis'
                     }}
                     title={product.name}
