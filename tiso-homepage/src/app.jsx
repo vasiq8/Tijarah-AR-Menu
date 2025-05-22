@@ -67,7 +67,7 @@ function App() {
   const whiteBgStyle = {
     position: 'absolute',
     top: isMobileScreen ? 4 : 10,
-    left: isMobileScreen ? 2 : 5,
+    left: isMobileScreen ? 18 : 28, // moved a bit right
     zIndex: 0,
     width: isSmallMobile ? '70px' : isMobileScreen ? '90px' : '115px',
     height: isSmallMobile ? '70px' : isMobileScreen ? '90px' : '115px',
@@ -76,8 +76,8 @@ function App() {
 
   const settingsIconStyle = {
     position: 'absolute',
-    top: isSmallMobile ? '18px' : isMobileScreen ? '28px' : '38px',
-    right: isSmallMobile ? '10px' : '18px',
+    top: isSmallMobile ? '32px' : isMobileScreen ? '44px' : '54px', // moved a lil more down
+    right: isSmallMobile ? '30px' : isMobileScreen ? '38px' : '48px',
     width: isSmallMobile ? '32px' : isMobileScreen ? '38px' : '44px',
     height: isSmallMobile ? '32px' : isMobileScreen ? '38px' : '44px',
     zIndex: 20,
@@ -104,7 +104,7 @@ function App() {
 
   const searchBarContainerStyle = {
     position: 'fixed',
-    top: isSmallMobile ? '70px' : isMobileScreen ? '100px' : '140px',
+    top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '160px', // moved a bit down
     left: isSmallMobile ? '10px' : isMobileScreen ? '16vw' : '195px',
     width: isSmallMobile ? '90vw' : isMobileScreen ? '78vw' : '276px',
     maxWidth: isMobileScreen ? '95vw' : '276px',
