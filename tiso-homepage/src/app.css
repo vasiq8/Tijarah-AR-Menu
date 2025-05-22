@@ -499,6 +499,7 @@ body, html, #root {
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
+    color: #000 !important;
   }
   
   .product-card p {
@@ -511,6 +512,7 @@ body, html, #root {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
+    color: #000 !important;
   }
   
   .product-card .ar-preview {
@@ -534,6 +536,12 @@ body, html, #root {
     margin: 0 auto 4px auto;
     display: block;
     border-radius: 50%;
+  }
+  
+  .product-card .ar-button img {
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 4px !important; /* Less rounded corners */
   }
   
   /* Categories Grid */
@@ -757,7 +765,7 @@ body, html, #root {
       font-size: 10px;             /* Reduced from 12px */
       line-height: 1.1;
       margin-bottom: 2px;
-      color: #fff;
+      color: #000 !important;
       text-align: left;
       width: 100%;
       word-break: break-word;
@@ -766,7 +774,7 @@ body, html, #root {
       font-size: 9px;              /* Reduced from 11px */
       line-height: 1.2;
       margin-bottom: 2px;
-      color: #fff;
+      color: #000 !important;
       text-align: left;
       width: 100%;
       word-break: break-word;

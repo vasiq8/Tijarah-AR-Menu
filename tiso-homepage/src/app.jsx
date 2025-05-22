@@ -5,9 +5,9 @@ import './app.css';
 
 import searchImg from './assets/searchbutton.png';
 
-
 // AR Icon
-import arIcon from './assets/AR icon.avif';
+import arIcon from './assets/AR icon.png';
+import arUnavailableIcon from './assets/AR unavailable.png'; // <-- Add this line
 
 function App() {
   // Navbar + search/menu
@@ -500,7 +500,7 @@ function App() {
                   {/* Info button removed */}
                   <button
                     className="ar-button"
-                    onClick={() => viewInAR(index, product.modelUrl, product)}
+                    onClick={() => product.modelUrl && viewInAR(index, product.modelUrl, product)}
                     style={{
                       background: 'transparent',
                       padding: 0,
@@ -514,16 +514,16 @@ function App() {
                       borderRadius: '8px',
                       boxShadow: 'none'
                     }}
+                    disabled={!product.modelUrl}
                   >
                     <img
-                      src={arIcon}
-                      alt="AR"
+                      src={product.modelUrl ? arIcon : arUnavailableIcon}
+                      alt={product.modelUrl ? "AR" : "AR Unavailable"}
                       style={{
                         width: '22px',
                         height: '22px',
                         objectFit: 'contain',
                         display: 'block',
-                        // Responsive: shrink icon on small screens
                         ...(window.innerWidth <= 600 ? { width: '17px', height: '1px' } : {})
                       }}
                     />
