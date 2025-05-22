@@ -59,6 +59,9 @@ function App() {
   // Add screenWidth state
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+  // Add state to highlight a product card after search
+  const [highlightedProductName, setHighlightedProductName] = useState(null);
+
   // Responsive positions and sizes
   const isMobileScreen = screenWidth <= 600;
   const isSmallMobile = screenWidth <= 440;
@@ -430,10 +433,23 @@ function App() {
                 <div
                   key={index}
                   onClick={() => {
-                    setCurrentCategoryProducts([product]);
+                    // Find the category for this product
+                    const foundCategory = Object.keys(apiProducts).find(cat =>
+                      apiProducts[cat].some(p => p.name === product.name)
+                    );
+                    if (foundCategory) {
+                      setSelectedCategory(foundCategory);
+                      setHighlightedProductName(product.name);
+                      // Scroll to grid after render
+                      setTimeout(() => {
+                        const el = document.querySelector(`[data-product-name="${product.name}"]`);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }, 100);
+                    }
+                    setCurrentCategoryProducts([]); // Hide modal if open
                     setProductIndex(0);
-                    setSearchQuery(''); // Clear search
-                    setSearchResults([]); // Clear results
+                    setSearchQuery('');
+                    setSearchResults([]);
                   }}
                   style={{
                     padding: '12px 16px',
@@ -499,7 +515,8 @@ function App() {
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div
                 key={index}
-                className="product-card"
+                className={`product-card`}
+                data-product-name={product.name}
                 style={{
                   padding: '10px',
                   border: '1px solid #ddd',
@@ -515,9 +532,19 @@ function App() {
                   background: 'transparent',
                   position: 'relative',
                   overflow: 'hidden',
-                  boxShadow: 'none'
+                  boxShadow: 'none',
+                  // Add blinking border if highlighted
+                  borderBottom: highlightedProductName === product.name
+                    ? '4px solid #ff9800'
+                    : '1px solid #ddd',
+                  animation: highlightedProductName === product.name
+                    ? 'blink-border 0.6s 2'
+                    : undefined
                 }}
-                onClick={() => setShowDescription(product)} // open description modal on card click
+                onAnimationEnd={() => {
+                  if (highlightedProductName === product.name) setHighlightedProductName(null);
+                }}
+                onClick={() => setShowDescription(product)}
               >
                 {/* Bottom overlay, now covers 75% and is thick grey with rounded top corners */}
                 <div
@@ -845,6 +872,18 @@ function App() {
           </div>
         </div>
       )}
+
+      {/* Add keyframes for blinking border */}
+      <style>
+        {`
+          @keyframes blink-border {
+            0%   { border-bottom: 4px solid #ff9800; }
+            25%  { border-bottom: 1px solid #ddd; }
+            50%  { border-bottom: 4px solid #ff9800; }
+            100% { border-bottom: 1px solid #ddd; }
+          }
+        `}
+      </style>
     </div>
   );
 }
