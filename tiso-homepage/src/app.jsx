@@ -107,15 +107,15 @@ function App() {
 
   const searchBarContainerStyle = {
     position: 'fixed',
-    // Desktop: custom position and width, Mobile: keep as is
     top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px',
     left: isSmallMobile ? '130px' : isMobileScreen ? '65px' : '235px',
-    right: isSmallMobile ? '18px' : isMobileScreen ? '18px' : undefined,
+    // Remove right for mobile, set width to match products grid area
+    right: isSmallMobile ? undefined : isMobileScreen ? '18px' : undefined,
     width: isSmallMobile
-      ? undefined
+      ? 'calc(100vw - 130px - 20px)' // 130px left, 20px for grid/card gap
       : isMobileScreen
-      ? undefined
-      : '510px',
+      ? 'calc(100vw - 65px - 20px)'
+      : 'calc(100vw - 195px - 40px)', // 195px sidebar + 40px grid padding
     maxWidth: isSmallMobile
       ? undefined
       : isMobileScreen
@@ -402,7 +402,9 @@ function App() {
             value={searchQuery}
             onChange={handleSearchChange}
             style={{
-              width: '100%',
+              width: isSmallMobile ? '100%' : '100%',
+              maxWidth: isSmallMobile ? '100%' : undefined,
+              boxSizing: 'border-box',
               height: isSmallMobile ? 36 : 44,
               borderRadius: 18,
               border: 'none',
@@ -412,7 +414,9 @@ function App() {
               fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
               outline: 'none',
               color: '#222',
-              fontFamily: 'inherit'
+              fontFamily: 'inherit',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
             }}
           />
           {/* Update search results UI */}
