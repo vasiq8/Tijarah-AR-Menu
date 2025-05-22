@@ -62,6 +62,9 @@ function App() {
   // Add state to highlight a product card after search
   const [highlightedProductName, setHighlightedProductName] = useState(null);
 
+  // Add state for settings modal
+  const [showSettings, setShowSettings] = useState(false);
+
   // Responsive positions and sizes
   const isMobileScreen = screenWidth <= 600;
   const isSmallMobile = screenWidth <= 440;
@@ -368,6 +371,7 @@ function App() {
         src={settingsIcon}
         alt="settings"
         style={settingsIconStyle}
+        onClick={() => setShowSettings(true)}
       />
       <header className="navbar navbar-nobox" style={navbarStyle}>
         <h1 className="logo">{companyName || "TISO MEALS"}</h1>
@@ -761,6 +765,224 @@ function App() {
           />
         )}
       </div>
+
+      {/* Settings Modal */}
+      {showSettings && (
+        <>
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.18)',
+              zIndex: 10000
+            }}
+            onClick={() => setShowSettings(false)}
+          />
+          <div
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              background: '#fff',
+              borderRadius: '22px',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.13)',
+              padding: '32px 32px 28px 32px',
+              minWidth: '320px',
+              minHeight: '180px',
+              zIndex: 10001,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              gap: '32px'
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div style={{ flex: 1, minWidth: '120px', position: 'relative' }}>
+              {/* Language Section */}
+              <span style={{
+                fontWeight: 700,
+                fontSize: '1.08rem',
+                color: '#23180d',
+                fontFamily: "'Red Hat Display', sans-serif",
+                display: 'block'
+              }}>
+                Language
+              </span>
+              <div
+                style={{
+                  position: 'relative',
+                  left: 0,
+                  right: 0,
+                  height: '1px',
+                  background: '#e5e5e5',
+                  margin: '10px 0 0 0',
+                  width: '100%'
+                }}
+              />
+              {/* Language options */}
+              <div style={{
+                marginTop: 18,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  fontFamily: "'Red Hat Display', sans-serif",
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  color: '#23180d'
+                }}>
+                  <span>English</span>
+                  <span style={{
+                    marginLeft: 12,
+                    width: 22,
+                    height: 22,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    border: '2px solid #16c784',
+                    background: '#16c784',
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                      <circle cx="10" cy="10" r="6" fill="#fff"/>
+                    </svg>
+                  </span>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  fontFamily: "'Red Hat Display', sans-serif",
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  color: '#23180d'
+                }}>
+                  <span>Arabic</span>
+                  <span style={{
+                    marginLeft: 12,
+                    width: 22,
+                    height: 22,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    border: '2px solid #bbb',
+                    background: '#fff',
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                      {/* Empty circle for unselected */}
+                    </svg>
+                  </span>
+                </div>
+              </div>
+              {/* Theme Section */}
+              <span style={{
+                fontWeight: 700,
+                fontSize: '1.08rem',
+                color: '#23180d',
+                fontFamily: "'Red Hat Display', sans-serif",
+                display: 'block',
+                marginTop: 28
+              }}>
+                Theme
+              </span>
+              <div
+                style={{
+                  position: 'relative',
+                  left: 0,
+                  right: 0,
+                  height: '1px',
+                  background: '#e5e5e5',
+                  margin: '10px 0 0 0',
+                  width: '100%'
+                }}
+              />
+              {/* Theme options */}
+              <div style={{
+                marginTop: 18,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  fontFamily: "'Red Hat Display', sans-serif",
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  color: '#23180d'
+                }}>
+                  <span>Light</span>
+                  <span style={{
+                    marginLeft: 12,
+                    width: 22,
+                    height: 22,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    border: '2px solid #16c784',
+                    background: '#16c784',
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                      <circle cx="10" cy="10" r="6" fill="#fff"/>
+                    </svg>
+                  </span>
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  fontFamily: "'Red Hat Display', sans-serif",
+                  fontSize: '1rem',
+                  fontWeight: 500,
+                  color: '#23180d'
+                }}>
+                  <span>Dark</span>
+                  <span style={{
+                    marginLeft: 12,
+                    width: 22,
+                    height: 22,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    border: '2px solid #bbb',
+                    background: '#fff',
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                      {/* Empty circle for unselected */}
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowSettings(false)}
+              style={{
+                position: 'absolute',
+                top: 18,
+                right: 22,
+                background: 'none',
+                border: 'none',
+                fontSize: 24,
+                cursor: 'pointer',
+                color: '#888'
+              }}
+              aria-label="Close"
+            >×</button>
+          </div>
+        </>
+      )}
 
       {/* Menu dropdown */}
       {menuOpen && (
