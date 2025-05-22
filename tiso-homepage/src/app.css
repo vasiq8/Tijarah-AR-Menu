@@ -4,14 +4,20 @@
 body, html, #root {
     margin: 0;
     padding: 0;
-    background: white;
+    background: white; /* default: white */
     font-family: 'Montserrat', sans-serif;
     /* width: 100vw; */
     overflow-x: hidden;
-  }
+}
+
+/* Only set dark background for root when dark theme is active */
+body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
+    background: #111215 !important;
+    color: #fff !important;
+}
   
-  /* Ensure the app fills the viewport height */
-  .app {
+/* Ensure the app fills the viewport height */
+.app {
     /* position: relative;
     min-height: 100vh; */
     height: 100%;
@@ -186,6 +192,28 @@ body, html, #root {
     outline: none;
   }
   
+  /* Add a wrapper for the search bar if not already present */
+  .search-bar-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 32px;    /* space below header */
+      margin-bottom: 32px; /* space above product grid */
+      margin-left: 110px;  /* width of sidebar */
+      margin-right: 40px;  /* right padding for symmetry */
+      z-index: 5;
+  }
+
+  /* Make sure the search input is not too wide */
+  .search-bar-wrapper .search-input {
+      max-width: 600px;
+      width: 100%;
+      border-radius: 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+      background: #fff;
+  }
+
   /* Menu Categories */
   .menu-categories {
     display: flex;
@@ -352,21 +380,21 @@ body, html, #root {
   
   /* Categories Sidebar */
   .categories-sidebar {
-    position: fixed;
-    left: 20px; /* Decreased from 20px */
-    top: 140px; /* changed from 80px to 140px for desktop */
-    bottom: 0;
-    width: 110px; /* Increased width */
+    position: relative; /* was fixed */
+    left: 0;
+    top: 0;
+    bottom: auto;
+    width: 110px;
     background: white;
-    padding: 10px 15px; /* Increased padding */
+    padding: 10px 15px;
     overflow-y: auto;
-    border-right: 1px solid rgba(223, 223, 223, 0.8); /* #DFDFDF 80% */
+    border-right: 1px solid rgba(223, 223, 223, 0.8);
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Align to left for better grid look */
+    align-items: flex-start;
     z-index: 5;
-    /* Ensure sidebar fills height and is independently scrollable */
-    height: calc(100vh - 80px);
+    height: calc(100vh - 110px); /* header height */
+    margin-top: 0;
   }
   
   /* Make category-box perfectly square and center content */
@@ -448,30 +476,36 @@ body, html, #root {
   
   /* Products Grid */
   .products-grid {
-    position: fixed;
-    left: 195px;
-    top: 160px; /* Increased from 80px to push grid down */
+    position: relative; /* was fixed */
+    left: 0;
+    top: 0;
     right: 0;
     bottom: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px 35px 40px 35px; /* Add extra bottom padding */
-    background: #f9f9f9;
-    align-items: start;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* wider cards for desktop */
+    gap: 32px 24px; /* more space between cards */
+    background: #fff; /* white background for desktop */
+    padding: 32px 40px 40px 40px; /* more padding for desktop */
     overflow-y: auto;
-    height: calc(100vh - 80px); /* Ensure grid fills available height */
-    align-content: start; /* Pack rows at the top, keep row gap consistent */
-    /* Add a custom scrollbar if desired */
-    scrollbar-width: thin;
-    scrollbar-color: #bbb #f9f9f9;
+    height: calc(100vh - 110px); /* header height */
+    align-content: flex-start;
+    margin-top: 0 !important;
+    padding-top: 0;
   }
   
   /* On desktop, add margin to products grid to push it down */
   @media (min-width: 901px) {
     .products-grid {
-      margin-top: 39px !important; /* Increased from 32px */
-      padding-top: 40px; /* Added extra padding at top */
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 32px 24px;
+      background: #fff;
+      padding: 32px 40px 40px 40px;
+      max-width: 100%;
+      width: 100%;
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+      align-items: flex-start;
+      align-content: flex-start;
     }
   }
   
@@ -601,9 +635,28 @@ body, html, #root {
   
   /* Categories Layout */
   .main-layout {
-    margin-top: 120px;
-    padding: 0;
+    margin-top: 0 !important;
+    padding-top: 110px; /* header height */
     display: flex;
+    gap: 0; /* no horizontal gap here, handled by sidebar width and wrapper margin */
+  }
+
+  /* Add a header bar for the top background */
+  .header-bar {
+    width: 100%;
+    height: 110px; /* match screenshot */
+    background: #fff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    box-sizing: border-box;
+    /* Optional: add shadow for separation */
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    margin-bottom: 40px; /* Add space below header for search bar */
   }
   
   /* Mobile Media Queries */
@@ -670,10 +723,10 @@ body, html, #root {
   
     /* Mobile Categories */
     .main-layout {
-      display: flex;
-      flex-direction: row;
-      margin-top: 100px; /* account for navbar/search height */
-      padding: 0;
+        padding-top: 140px; /* header (100px) + search bar (approx 40px) */
+        margin-top: 0 !important;
+        display: flex;
+        flex-direction: row;
     }
   
     .categories-sidebar {
@@ -721,6 +774,7 @@ body, html, #root {
     }
   
     .products-grid {
+      height: calc(100vh - 100px);
       position: relative;
       left: unset;
       top: unset;
@@ -833,6 +887,19 @@ body, html, #root {
         height: 50vh;
       }
     }
+    .header-bar {
+        height: 100px;
+        padding: 0 12px;
+        margin-bottom: 24px; /* Add space below header for search bar */
+    }
+
+    .search-bar-wrapper {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 16px;
+        margin-bottom: 24px; /* More space above product grid */
+        padding: 0 8px;
+    }
   }
   
   /* Desktop search bar only visible on desktop */
@@ -842,5 +909,200 @@ body, html, #root {
   @media (max-width: 900px) {
     .desktop-search-bar {
       display: none !important;
+    }
+  }
+
+  /* Adjust main-layout to account for header + search bar height */
+  @media (min-width: 901px) {
+    .main-layout {
+      padding-top: 250px; /* header (110px) + search bar (approx 60px) */
+    }
+    .categories-sidebar {
+      margin-top: 0; /* Remove extra margin if present */
+    }
+    .products-grid {
+      margin-top: 0 !important; /* Remove extra margin if present */
+    }
+  }
+
+  /* Dark Theme Overrides */
+  body.dark-theme,
+  .app.dark-theme {
+    background: #111215 !important;
+    color: #fff !important;
+  }
+
+  .app.dark-theme .navbar,
+  .app.dark-theme .navbar.navbar-nobox {
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .app.dark-theme .logo {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .categories-sidebar {
+    background: #18191C !important;
+    border-right: 1px solid #23242A !important;
+  }
+
+  .app.dark-theme .category-box {
+    background: #23242A !important;
+    color: #fff !important;
+    border: none !important;
+  }
+
+  .app.dark-theme .category-box.active {
+    background: #23242A !important;
+    color: #16c784 !important;
+  }
+
+  .app.dark-theme .category-box .text-wrapper {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .products-grid {
+    background: #18191C !important;
+  }
+
+  .app.dark-theme .product-card {
+    background: #23242A !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: none !important;
+  }
+
+  .app.dark-theme .product-card h3,
+  .app.dark-theme .product-card p {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .product-card .ar-button {
+    background: #23242A !important;
+    color: #16c784 !important;
+    border: 1.5px solid #16c784 !important;
+  }
+
+  .app.dark-theme .product-card .ar-button img {
+    background: #23242A !important;
+  }
+
+  .app.dark-theme .menu-dropdown,
+  .app.dark-theme .search-dropdown {
+    background: #18191C !important;
+    border: 1.8px solid #23242A !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+  }
+
+  .app.dark-theme .menu-header,
+  .app.dark-theme .search-header {
+    border-bottom: 1px solid #23242A !important;
+    background: #18191C !important;
+    color: #fff !important;
+  }
+
+  .app.dark-theme .menu-title,
+  .app.dark-theme .search-title {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .menu-category {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .menu-category:hover {
+    color: #16c784 !important;
+  }
+
+  .app.dark-theme .product-details {
+    background: #18191C !important;
+    border: 1px solid #23242A !important;
+    color: #fff !important;
+  }
+
+  .app.dark-theme .product-info {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .ar-modal.desktop {
+    background: #18191C !important;
+    color: #fff !important;
+  }
+
+  .app.dark-theme .ar-modal.desktop .model-viewer-container {
+    background: #23242A !important;
+  }
+
+  .app.dark-theme .desktop-ar-content h2 {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .close-ar,
+  .app.dark-theme .close-product {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .description-modal {
+    background: #23242A !important;
+    color: #fff !important;
+    border-radius: 14px !important;
+  }
+
+  .app.dark-theme .description-modal h2,
+  .app.dark-theme .description-modal h3,
+  .app.dark-theme .description-modal p {
+    color: #fff !important;
+  }
+
+  .app.dark-theme .description-modal hr {
+    border-top: 1.2px solid #23242A !important;
+  }
+
+  .app.dark-theme .ar-button {
+    background: #23242A !important;
+    color: #16c784 !important;
+    border: 1.5px solid #16c784 !important;
+  }
+
+  .app.dark-theme .ar-button:disabled {
+    color: #aaa !important;
+    border-color: #444 !important;
+  }
+
+  .app.dark-theme .main-layout {
+    background: #18191C !important;
+  }
+
+  .app.dark-theme .header-bar,
+  body.dark-theme .header-bar {
+    background: #18191C !important; /* Match dark theme background */
+  }
+
+  @media (max-width: 600px) {
+    .app.dark-theme .categories-sidebar {
+      background: #18191C !important;
+      border-right: 1px solid #23242A !important;
+    }
+    .app.dark-theme .category-box {
+      background: #23242A !important;
+      color: #fff !important;
+      border: none !important;
+    }
+    .app.dark-theme .products-grid {
+      background: #18191C !important;
+    }
+    .app.dark-theme .product-card {
+      background: #23242A !important;
+      border: none !important;
+      color: #fff !important;
+      box-shadow: none !important;
+    }
+    .app.dark-theme .product-card h3,
+    .app.dark-theme .product-card p {
+      color: #fff !important;
     }
   }

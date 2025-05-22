@@ -2,15 +2,15 @@ import { useState, useRef, useEffect } from 'react';
 import './app.css';
 
 // Navbar images (served from public/assets)
-
 import searchImg from './assets/searchbutton.png';
 
 // AR Icon
 import arIcon from './assets/AR icon.png';
 import arUnavailableIcon from './assets/AR unavailable.png';
 
-// Add white background image import
+// Add white and black background image imports
 import whiteBg from './assets/white background.png';
+import blackBg from './assets/black background.png';
 // Add settings icon import
 import settingsIcon from './assets/settings icon.png';
 
@@ -64,6 +64,18 @@ function App() {
 
   // Add state for settings modal
   const [showSettings, setShowSettings] = useState(false);
+
+  // Add theme state
+  const [theme, setTheme] = useState('light');
+
+  // Apply dark theme to body and .app when selected
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+    }
+  }, [theme]);
 
   // Responsive positions and sizes
   const isMobileScreen = screenWidth <= 600;
@@ -359,11 +371,11 @@ function App() {
   const menuCategories = Object.keys(apiProducts);
 
   return (
-    <div className="app">
-      {/* White background image at top left */}
+    <div className={`app${theme === 'dark' ? ' dark-theme' : ''}`} style={theme === 'dark' ? { background: '#111215' } : {}}>
+      {/* White/Black background image at top left */}
       <img
-        src={whiteBg}
-        alt="white background"
+        src={theme === 'dark' ? blackBg : whiteBg}
+        alt={theme === 'dark' ? "black background" : "white background"}
         style={whiteBgStyle}
       />
       {/* Settings icon at top right */}
@@ -541,7 +553,6 @@ function App() {
                   position: 'relative',
                   overflow: 'hidden',
                   boxShadow: 'none',
-                  // Add blinking border if highlighted
                   borderBottom: highlightedProductName === product.name
                     ? '4px solid #ff9800'
                     : '1px solid #ddd',
@@ -554,20 +565,38 @@ function App() {
                 }}
                 onClick={() => setShowDescription(product)}
               >
+                {/* Top overlay for dark theme */}
+                {theme === 'dark' && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      right: 0,
+                      top: 0,
+                      height: '25%',
+                      background: '#18191C',
+                      zIndex: 0,
+                      borderTopLeftRadius: '15px',
+                      borderTopRightRadius: '15px',
+                    }}
+                  />
+                )}
                 {/* Bottom overlay, now covers 75% and is thick grey with rounded top corners */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    height: '75%',
-                    background: '#f7f6f5', // changed from grey to requested color
-                    zIndex: 0,
-                    borderTopLeftRadius: '15px',
-                    borderTopRightRadius: '15px',
-                  }}
-                />
+                {theme !== 'dark' && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      height: '75%',
+                      background: '#f7f6f5',
+                      zIndex: 0,
+                      borderTopLeftRadius: '15px',
+                      borderTopRightRadius: '15px',
+                    }}
+                  />
+                )}
                 <img 
                   src={product.image}
                   alt={product.name}
@@ -776,7 +805,7 @@ function App() {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0,0,0,0.18)',
+              background: theme === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.18)',
               zIndex: 10000
             }}
             onClick={() => setShowSettings(false)}
@@ -787,9 +816,11 @@ function App() {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              background: '#fff',
+              background: theme === 'dark' ? '#18191C' : '#fff',
               borderRadius: '22px',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.13)',
+              boxShadow: theme === 'dark'
+                ? '0 8px 32px rgba(0,0,0,0.45)'
+                : '0 8px 32px rgba(0,0,0,0.13)',
               padding: '32px 32px 28px 32px',
               minWidth: '320px',
               minHeight: '180px',
@@ -801,12 +832,17 @@ function App() {
             }}
             onClick={e => e.stopPropagation()}
           >
-            <div style={{ flex: 1, minWidth: '120px', position: 'relative' }}>
+            <div style={{
+              flex: 1,
+              minWidth: '120px',
+              position: 'relative',
+              color: theme === 'dark' ? '#fff' : '#23180d'
+            }}>
               {/* Language Section */}
               <span style={{
                 fontWeight: 700,
                 fontSize: '1.08rem',
-                color: '#23180d',
+                color: theme === 'dark' ? '#fff' : '#23180d',
                 fontFamily: "'Red Hat Display', sans-serif",
                 display: 'block'
               }}>
@@ -818,7 +854,7 @@ function App() {
                   left: 0,
                   right: 0,
                   height: '1px',
-                  background: '#e5e5e5',
+                  background: theme === 'dark' ? '#23242A' : '#e5e5e5',
                   margin: '10px 0 0 0',
                   width: '100%'
                 }}
@@ -837,7 +873,7 @@ function App() {
                   fontFamily: "'Red Hat Display', sans-serif",
                   fontSize: '1rem',
                   fontWeight: 500,
-                  color: '#23180d'
+                  color: theme === 'dark' ? '#fff' : '#23180d'
                 }}>
                   <span>English</span>
                   <span style={{
@@ -863,7 +899,7 @@ function App() {
                   fontFamily: "'Red Hat Display', sans-serif",
                   fontSize: '1rem',
                   fontWeight: 500,
-                  color: '#23180d'
+                  color: theme === 'dark' ? '#fff' : '#23180d'
                 }}>
                   <span>Arabic</span>
                   <span style={{
@@ -887,7 +923,7 @@ function App() {
               <span style={{
                 fontWeight: 700,
                 fontSize: '1.08rem',
-                color: '#23180d',
+                color: theme === 'dark' ? '#fff' : '#23180d',
                 fontFamily: "'Red Hat Display', sans-serif",
                 display: 'block',
                 marginTop: 28
@@ -900,7 +936,7 @@ function App() {
                   left: 0,
                   right: 0,
                   height: '1px',
-                  background: '#e5e5e5',
+                  background: theme === 'dark' ? '#23242A' : '#e5e5e5',
                   margin: '10px 0 0 0',
                   width: '100%'
                 }}
@@ -912,15 +948,18 @@ function App() {
                 flexDirection: 'column',
                 gap: 12
               }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  fontFamily: "'Red Hat Display', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: 500,
-                  color: '#23180d'
-                }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontFamily: "'Red Hat Display', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme === 'dark' ? '#fff' : '#23180d'
+                  }}
+                  onClick={() => setTheme('light')}
+                >
                   <span>Light</span>
                   <span style={{
                     marginLeft: 12,
@@ -930,23 +969,29 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: '2px solid #16c784',
-                    background: '#16c784',
+                    border: theme === 'light' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: theme === 'light' ? '#16c784' : '#fff',
+                    cursor: 'pointer'
                   }}>
-                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                      <circle cx="10" cy="10" r="6" fill="#fff"/>
-                    </svg>
+                    {theme === 'light' && (
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="6" fill="#fff"/>
+                      </svg>
+                    )}
                   </span>
                 </div>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  fontFamily: "'Red Hat Display', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: 500,
-                  color: '#23180d'
-                }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontFamily: "'Red Hat Display', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme === 'dark' ? '#fff' : '#23180d'
+                  }}
+                  onClick={() => setTheme('dark')}
+                >
                   <span>Dark</span>
                   <span style={{
                     marginLeft: 12,
@@ -956,12 +1001,15 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: '2px solid #bbb',
-                    background: '#fff',
+                    border: theme === 'dark' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: theme === 'dark' ? '#16c784' : '#fff',
+                    cursor: 'pointer'
                   }}>
-                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                      {/* Empty circle for unselected */}
-                    </svg>
+                    {theme === 'dark' && (
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="6" fill="#fff"/>
+                      </svg>
+                    )}
                   </span>
                 </div>
               </div>
