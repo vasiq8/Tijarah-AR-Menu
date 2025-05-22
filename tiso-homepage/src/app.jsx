@@ -2,19 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import './app.css';
 
 // Navbar images (served from public/assets)
-import strikeImg from './assets/strike.jpeg';
-import searchImg from './assets/search.jpeg';
 
-// Food Gallery images
-import pizzaImg    from './assets/pizza.jpeg';
-import sandwichImg from './assets/sandwich.jpeg';
-import onigiriImg  from './assets/onigiri.jpeg';
-import burgerImg   from './assets/burger.jpeg';
-import fishImg     from './assets/fish.jpeg';
-import noodlesImg  from './assets/noodles.jpeg';
-import ricebowlImg from './assets/ricebowl.jpeg';
-import saladImg    from './assets/salad.jpeg';
-import shawarmaImg from './assets/shawarma.jpeg';
+import searchImg from './assets/searchbutton.png';
+
 
 // AR Icon
 import arIcon from './assets/AR icon.avif';
@@ -297,17 +287,28 @@ function App() {
   return (
     <div className="app">
       {/* Navbar */}
-      <header className={`navbar ${searchOpen ? "search-active" : ""}`}>
-        <h1 className="logo">TISO MEALS</h1>
+      <header className={`navbar navbar-nobox ${searchOpen ? "search-active" : ""}`}>
+        <h1 className="logo">{companyName || "TISO MEALS"}</h1>
       </header>
-      <div className="search-icon-wrapper">
-        <img
-          src={searchImg}
-          alt="Search"
-          className="icon search-icon"
-          onClick={toggleSearch}
-        />
-      </div>
+      <img
+        src={searchImg}
+        alt="Search"
+        className="icon search-icon"
+        onClick={toggleSearch}
+        style={{
+          position: 'fixed',
+          top: 35, // moved up from 42/45 to 28
+          right: 18,
+          zIndex: 10,
+          background: 'white',
+          padding: 8,
+          borderRadius: '50%',
+          boxShadow: 'none',
+          cursor: 'pointer',
+          width: 28,
+          height: 28
+        }}
+      />
 
       {/* Blur overlay */}
       {(menuOpen || searchOpen || selectedProduct) && (
@@ -442,27 +443,25 @@ function App() {
                       padding: 0,
                       border: 'none',
                       minWidth: 0,
-                      width: '38px', // Increased size
-                      height: '38px', // Increased size
+                      width: '28px',
+                      height: '28px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       borderRadius: '8px',
-                      boxShadow: 'none',
-                      marginTop: '-8px' // Move the icon up
+                      boxShadow: 'none'
                     }}
                   >
                     <img
                       src={arIcon}
                       alt="AR"
                       style={{
-                        width: '32px',   // Increased size
-                        height: '32px',  // Increased size
+                        width: '22px',
+                        height: '22px',
                         objectFit: 'contain',
                         display: 'block',
-                        border: '1px solid #000', // Thinner border
-                        borderRadius: '50%',
-                        background: '#fff'
+                        // Responsive: shrink icon on small screens
+                        ...(window.innerWidth <= 600 ? { width: '17px', height: '1px' } : {})
                       }}
                     />
                   </button>
