@@ -7,10 +7,12 @@ import searchImg from './assets/searchbutton.png';
 
 // AR Icon
 import arIcon from './assets/AR icon.png';
-import arUnavailableIcon from './assets/AR unavailable.png'; // <-- Add this line
+import arUnavailableIcon from './assets/AR unavailable.png';
 
 // Add white background image import
 import whiteBg from './assets/white background.png';
+// Add settings icon import
+import settingsIcon from './assets/settings icon.png';
 
 function App() {
   // Navbar + search/menu
@@ -56,6 +58,62 @@ function App() {
 
   // Add screenWidth state
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  // Responsive positions and sizes
+  const isMobileScreen = screenWidth <= 600;
+  const isSmallMobile = screenWidth <= 440;
+
+  // Responsive styles for whiteBg, settingsIcon, navbar, and search bar
+  const whiteBgStyle = {
+    position: 'absolute',
+    top: isMobileScreen ? 4 : 10,
+    left: isMobileScreen ? 2 : 5,
+    zIndex: 0,
+    width: isSmallMobile ? '70px' : isMobileScreen ? '90px' : '115px',
+    height: isSmallMobile ? '70px' : isMobileScreen ? '90px' : '115px',
+    pointerEvents: 'none'
+  };
+
+  const settingsIconStyle = {
+    position: 'absolute',
+    top: isSmallMobile ? '18px' : isMobileScreen ? '28px' : '38px',
+    right: isSmallMobile ? '10px' : '18px',
+    width: isSmallMobile ? '32px' : isMobileScreen ? '38px' : '44px',
+    height: isSmallMobile ? '32px' : isMobileScreen ? '38px' : '44px',
+    zIndex: 20,
+    pointerEvents: 'auto'
+  };
+
+  const navbarStyle = {
+    width: isSmallMobile ? '90%' : isMobileScreen ? '78%' : '340px',
+    maxWidth: isSmallMobile ? '90%' : isMobileScreen ? '78%' : '340px',
+    top: isSmallMobile ? '18px' : isMobileScreen ? '30px' : '45px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    position: 'fixed',
+    background: 'none',
+    backgroundColor: 'transparent',
+    border: 'none',
+    boxShadow: 'none',
+    padding: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10
+  };
+
+  const searchBarContainerStyle = {
+    position: 'fixed',
+    top: isSmallMobile ? '70px' : isMobileScreen ? '100px' : '140px',
+    left: isSmallMobile ? '10px' : isMobileScreen ? '16vw' : '195px',
+    width: isSmallMobile ? '90vw' : isMobileScreen ? '78vw' : '276px',
+    maxWidth: isMobileScreen ? '95vw' : '276px',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    zIndex: 6,
+    pointerEvents: 'auto'
+  };
 
   const fetchMenuData = async () => {
     setIsLoading(true);
@@ -290,34 +348,20 @@ function App() {
       <img
         src={whiteBg}
         alt="white background"
-        style={{
-          position: 'absolute',
-          top: '10px',
-          left: '5px',
-          zIndex: 0,
-          width: '115px', // Reduced size
-          height: '115px', // Reduced size
-          pointerEvents: 'none'
-        }}
+        style={whiteBgStyle}
       />
-      <header className="navbar navbar-nobox">
+      {/* Settings icon at top right */}
+      <img
+        src={settingsIcon}
+        alt="settings"
+        style={settingsIconStyle}
+      />
+      <header className="navbar navbar-nobox" style={navbarStyle}>
         <h1 className="logo">{companyName || "TISO MEALS"}</h1>
       </header>
 
       {/* Search Bar with Inline Results */}
-      <div
-        style={{
-          position: 'fixed',
-          top: screenWidth <= 600 ? '100px' : '140px',
-          left: screenWidth <= 600 ? '123px' : '195px',
-          width: screenWidth <= 440 ? '180px' : '276px', // Increased width for all screens
-          display: 'flex',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          zIndex: 6,
-          pointerEvents: 'auto',
-        }}
-      >
+      <div style={searchBarContainerStyle}>
         <div
           style={{
             position: 'relative',
@@ -329,8 +373,8 @@ function App() {
             src={searchImg}
             alt="Search"
             style={{
-              width: 22,
-              height: 22,
+              width: isSmallMobile ? 18 : 22,
+              height: isSmallMobile ? 18 : 22,
               position: 'absolute',
               left: 16,
               top: '50%',
@@ -346,13 +390,13 @@ function App() {
             onChange={handleSearchChange}
             style={{
               width: '100%',
-              height: 44,
+              height: isSmallMobile ? 36 : 44,
               borderRadius: 18,
               border: 'none',
               background: '#fff',
               boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
-              padding: '0 16px 0 44px',
-              fontSize: '1.08rem',
+              padding: `0 16px 0 44px`,
+              fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
               outline: 'none',
               color: '#222',
               fontFamily: 'inherit'
