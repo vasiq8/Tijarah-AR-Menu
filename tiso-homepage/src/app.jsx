@@ -326,27 +326,28 @@ function App() {
               key={i}
               className={`category-box ${selectedCategory === category ? 'active' : ''}`}
               onClick={() => handleCategoryClick(category)}
-              style={{ position: 'relative' }}
+              style={{ position: 'relative', overflow: 'hidden' }}
             >
-              <div className="text-wrapper">
+              <div className="text-wrapper" style={{ fontSize: '0.83rem', fontWeight: 600 }}>
                 {category}
               </div>
-              {/* Category image at bottom right */}
+              {/* Category image at bottom right, cut 10% outside the box, reduced size */}
               {categoryImages[category] && (
                 <img
                   src={categoryImages[category]}
                   alt={`${category} icon`}
                   style={{
                     position: 'absolute',
-                    right: 8,
-                    bottom: 8,
-                    width: 32,
-                    height: 32,
-                    borderRadius: 6,
+                    right: '-10%',
+                    bottom: '-10%',
+                    width: '60%',
+                    height: '60%',
+                    borderRadius: '10px',
                     objectFit: 'cover',
                     background: '#fff',
-                    border: '1px solid #ccc',
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
+                    border: 'none',
+                    boxShadow: 'none',
+                    pointerEvents: 'none',
                   }}
                 />
               )}
@@ -386,15 +387,16 @@ function App() {
                   }}
                 />
                 <div style={{ textAlign: 'left', width: '100%' }}>
-                  <h3 style={{ color: '#fff', marginBottom: '5px' }}>{product.name}</h3>
-                  <p style={{ color: '#fff', marginBottom: '5px' }}>{product.price}</p>
-                  <p style={{ color: '#fff', marginBottom: '5px' }}>Calories: {product.calories}</p>
+                  <h3 style={{ color: '#fff', marginBottom: '5px', fontSize: '1rem' }}>{product.name}</h3>
+                  <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>{product.price}</p>
+                  <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>Calories: {product.calories}</p>
                 </div>
                 <div style={{ 
                   display: 'flex', 
                   gap: '10px', 
                   alignSelf: 'flex-end',
-                  marginTop: 'auto' 
+                  marginTop: 'auto',
+                  marginBottom: '8px' // move buttons up a little
                 }}>
                   <button
                     className="info-button"
