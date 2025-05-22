@@ -37,6 +37,8 @@ function App() {
   const [apiProducts, setApiProducts] = useState({});
   const [companyName, setCompanyName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  // Add categoryImages state
+  const [categoryImages, setCategoryImages] = useState({});
 
   // Add selected category state
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -60,7 +62,7 @@ function App() {
   const fetchMenuData = async () => {
     setIsLoading(true);
     try {
-      const apiUrl = 'https://qa-k8s.tisostudio.com/menu?locationRef=67a396bc0e2b3511b0396447&companyRef=67a395910e2b3511b0396281&activeTab=active&page=0&limit=500&sort=desc&orderType=pickup&_q=&online=false';
+      const apiUrl = 'https://qa-k8s.tisostudio.com/menu-management/menu/?_q=&orderType=pickup&locationRef=67a396bc0e2b3511b0396447&companyRef=67a395910e2b3511b0396281';
       
       // Extract locationRef from URL
       const urlParams = new URL(apiUrl).searchParams;
@@ -70,17 +72,26 @@ function App() {
       const response = await fetch(apiUrl);
       const data = await response.json();
       
-      if (!data) {
+      if (!data || !data.results) {
         console.error('No data in API response');
         return;
       }
 
       // Process products by category
       const productsByCategory = {};
+      const categoryImagesMap = {};
+
+      // Create a map of category names and images
+      const categoryMap = data.results.categories.reduce((acc, cat) => {
+        acc[cat.categoryRef] = cat.name.en;
+        // Save image (may be undefined)
+        categoryImagesMap[cat.name.en] = cat.image || "";
+        return acc;
+      }, {});
       
       // Group products by category
-      (data.results || []).forEach(product => {
-        const categoryName = product.category?.name;
+      (data.results.products || []).forEach(product => {
+        const categoryName = categoryMap[product.categoryRef];
         if (categoryName) {
           if (!productsByCategory[categoryName]) {
             productsByCategory[categoryName] = [];
@@ -111,7 +122,8 @@ function App() {
 
       console.log('Processed categories:', Object.keys(productsByCategory));
       setApiProducts(productsByCategory);
-      setCompanyName(data.company?.name || "");
+      setCategoryImages(categoryImagesMap);
+      setCompanyName(data.results.company?.name || "");
     } catch (error) {
       console.error("Error fetching menu data:", error);
     } finally {
@@ -314,10 +326,30 @@ function App() {
               key={i}
               className={`category-box ${selectedCategory === category ? 'active' : ''}`}
               onClick={() => handleCategoryClick(category)}
+              style={{ position: 'relative' }}
             >
               <div className="text-wrapper">
                 {category}
               </div>
+              {/* Category image at bottom right */}
+              {categoryImages[category] && (
+                <img
+                  src={categoryImages[category]}
+                  alt={`${category} icon`}
+                  style={{
+                    position: 'absolute',
+                    right: 8,
+                    bottom: 8,
+                    width: 32,
+                    height: 32,
+                    borderRadius: 6,
+                    objectFit: 'cover',
+                    background: '#fff',
+                    border: '1px solid #ccc',
+                    boxShadow: '0 1px 4px rgba(0,0,0,0.08)'
+                  }}
+                />
+              )}
             </div>
           ))}
         </div>
