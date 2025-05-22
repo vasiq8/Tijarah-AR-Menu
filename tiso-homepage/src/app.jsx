@@ -357,19 +357,39 @@ function App() {
 
         {/* Products Grid */}
         {selectedCategory && (
-          <div className="products-grid">
+          <div className="products-grid" style={{ background: '#fff' }}>
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div key={index} className="product-card" style={{
                 padding: '10px',
                 border: '1px solid #ddd',
+                borderTop: 'none', // remove upper border
+                borderLeft: 'none', // remove left border
+                borderRight: 'none', // remove right border
                 borderRadius: '15px',
                 minHeight: '200px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'flex-start',
                 alignItems: 'flex-start',
-                background: '#222326'
+                background: 'transparent',
+                position: 'relative', // for overlay
+                overflow: 'hidden',
+                boxShadow: 'none' // remove any shadow
               }}>
+                {/* Bottom overlay, now covers 75% and is thick grey with rounded top corners */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: '75%',
+                    background: '#888', // thick grey
+                    zIndex: 0,
+                    borderTopLeftRadius: '15px',
+                    borderTopRightRadius: '15px',
+                  }}
+                />
                 <img 
                   src={product.image}
                   alt={product.name}
@@ -379,15 +399,17 @@ function App() {
                     height: "89.6px",
                     objectFit: "cover",
                     borderRadius: "50%",
-                    border: "8px solid #000",
+                    border: "2.6px solid #000", // reduced border thickness
                     background: "#fff",
                     marginTop: "2px",
                     marginBottom: "10px",
-                    alignSelf: 'center'
+                    alignSelf: 'center',
+                    zIndex: 1,
+                    position: 'relative'
                   }}
                 />
-                <div style={{ textAlign: 'left', width: '100%' }}>
-                  <h3 style={{ color: '#fff', marginBottom: '5px', fontSize: '1rem' }}>{product.name}</h3>
+                <div style={{ textAlign: 'left', width: '100%', zIndex: 1, position: 'relative', marginTop: '-8px' }}>
+                  <h3 style={{ color: '#fff', marginBottom: '4px', fontSize: '1rem' }}>{product.name}</h3>
                   <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>{product.price}</p>
                   <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>Calories: {product.calories}</p>
                 </div>
@@ -396,7 +418,9 @@ function App() {
                   gap: '10px', 
                   alignSelf: 'flex-end',
                   marginTop: 'auto',
-                  marginBottom: '8px' // move buttons up a little
+                  marginBottom: '8px', // move buttons up a little
+                  zIndex: 1,
+                  position: 'relative'
                 }}>
                   <button
                     className="info-button"
