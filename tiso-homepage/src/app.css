@@ -716,8 +716,8 @@ body, html, #root {
   }
   .product-card img,
   .product-card .product-image {
-    width: 70px !important;      /* Reduced from 90px */
-    height: 70px !important;     /* Reduced from 90px */
+    width: 92px !important;      /* Reduced from 90px */
+    height: 85px !important;     /* Reduced from 90px */
     border: 2px solid #000;
     margin: 0 auto 4px auto;
     display: block;
@@ -766,6 +766,11 @@ body, html, #root {
     background: transparent;
     position: relative;
     z-index: 2;
+  }
+
+  .product-card .ar-button img {
+    width: 28px !important;
+    height: 28px !important;
   }
 
   .description-modal {

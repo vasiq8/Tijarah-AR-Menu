@@ -16,6 +16,9 @@ import ricebowlImg from './assets/ricebowl.jpeg';
 import saladImg    from './assets/salad.jpeg';
 import shawarmaImg from './assets/shawarma.jpeg';
 
+// AR Icon
+import arIcon from './assets/AR icon.avif';
+
 function App() {
   // Navbar + search/menu
   const [searchOpen, setSearchOpen]   = useState(false);
@@ -359,23 +362,28 @@ function App() {
         {selectedCategory && (
           <div className="products-grid" style={{ background: '#fff' }}>
             {apiProducts[selectedCategory]?.map((product, index) => (
-              <div key={index} className="product-card" style={{
-                padding: '10px',
-                border: '1px solid #ddd',
-                borderTop: 'none', // remove upper border
-                borderLeft: 'none', // remove left border
-                borderRight: 'none', // remove right border
-                borderRadius: '15px',
-                minHeight: '200px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                alignItems: 'flex-start',
-                background: 'transparent',
-                position: 'relative', // for overlay
-                overflow: 'hidden',
-                boxShadow: 'none' // remove any shadow
-              }}>
+              <div
+                key={index}
+                className="product-card"
+                style={{
+                  padding: '10px',
+                  border: '1px solid #ddd',
+                  borderTop: 'none',
+                  borderLeft: 'none',
+                  borderRight: 'none',
+                  borderRadius: '15px',
+                  minHeight: '200px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  alignItems: 'flex-start',
+                  background: 'transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  boxShadow: 'none'
+                }}
+                onClick={() => setShowDescription(product)} // open description modal on card click
+              >
                 {/* Bottom overlay, now covers 75% and is thick grey with rounded top corners */}
                 <div
                   style={{
@@ -384,7 +392,7 @@ function App() {
                     right: 0,
                     bottom: 0,
                     height: '75%',
-                    background: '#888', // thick grey
+                    background: '#888',
                     zIndex: 0,
                     borderTopLeftRadius: '15px',
                     borderTopRightRadius: '15px',
@@ -395,11 +403,11 @@ function App() {
                   alt={product.name}
                   className="product-image"
                   style={{
-                    width: "89.6px",
-                    height: "89.6px",
+                    width: "98.56px",
+                    height: "98.56px",
                     objectFit: "cover",
                     borderRadius: "50%",
-                    border: "2.6px solid #000", // reduced border thickness
+                    border: "2.6px solid #000",
                     background: "#fff",
                     marginTop: "2px",
                     marginBottom: "10px",
@@ -409,30 +417,54 @@ function App() {
                   }}
                 />
                 <div style={{ textAlign: 'left', width: '100%', zIndex: 1, position: 'relative', marginTop: '-8px' }}>
-                  <h3 style={{ color: '#fff', marginBottom: '4px', fontSize: '1rem' }}>{product.name}</h3>
+                  <h3 style={{ color: '#fff', marginBottom: '10px', fontSize: '1rem' }}>{product.name}</h3>
                   <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>{product.price}</p>
                   <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>Calories: {product.calories}</p>
                 </div>
-                <div style={{ 
-                  display: 'flex', 
-                  gap: '10px', 
-                  alignSelf: 'flex-end',
-                  marginTop: 'auto',
-                  marginBottom: '8px', // move buttons up a little
-                  zIndex: 1,
-                  position: 'relative'
-                }}>
-                  <button
-                    className="info-button"
-                    onClick={() => setShowDescription(product)}
-                  >
-                    Info
-                  </button>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '10px',
+                    alignSelf: 'flex-end',
+                    marginTop: 'auto',
+                    marginBottom: '8px',
+                    zIndex: 1,
+                    position: 'relative'
+                  }}
+                  onClick={e => e.stopPropagation()} // prevent modal from opening when clicking AR button
+                >
+                  {/* Info button removed */}
                   <button
                     className="ar-button"
                     onClick={() => viewInAR(index, product.modelUrl, product)}
+                    style={{
+                      background: 'transparent',
+                      padding: 0,
+                      border: 'none',
+                      minWidth: 0,
+                      width: '38px', // Increased size
+                      height: '38px', // Increased size
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '8px',
+                      boxShadow: 'none',
+                      marginTop: '-8px' // Move the icon up
+                    }}
                   >
-                    AR
+                    <img
+                      src={arIcon}
+                      alt="AR"
+                      style={{
+                        width: '32px',   // Increased size
+                        height: '32px',  // Increased size
+                        objectFit: 'contain',
+                        display: 'block',
+                        border: '1px solid #000', // Thinner border
+                        borderRadius: '50%',
+                        background: '#fff'
+                      }}
+                    />
                   </button>
                 </div>
               </div>
@@ -448,19 +480,20 @@ function App() {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             backgroundColor: 'white',
-            padding: '20px',
-            borderRadius: '15px',
-            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '24px 18px 20px 18px',
+            borderRadius: '14px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.18)',
             zIndex: 1000,
-            maxWidth: '90%',
-            width: '400px'
+            maxWidth: '98%',
+            width: '340px',
+            textAlign: 'center'
           }}>
             <button 
               onClick={() => setShowDescription(null)}
               style={{
                 position: 'absolute',
-                right: '10px',
-                top: '10px',
+                right: '14px',
+                top: '14px',
                 border: 'none',
                 background: 'none',
                 fontSize: '20px',
@@ -469,8 +502,14 @@ function App() {
             >
               ×
             </button>
-            <h3>{showDescription.name}</h3>
-            <p style={{ marginTop: '15px' }}>{showDescription.description}</p>
+            <h2 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 700, textAlign: 'center' }}>Info</h2>
+            <hr style={{
+              margin: '14px 0 10px 0',
+              border: 0,
+              borderTop: '1.2px solid #eee'
+            }}/>
+            <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, textAlign: 'center' }}>{showDescription.name}</h3>
+            <p style={{ marginTop: '14px', fontSize: '0.98rem', color: '#222', textAlign: 'left' }}>{showDescription.description}</p>
           </div>
         )}
 
