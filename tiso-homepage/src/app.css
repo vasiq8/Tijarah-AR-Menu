@@ -398,6 +398,8 @@ body, html, #root {
   padding: 0 !important;
   font-size: 11px;
   position: relative;
+  /* Remove default color so we can set per-category below */
+  color: inherit;
 }
 
 .category-box .text-wrapper {
@@ -419,18 +421,18 @@ body, html, #root {
   font-size: 10px;
 }
 
-.category-box:nth-child(12n + 1) { background-color: #FFE8E0; }
-.category-box:nth-child(12n + 2) { background-color: #FEE9B3; }
-.category-box:nth-child(12n + 3) { background-color: #49506C; color: white; }
-.category-box:nth-child(12n + 4) { background-color: #FFE4CC; }
-.category-box:nth-child(12n + 5) { background-color: #FFD9E1; }
-.category-box:nth-child(12n + 6) { background-color: #FFF9C4; }
-.category-box:nth-child(12n + 7) { background-color: #EAE1FF; }
-.category-box:nth-child(12n + 8) { background-color: #D4F1FF; }
-.category-box:nth-child(12n + 9) { background-color: #D7FFD9; }
-.category-box:nth-child(12n + 10) { background-color: #FFEACC; }
-.category-box:nth-child(12n + 11) { background-color: #FFE5D9; }
-.category-box:nth-child(12n + 12) { background-color: #E0FFD8; }
+.category-box:nth-child(12n + 1)  { background-color: #FFE8E0; color: #FF6B2C; font-weight: bold; }
+.category-box:nth-child(12n + 2)  { background-color: #FEE9B3; color: #E1A200; font-weight: bold; }
+.category-box:nth-child(12n + 3)  { background-color: #49506C;  color: #fff;    font-weight: bold; }
+.category-box:nth-child(12n + 4)  { background-color: #FFE4CC; color: #FF9800; font-weight: bold; }
+.category-box:nth-child(12n + 5)  { background-color: #FFD9E1; color: #E91E63; font-weight: bold; }
+.category-box:nth-child(12n + 6)  { background-color: #FFF9C4; color: #FFD600; font-weight: bold; }
+.category-box:nth-child(12n + 7)  { background-color: #EAE1FF; color: #7C4DFF; font-weight: bold; }
+.category-box:nth-child(12n + 8)  { background-color: #D4F1FF; color: #039BE5; font-weight: bold; }
+.category-box:nth-child(12n + 9)  { background-color: #D7FFD9; color: #00C853; font-weight: bold; }
+.category-box:nth-child(12n + 10) { background-color: #FFEACC; color: #FF9800; font-weight: bold; }
+.category-box:nth-child(12n + 11) { background-color: #FFE5D9; color: #FF7043; font-weight: bold; }
+.category-box:nth-child(12n + 12) { background-color: #E0FFD8; color: #43A047; font-weight: bold; }
 
 /* Products Grid */
 .products-grid {
