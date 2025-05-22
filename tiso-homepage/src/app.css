@@ -928,7 +928,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   /* Dark Theme Overrides */
   body.dark-theme,
   .app.dark-theme {
-    background: #111215 !important;
+    background: #000000 !important;
     color: #fff !important;
   }
 
@@ -969,7 +969,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
 
   .app.dark-theme .product-card {
-    background: #23242A !important;
+    background: #18191c !important;
     border: none !important;
     color: #fff !important;
     box-shadow: none !important;
@@ -1096,7 +1096,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
       background: #18191C !important;
     }
     .app.dark-theme .product-card {
-      background: #23242A !important;
+      background: #18191c !important;
       border: none !important;
       color: #fff !important;
       box-shadow: none !important;
