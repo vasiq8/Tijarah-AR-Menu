@@ -354,7 +354,7 @@ body, html, #root {
   .categories-sidebar {
     position: fixed;
     left: 20px; /* Decreased from 20px */
-    top: 80px;
+    top: 140px; /* changed from 80px to 140px for desktop */
     bottom: 0;
     width: 110px; /* Increased width */
     background: white;
@@ -678,7 +678,7 @@ body, html, #root {
   
     .categories-sidebar {
       position: relative;
-      top: auto;
+      top: auto; /* reset for mobile */
       left: auto;
       bottom: auto;
       width: 100px; /* Increased from 70px */
