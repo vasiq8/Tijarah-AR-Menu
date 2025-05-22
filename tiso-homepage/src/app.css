@@ -500,6 +500,7 @@ body, html, #root {
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     color: #000 !important;
+    margin-top: 10px !important; /* Add space from the top */
   }
   
   .product-card p {
@@ -526,6 +527,10 @@ body, html, #root {
     margin-top: auto;
     padding: 8px;
     font-size: 12px;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
   }
   
   .product-card img,
@@ -539,9 +544,9 @@ body, html, #root {
   }
   
   .product-card .ar-button img {
-    width: 28px !important;
-    height: 28px !important;
-    border-radius: 4px !important; /* Less rounded corners */
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 4px !important;
   }
   
   /* Categories Grid */
@@ -769,6 +774,7 @@ body, html, #root {
       text-align: left;
       width: 100%;
       word-break: break-word;
+      margin-top: 7px !important; /* Slightly less space for mobile */
     }
     .product-card p {
       font-size: 9px;              /* Reduced from 11px */

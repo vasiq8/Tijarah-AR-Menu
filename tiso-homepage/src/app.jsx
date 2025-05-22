@@ -480,10 +480,83 @@ function App() {
                     position: 'relative'
                   }}
                 />
-                <div style={{ textAlign: 'left', width: '100%', zIndex: 1, position: 'relative', marginTop: '-8px' }}>
-                  <h3 style={{ color: '#fff', marginBottom: '10px', fontSize: '1rem' }}>{product.name}</h3>
-                  <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>{product.price}</p>
-                  <p style={{ color: '#fff', marginBottom: '5px', fontSize: '0.76rem' }}>Calories: {product.calories}</p>
+                <div style={{ textAlign: 'left', width: '100%', zIndex: 1, position: 'relative', marginTop: '0px' }}>
+                  <h3
+                    style={{
+                      color: '#fff',
+                      marginBottom: '10px',
+                      fontSize: '1rem',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    }}
+                    title={product.name}
+                  >
+                    {product.name}
+                  </h3>
+                  <div style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: '5px' }}>
+                    <div style={{ width: '50%' }}>
+                      <p style={{
+                        color: '#fff',
+                        marginBottom: 0,
+                        fontSize: '0.76rem',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {product.price}
+                      </p>
+                      <p style={{
+                        color: '#fff',
+                        marginBottom: 0,
+                        fontSize: '0.76rem',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
+                        {product.calories}
+                      </p>
+                    </div>
+                    <div style={{
+                      width: '50%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'flex-end'
+                    }}>
+                      <button
+                        className="ar-button"
+                        onClick={e => {
+                          e.stopPropagation();
+                          product.modelUrl && viewInAR(index, product.modelUrl, product);
+                        }}
+                        style={{
+                          background: 'none',
+                          padding: 0,
+                          border: 'none',
+                          minWidth: 0,
+                          width: '28px',
+                          height: '28px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: '8px',
+                          boxShadow: 'none'
+                        }}
+                        disabled={!product.modelUrl}
+                      >
+                        <img
+                          src={product.modelUrl ? arIcon : arUnavailableIcon}
+                          alt={product.modelUrl ? "AR" : "AR Unavailable"}
+                          style={{
+                            width: '17px',
+                            height: '17px',
+                            objectFit: 'contain',
+                            display: 'block'
+                          }}
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </div>
                 <div
                   style={{
@@ -498,36 +571,6 @@ function App() {
                   onClick={e => e.stopPropagation()} // prevent modal from opening when clicking AR button
                 >
                   {/* Info button removed */}
-                  <button
-                    className="ar-button"
-                    onClick={() => product.modelUrl && viewInAR(index, product.modelUrl, product)}
-                    style={{
-                      background: 'transparent',
-                      padding: 0,
-                      border: 'none',
-                      minWidth: 0,
-                      width: '28px',
-                      height: '28px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '8px',
-                      boxShadow: 'none'
-                    }}
-                    disabled={!product.modelUrl}
-                  >
-                    <img
-                      src={product.modelUrl ? arIcon : arUnavailableIcon}
-                      alt={product.modelUrl ? "AR" : "AR Unavailable"}
-                      style={{
-                        width: '22px',
-                        height: '22px',
-                        objectFit: 'contain',
-                        display: 'block',
-                        ...(window.innerWidth <= 600 ? { width: '17px', height: '1px' } : {})
-                      }}
-                    />
-                  </button>
                 </div>
               </div>
             ))}
