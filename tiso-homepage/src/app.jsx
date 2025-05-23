@@ -94,10 +94,10 @@ function App() {
 
   const settingsIconStyle = {
     position: 'absolute',
-    top: isSmallMobile ? '32px' : isMobileScreen ? '44px' : '54px', // moved a lil more down
+    top: isSmallMobile ? '32px' : isMobileScreen ? '44px' : '54px',
     right: isSmallMobile ? '30px' : isMobileScreen ? '38px' : '48px',
-    width: isSmallMobile ? '32px' : isMobileScreen ? '38px' : '44px',
-    height: isSmallMobile ? '32px' : isMobileScreen ? '38px' : '44px',
+    width: isSmallMobile ? '44px' : isMobileScreen ? '52px' : '60px', // increased size
+    height: isSmallMobile ? '44px' : isMobileScreen ? '52px' : '60px', // increased size
     zIndex: 20,
     pointerEvents: 'auto'
   };
