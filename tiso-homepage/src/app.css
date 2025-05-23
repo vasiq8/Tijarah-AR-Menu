@@ -23,6 +23,16 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   height: 100%;
 }
 
+/* Move settings icon a little bit upwards */
+.app img[alt="settings"] {
+  top: 28px !important;
+}
+@media (max-width: 600px) {
+  .app img[alt="settings"] {
+    top: 12px !important;
+  }
+}
+
 /* Navbar */
 .navbar,
 .navbar.navbar-nobox {
@@ -927,6 +937,29 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
 }
 
+/* --- Remove forced padding/margin on mobile so grid is always visible --- */
+@media (max-width: 900px) {
+  .main-layout {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  .products-grid {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* --- For desktop, increase padding to push grid further down --- */
+@media (min-width: 901px) {
+  .main-layout {
+    padding-top: 240px !important; /* was 200px, now more space */
+  }
+  .products-grid {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
 /* Desktop search bar only visible on desktop */
 .desktop-search-bar {
   display: flex !important;
@@ -940,13 +973,21 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 /* Adjust main-layout to account for header + search bar height */
 @media (min-width: 901px) {
   .main-layout {
-    padding-top: 250px; /* header (110px) + search bar (approx 60px) */
-  }
-  .categories-sidebar {
-    margin-top: 0; /* Remove extra margin if present */
+    padding-top: 240px !important; /* header (110px) + search bar (60-80px) */
   }
   .products-grid {
-    margin-top: 0 !important; /* Remove extra margin if present */
+    margin-top: 0 !important;
+    /* Remove extra margin if present */
+  }
+}
+
+@media (max-width: 900px) {
+  .main-layout {
+    padding-top: 140px !important; /* header (100px) + search bar (40px) */
+  }
+  .products-grid {
+    margin-top: 0 !important;
+    /* Remove extra margin if present */
   }
 }
 
