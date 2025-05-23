@@ -661,13 +661,21 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 /* Mobile Media Queries */
 @media (max-width: 600px) {
-  .navbar {
+  .navbar,
+  .navbar.navbar-nobox {
     top: 30px;
-    width: 78%;
+    width: 70vw !important;      /* reduced width for mobile */
+    max-width: 70vw !important;
     padding: 15px 10px;
   }
-  .logo { font-size: 1rem; }
-  .icon { width: 24px; height: 20px; }
+  .logo {
+    font-size: 1rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 60vw;
+    display: block;
+  }
   .menu-dropdown, .search-dropdown {
     top: 15%;
     width: 95%;
