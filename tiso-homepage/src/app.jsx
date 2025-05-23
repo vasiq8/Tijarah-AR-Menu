@@ -449,7 +449,7 @@ function App() {
                 border: 'none',
                 background: '#fff',
                 boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
-                padding: `0 16px 0 44px`,
+                padding: `0 ${searchQuery ? '36px' : '16px'} 0 44px`, // Added right padding for cancel button
                 fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
                 outline: 'none',
                 color: '#222',
@@ -458,6 +458,35 @@ function App() {
                 textOverflow: 'ellipsis'
               }}
             />
+            {/* Replace X icon with Cancel text button */}
+            {searchQuery && (
+              <button
+                onClick={() => {
+                  setSearchQuery('');
+                  setSearchResults([]);
+                }}
+                style={{
+                  position: 'absolute',
+                  right: 12,
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  padding: '0 8px',
+                  height: isSmallMobile ? 26 : 30,
+                  borderRadius: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  fontSize: isSmallMobile ? '12px' : '13px',
+                  color: '#666',
+                  fontFamily: 'inherit'
+                }}
+              >
+                Cancel
+              </button>
+            )}
             {/* Update search results UI */}
             {searchResults.length > 0 && searchQuery && (
               <div style={{
