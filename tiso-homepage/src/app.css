@@ -765,11 +765,11 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     top: auto; /* reset for mobile */
     left: auto;
     bottom: auto;
-    width: 95px !important;   /* reduced from 105px */
+    width: 70px !important;    /* move divider much more left, closer to middle */
     padding: 6px;
     padding-left: 6px !important; /* was 18px, start boxes closer to the left */
     border-right: 1px solid rgba(223, 223, 223, 0.8); /* #DFDFDF 80% for mobile */
-    flex: 0 0 70px !important;
+    flex: 0 0 70px !important;  /* match new width */
     background: white;
     z-index: 1;
     overflow-x: hidden !important; /* prevent horizontal scroll on mobile */
@@ -779,12 +779,12 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
 
   .category-box {
-    width: 75px !important;
-    height: 75px !important;
-    min-width: 75px !important;
-    min-height: 75px !important;
-    max-width: 75px !important;
-    max-height: 75px !important;
+    width: 68px !important;
+    height: 68px !important;
+    min-width: 68px !important;
+    min-height: 68px !important;
+    max-width: 68px !important;
+    max-height: 68px !important;
     font-size: 5px;             /* slightly smaller */
     border-radius: 14px;         /* Increased from 10px */
     margin-bottom: 12px;         /* Increased from 8px */
@@ -815,10 +815,11 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     width: 100%;
     min-width: 0;
     flex: 1;
-    padding: 8px 8px 32px 8px; /* Add extra bottom padding for mobile */
+    padding: 8px 8px 32px 10px; /* Add extra bottom padding for mobile and move cards right */
+    padding-left: 10px !important; /* add padding to move cards right */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;                   /* Increased from 6px */
+    gap: 8px;                   /* Reduced from 12px to bring cards closer together */
     background: transparent;
     overflow: visible;
     align-items: start;
@@ -844,6 +845,21 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     margin: 2px;
     overflow: hidden;
   }
+
+  /* Move price/calories section and AR button higher */
+  .product-card > div:nth-child(2) {
+    margin-top: -5px; /* Reduce top margin of text container */
+  }
+  
+  .product-card > div:nth-child(2) > div:first-child {
+    margin-top: -3px; /* Adjust price/calories position */
+  }
+  
+  .product-card .info-button,
+  .product-card .ar-button {
+    margin-top: 8px !important; /* Reduced from 16px to move button up */
+  }
+
   .product-card img,
   .product-card .product-image {
     width: 92px !important;      /* Reduced from 90px */
@@ -958,7 +974,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
   .products-grid {
     margin-top: 0 !important;
-    padding-top: 0 !important;
+    /* Remove extra margin if present */
   }
 }
 
