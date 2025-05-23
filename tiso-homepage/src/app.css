@@ -479,6 +479,12 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   pointer-events: none;
 }
 
+.category-box.active {
+  transform: scale(1.05);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  border-bottom: 4px solid #ff9800 !important;
+}
+
 /* Products Grid */
 .products-grid {
   position: relative; /* was fixed */
@@ -623,6 +629,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 .category-box.active {
   transform: scale(1.05);
   box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+  border-bottom: 4px solid #ff9800 !important;
 }
 
 /* Category background colors */
@@ -976,6 +983,7 @@ body.dark-theme,
 .app.dark-theme .category-box.active {
   background: #23242A !important;
   color: #16c784 !important;
+  border-bottom: 4px solid #ff9800 !important;
 }
 
 .app.dark-theme .category-box .text-wrapper {

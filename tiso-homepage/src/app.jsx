@@ -70,6 +70,9 @@ function App() {
   // Add theme state
   const [theme, setTheme] = useState('light');
 
+  // Add state to hide search bar
+  const [hideSearchBar, setHideSearchBar] = useState(false);
+
   // Apply dark theme to body and .app when selected
   useEffect(() => {
     if (theme === 'dark') {
@@ -78,6 +81,23 @@ function App() {
       document.body.classList.remove('dark-theme');
     }
   }, [theme]);
+
+  // Hide search bar when scrolled to bottom, show when not at bottom
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      // If at bottom (allowing 2px tolerance)
+      if (windowHeight + scrollY >= docHeight - 2) {
+        setHideSearchBar(true);
+      } else {
+        setHideSearchBar(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Responsive positions and sizes
   const isMobileScreen = screenWidth <= 600;
@@ -392,108 +412,110 @@ function App() {
       </header>
 
       {/* Search Bar with Inline Results */}
-      <div style={searchBarContainerStyle}>
-        <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            margin: '0 auto'
-          }}
-        >
-          <img
-            src={searchImg}
-            alt="Search"
+      {!hideSearchBar && (
+        <div style={searchBarContainerStyle}>
+          <div
             style={{
-              width: isSmallMobile ? 18 : 22,
-              height: isSmallMobile ? 18 : 22,
-              position: 'absolute',
-              left: 16,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              opacity: 0.5,
-              pointerEvents: 'none'
+              position: 'relative',
+              width: '100%',
+              margin: '0 auto'
             }}
-          />
-          <input
-            type="text"
-            placeholder="Search"
-            value={searchQuery}
-            onChange={handleSearchChange}
-            style={{
-              width: isSmallMobile ? '100%' : '100%',
-              maxWidth: isSmallMobile ? '100%' : undefined,
-              boxSizing: 'border-box',
-              height: isSmallMobile ? 36 : 44,
-              borderRadius: 18,
-              border: 'none',
-              background: '#fff',
-              boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
-              padding: `0 16px 0 44px`,
-              fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
-              outline: 'none',
-              color: '#222',
-              fontFamily: 'inherit',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}
-          />
-          {/* Update search results UI */}
-          {searchResults.length > 0 && searchQuery && (
-            <div style={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              right: 0,
-              background: theme === 'dark' ? '#18191C' : 'white',
-              borderRadius: '12px',
-              marginTop: '8px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              overflow: 'hidden',
-              zIndex: 10
-            }}>
-              {searchResults.map((product, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    // Find the category for this product
-                    const foundCategory = Object.keys(apiProducts).find(cat =>
-                      apiProducts[cat].some(p => p.name === product.name)
-                    );
-                    if (foundCategory) {
-                      setSelectedCategory(foundCategory);
-                      setHighlightedProductName(product.name);
-                      // Scroll to grid after render
-                      setTimeout(() => {
-                        const el = document.querySelector(`[data-product-name="${product.name}"]`);
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      }, 100);
-                    }
-                    setCurrentCategoryProducts([]); // Hide modal if open
-                    setProductIndex(0);
-                    setSearchQuery('');
-                    setSearchResults([]);
-                  }}
-                  style={{
-                    padding: '12px 16px',
-                    cursor: 'pointer',
-                    borderBottom: index !== searchResults.length - 1 ? '1px solid #eee' : 'none',
-                    color: theme === 'dark' ? '#fff' : '#222',
-                    background: 'transparent',
-                    // ':hover' pseudo-class can't be used inline, so ignore for now
-                  }}
-                >
-                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
-                    {product.name}
+          >
+            <img
+              src={searchImg}
+              alt="Search"
+              style={{
+                width: isSmallMobile ? 18 : 22,
+                height: isSmallMobile ? 18 : 22,
+                position: 'absolute',
+                left: 16,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                opacity: 0.5,
+                pointerEvents: 'none'
+              }}
+            />
+            <input
+              type="text"
+              placeholder="Search"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              style={{
+                width: isSmallMobile ? '100%' : '100%',
+                maxWidth: isSmallMobile ? '100%' : undefined,
+                boxSizing: 'border-box',
+                height: isSmallMobile ? 36 : 44,
+                borderRadius: 18,
+                border: 'none',
+                background: '#fff',
+                boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
+                padding: `0 16px 0 44px`,
+                fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
+                outline: 'none',
+                color: '#222',
+                fontFamily: 'inherit',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            />
+            {/* Update search results UI */}
+            {searchResults.length > 0 && searchQuery && (
+              <div style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                background: theme === 'dark' ? '#18191C' : 'white',
+                borderRadius: '12px',
+                marginTop: '8px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                overflow: 'hidden',
+                zIndex: 10
+              }}>
+                {searchResults.map((product, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      // Find the category for this product
+                      const foundCategory = Object.keys(apiProducts).find(cat =>
+                        apiProducts[cat].some(p => p.name === product.name)
+                      );
+                      if (foundCategory) {
+                        setSelectedCategory(foundCategory);
+                        setHighlightedProductName(product.name);
+                        // Scroll to grid after render
+                        setTimeout(() => {
+                          const el = document.querySelector(`[data-product-name="${product.name}"]`);
+                          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                      }
+                      setCurrentCategoryProducts([]); // Hide modal if open
+                      setProductIndex(0);
+                      setSearchQuery('');
+                      setSearchResults([]);
+                    }}
+                    style={{
+                      padding: '12px 16px',
+                      cursor: 'pointer',
+                      borderBottom: index !== searchResults.length - 1 ? '1px solid #eee' : 'none',
+                      color: theme === 'dark' ? '#fff' : '#222',
+                      background: 'transparent',
+                      // ':hover' pseudo-class can't be used inline, so ignore for now
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
+                      {product.name}
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: theme === 'dark' ? '#bbb' : '#666' }}>
+                      {product.price}
+                    </div>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: theme === 'dark' ? '#bbb' : '#666' }}>
-                    {product.price}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main Content */}
       <div className="main-layout" style={{ marginTop: '140px' }}>
