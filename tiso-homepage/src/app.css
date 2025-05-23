@@ -1213,28 +1213,35 @@ body.dark-theme input[type="text"]::placeholder {
     opacity: 1;
 }
 
-/* Dark theme for inline search results dropdown */
+/* Dark theme for inline search results dropdown - update border colors */
 .app.dark-theme .suggestions-list,
 body.dark-theme .suggestions-list,
 .app.dark-theme .search-results-dropdown,
 body.dark-theme .search-results-dropdown {
     background: #23242A !important;
     color: #fff !important;
-    border: 1px solid #333 !important;
+    border: 1px solid #444444 !important; /* Changed from #333 to #444444 */
+}
+
+/* Add specific styling for borders between search result items in dark mode */
+.app.dark-theme .search-results-dropdown div,
+body.dark-theme .search-results-dropdown div {
+    border-bottom: 1px solid #444444 !important;
+}
+
+.app.dark-theme .search-results-dropdown div:last-child,
+body.dark-theme .search-results-dropdown div:last-child {
+    border-bottom: none !important;
 }
 
 .app.dark-theme .suggestions-list li,
-body.dark-theme .suggestions-list li,
-.app.dark-theme .search-results-dropdown div,
-body.dark-theme .search-results-dropdown div {
-    color: #fff !important;
+body.dark-theme .suggestions-list li {
+    border-bottom: 1px solid #444444 !important;
 }
 
-.app.dark-theme .suggestions-list li:hover,
-body.dark-theme .suggestions-list li:hover,
-.app.dark-theme .search-results-dropdown div:hover,
-body.dark-theme .search-results-dropdown div:hover {
-    background: #18191C !important;
+.app.dark-theme .suggestions-list li:last-child,
+body.dark-theme .suggestions-list li:last-child {
+    border-bottom: none !important;
 }
 
 @media (max-width: 600px) {

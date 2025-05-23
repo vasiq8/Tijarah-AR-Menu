@@ -542,10 +542,12 @@ function App() {
                     style={{
                       padding: '12px 16px',
                       cursor: 'pointer',
-                      borderBottom: index !== searchResults.length - 1 ? '1px solid #eee' : 'none',
+                      borderBottom:
+                        index !== searchResults.length - 1
+                          ? `1px solid ${theme === 'dark' ? '#444444' : '#eee'}` // <-- fix here
+                          : 'none',
                       color: theme === 'dark' ? '#fff' : '#222',
                       background: 'transparent',
-                      // ':hover' pseudo-class can't be used inline, so ignore for now
                     }}
                   >
                     <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
