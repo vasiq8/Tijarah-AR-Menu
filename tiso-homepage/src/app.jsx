@@ -1328,6 +1328,19 @@ function App() {
           }
         `}
       </style>
+
+      {/* Footer */}
+      <div
+        className="powered-by"
+        style={{
+          textAlign: 'center',
+          padding: '12px 0',
+          fontSize: '0.9rem',
+          color: theme === 'dark' ? '#fff' : '#222'
+        }}
+      >
+        Powered by tiso-studio
+      </div>
     </div>
   );
 }
