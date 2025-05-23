@@ -546,7 +546,8 @@ function App() {
                   borderLeft: 'none',
                   borderRight: 'none',
                   borderRadius: '15px',
-                  minHeight: '200px',
+                  minHeight: '180px', // reduced from 200px
+                  maxHeight: '210px', // optional: add a maxHeight to keep cards compact
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'flex-start',
