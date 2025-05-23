@@ -401,7 +401,12 @@ function App() {
   const menuCategories = Object.keys(apiProducts);
 
   return (
-    <div className={`app${theme === 'dark' ? ' dark-theme' : ''}`} style={theme === 'dark' ? { background: '#111215' } : {}}>
+    // add dir for RTL when Arabic is active
+    <div
+      dir={language === 'ar' ? 'rtl' : 'ltr'}
+      className={`app${theme === 'dark' ? ' dark-theme' : ''}`}
+      style={theme === 'dark' ? { background: '#111215' } : {}}
+    >
       {/* ← add this header-bar to block any content behind */}
       <div className="header-bar" />
 

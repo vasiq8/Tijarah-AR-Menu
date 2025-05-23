@@ -1230,3 +1230,48 @@ body.dark-theme .search-results-dropdown div:hover {
     color: #fff !important;
   }
 }
+
+/* RTL support — keep layout same, only text direction */
+.app[dir="rtl"] {
+  direction: rtl;
+}
+
+.app[dir="rtl"] .main-layout {
+  flex-direction: row; /* override row-reverse */
+}
+
+/* ensure sidebar stays on left */
+.app[dir="rtl"] .categories-sidebar {
+  left: 0; 
+  right: auto;
+  border-right: 1px solid rgba(223,223,223,0.8);
+  border-left: none;
+}
+
+/* restore search-bar offset */
+.app[dir="rtl"] .search-bar-wrapper {
+  margin-left: 105px; 
+  margin-right: 40px;
+}
+
+/* move sidebar to right in RTL */
+.app[dir="rtl"] .categories-sidebar {
+  left: auto;
+  right: 0;
+  border-left: 1px solid rgba(223,223,223,0.8);
+  border-right: none;
+}
+
+/* adjust search bar margin in RTL */
+.app[dir="rtl"] .search-bar-wrapper {
+  margin-left: 40px;   /* original right padding */
+  margin-right: 105px; /* sidebar width */
+}
+
+/* if needed, flip text alignment */
+.app[dir="rtl"] .logo,
+.app[dir="rtl"] .category-box .text-wrapper,
+.app[dir="rtl"] .product-card h3,
+.app[dir="rtl"] .product-card p {
+  text-align: right;
+}
