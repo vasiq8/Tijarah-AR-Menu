@@ -67,14 +67,16 @@ function App() {
   // Add state for settings modal
   const [showSettings, setShowSettings] = useState(false);
 
-  // Add theme state
-  const [theme, setTheme] = useState('light');
+  // ← initialize from localStorage
+  const [theme, setTheme]       = useState(() => localStorage.getItem('theme')    || 'light');
+  const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'en');
+
+  // ← add temp states
+  const [tempTheme, setTempTheme]       = useState(theme);
+  const [tempLanguage, setTempLanguage] = useState(language);
 
   // Add state to hide search bar
   const [hideSearchBar, setHideSearchBar] = useState(false);
-
-  // Add language state
-  const [language, setLanguage] = useState('en');
 
   // Apply dark theme to body and .app when selected
   useEffect(() => {
@@ -966,7 +968,7 @@ function App() {
                     cursor: 'pointer',
                     width: '100%'
                   }}
-                  onClick={() => setLanguage('en')}
+                  onClick={() => setTempLanguage('en')}
                 >
                   <span>English</span>
                   <span style={{
@@ -977,10 +979,10 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: language === 'en' ? '2px solid #16c784' : '2px solid #bbb',
-                    background: language === 'en' ? '#16c784' : '#fff',
+                    border: tempLanguage === 'en' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: tempLanguage === 'en' ? '#16c784' : '#fff',
                   }}>
-                    {language === 'en' && (
+                    {tempLanguage === 'en' && (
                       <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
                         <circle cx="10" cy="10" r="6" fill="#fff"/>
                       </svg>
@@ -999,7 +1001,7 @@ function App() {
                     cursor: 'pointer',
                     width: '100%'
                   }}
-                  onClick={() => setLanguage('ar')}
+                  onClick={() => setTempLanguage('ar')}
                 >
                   <span>Arabic</span>
                   <span style={{
@@ -1010,10 +1012,10 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: language === 'ar' ? '2px solid #16c784' : '2px solid #bbb',
-                    background: language === 'ar' ? '#16c784' : '#fff',
+                    border: tempLanguage === 'ar' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: tempLanguage === 'ar' ? '#16c784' : '#fff',
                   }}>
-                    {language === 'ar' && (
+                    {tempLanguage === 'ar' && (
                       <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
                         <circle cx="10" cy="10" r="6" fill="#fff"/>
                       </svg>
@@ -1065,7 +1067,7 @@ function App() {
                     cursor: 'pointer',
                     width: '100%'
                   }}
-                  onClick={() => setTheme('light')}
+                  onClick={() => setTempTheme('light')}
                 >
                   <span>Light</span>
                   <span style={{
@@ -1076,11 +1078,11 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: theme === 'light' ? '2px solid #16c784' : '2px solid #bbb',
-                    background: theme === 'light' ? '#16c784' : '#fff',
+                    border: tempTheme === 'light' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: tempTheme === 'light' ? '#16c784' : '#fff',
                     cursor: 'pointer'
                   }}>
-                    {theme === 'light' && (
+                    {tempTheme === 'light' && (
                       <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
                         <circle cx="10" cy="10" r="6" fill="#fff"/>
                       </svg>
@@ -1099,7 +1101,7 @@ function App() {
                     cursor: 'pointer',
                     width: '100%'
                   }}
-                  onClick={() => setTheme('dark')}
+                  onClick={() => setTempTheme('dark')}
                 >
                   <span>Dark</span>
                   <span style={{
@@ -1110,11 +1112,11 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: theme === 'dark' ? '2px solid #16c784' : '2px solid #bbb',
-                    background: theme === 'dark' ? '#16c784' : '#fff',
+                    border: tempTheme === 'dark' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: tempTheme === 'dark' ? '#16c784' : '#fff',
                     cursor: 'pointer'
                   }}>
-                    {theme === 'dark' && (
+                    {tempTheme === 'dark' && (
                       <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
                         <circle cx="10" cy="10" r="6" fill="#fff"/>
                       </svg>
@@ -1123,6 +1125,31 @@ function App() {
                 </div>
               </div>
             </div>
+            {/* Save button */}
+            <button
+              onClick={() => {
+                setTheme(tempTheme);
+                setLanguage(tempLanguage);
+                localStorage.setItem('theme', tempTheme);
+                localStorage.setItem('language', tempLanguage);
+                setShowSettings(false);
+              }}
+              style={{
+                marginTop: '24px',
+                width: '100%',
+                padding: '10px',
+                borderRadius: '12px',
+                border: 'none',
+                background: '#16c784',
+                color: '#fff',
+                fontSize: '1rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: "'Red Hat Display', sans-serif"
+              }}
+            >
+              Save
+            </button>
             <button
               onClick={() => setShowSettings(false)}
               style={{
