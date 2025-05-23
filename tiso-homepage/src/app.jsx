@@ -13,6 +13,8 @@ import whiteBg from './assets/white background.png';
 import blackBg from './assets/black background.png';
 // Add settings icon import
 import settingsIcon from './assets/settings icon.png';
+// Add this import for the placeholder image
+import placeholderImg from './assets/placeholder.png';
 
 function App() {
   // Navbar + search/menu
@@ -601,7 +603,7 @@ function App() {
                   />
                 )}
                 <img 
-                  src={product.image}
+                  src={product.image && product.image.trim() ? product.image : placeholderImg}
                   alt={product.name}
                   className="product-image"
                   style={{
@@ -616,6 +618,11 @@ function App() {
                     alignSelf: 'center',
                     zIndex: 1,
                     position: 'relative'
+                  }}
+                  onError={e => {
+                    if (e.target.src !== placeholderImg) {
+                      e.target.src = placeholderImg;
+                    }
                   }}
                 />
                 <div style={{
