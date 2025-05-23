@@ -105,22 +105,22 @@ function App() {
 
   // Responsive styles for whiteBg, settingsIcon, navbar, and search bar
   const whiteBgStyle = {
-    position: 'absolute',
+    position: 'fixed', // changed from 'absolute'
     top: isMobileScreen ? 4 : 10,
-    left: isMobileScreen ? 18 : 28, // moved a bit right
-    zIndex: 0,
+    left: isMobileScreen ? 18 : 28,
+    zIndex: 20, // increased to stay above content
     width: isSmallMobile ? '70px' : isMobileScreen ? '90px' : '115px',
     height: isSmallMobile ? '70px' : isMobileScreen ? '90px' : '115px',
     pointerEvents: 'none'
   };
 
   const settingsIconStyle = {
-    position: 'absolute',
+    position: 'fixed', // changed from 'absolute'
     top: isSmallMobile ? '32px' : isMobileScreen ? '44px' : '54px',
     right: isSmallMobile ? '30px' : isMobileScreen ? '38px' : '48px',
-    width: isSmallMobile ? '44px' : isMobileScreen ? '52px' : '60px', // increased size
-    height: isSmallMobile ? '44px' : isMobileScreen ? '52px' : '60px', // increased size
-    zIndex: 20,
+    width: isSmallMobile ? '44px' : isMobileScreen ? '52px' : '60px',
+    height: isSmallMobile ? '44px' : isMobileScreen ? '52px' : '60px',
+    zIndex: 30, // increased to stay above content
     pointerEvents: 'auto'
   };
 
@@ -645,7 +645,6 @@ function App() {
                     if (e.target.src !== placeholderImg) {
                       e.target.src = placeholderImg;
                     }
-
                   }}
                 />
                 <div style={{
