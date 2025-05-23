@@ -442,7 +442,7 @@ function App() {
               top: '100%',
               left: 0,
               right: 0,
-              background: 'white',
+              background: theme === 'dark' ? '#18191C' : 'white',
               borderRadius: '12px',
               marginTop: '8px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
@@ -475,13 +475,15 @@ function App() {
                     padding: '12px 16px',
                     cursor: 'pointer',
                     borderBottom: index !== searchResults.length - 1 ? '1px solid #eee' : 'none',
-                    ':hover': { background: '#f5f5f5' }
+                    color: theme === 'dark' ? '#fff' : '#222',
+                    background: 'transparent',
+                    // ':hover' pseudo-class can't be used inline, so ignore for now
                   }}
                 >
-                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
                     {product.name}
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: '#666' }}>
+                  <div style={{ fontSize: '0.8rem', color: theme === 'dark' ? '#bbb' : '#666' }}>
                     {product.price}
                   </div>
                 </div>
