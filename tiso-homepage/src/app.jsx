@@ -873,7 +873,8 @@ function App() {
               right: 0,
               bottom: 0,
               background: theme === 'dark' ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.18)',
-              zIndex: 10000
+              zIndex: 10000,
+              fontFamily: "'Red Hat Display', sans-serif",
             }}
             onClick={() => setShowSettings(false)}
           />
@@ -888,22 +889,39 @@ function App() {
               boxShadow: theme === 'dark'
                 ? '0 8px 32px rgba(0,0,0,0.45)'
                 : '0 8px 32px rgba(0,0,0,0.13)',
-              padding: '32px 32px 28px 32px',
-              minWidth: '320px',
-              minHeight: '180px',
+              padding: '28px 28px 24px 28px', // Reduced padding
+              minWidth: '280px', // Reduced from 320px
+              minHeight: '160px', // Reduced from 180px
               zIndex: 10001,
               display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'flex-start',
-              gap: '32px'
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0',
+              fontFamily: "'Red Hat Display', sans-serif",
             }}
             onClick={e => e.stopPropagation()}
           >
+            {/* Settings Heading */}
+            <div
+              style={{
+                fontFamily: "'Red Hat Display', sans-serif",
+                fontSize: '1.4rem', // Slightly smaller heading
+                fontWeight: 800,
+                color: theme === 'dark' ? '#fff' : '#23180d',
+                marginBottom: '20px', // Reduced margin
+                letterSpacing: '-0.5px',
+                width: '100%',
+                textAlign: 'center' // center heading
+              }}
+            >
+              Settings
+            </div>
             <div style={{
-              flex: 1,
-              minWidth: '120px',
-              position: 'relative',
-              color: theme === 'dark' ? '#fff' : '#23180d'
+              width: '100%',
+              maxWidth: '280px', // Reduced from 320px
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center'
             }}>
               {/* Language Section */}
               <span style={{
@@ -911,7 +929,9 @@ function App() {
                 fontSize: '1.08rem',
                 color: theme === 'dark' ? '#fff' : '#23180d',
                 fontFamily: "'Red Hat Display', sans-serif",
-                display: 'block'
+                display: 'block',
+                width: '100%',
+                textAlign: 'left'
               }}>
                 Language
               </span>
@@ -931,7 +951,8 @@ function App() {
                 marginTop: 18,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 12
+                gap: 12,
+                width: '100%'
               }}>
                 <div 
                   style={{
@@ -942,7 +963,8 @@ function App() {
                     fontSize: '1rem',
                     fontWeight: 500,
                     color: theme === 'dark' ? '#fff' : '#23180d',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    width: '100%'
                   }}
                   onClick={() => setLanguage('en')}
                 >
@@ -974,7 +996,8 @@ function App() {
                     fontSize: '1rem',
                     fontWeight: 500,
                     color: theme === 'dark' ? '#fff' : '#23180d',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    width: '100%'
                   }}
                   onClick={() => setLanguage('ar')}
                 >
@@ -1005,7 +1028,9 @@ function App() {
                 color: theme === 'dark' ? '#fff' : '#23180d',
                 fontFamily: "'Red Hat Display', sans-serif",
                 display: 'block',
-                marginTop: 28
+                marginTop: 28,
+                width: '100%',
+                textAlign: 'left'
               }}>
                 Theme
               </span>
@@ -1025,7 +1050,8 @@ function App() {
                 marginTop: 18,
                 display: 'flex',
                 flexDirection: 'column',
-                gap: 12
+                gap: 12,
+                width: '100%'
               }}>
                 <div
                   style={{
@@ -1035,7 +1061,9 @@ function App() {
                     fontFamily: "'Red Hat Display', sans-serif",
                     fontSize: '1rem',
                     fontWeight: 500,
-                    color: theme === 'dark' ? '#fff' : '#23180d'
+                    color: theme === 'dark' ? '#fff' : '#23180d',
+                    cursor: 'pointer',
+                    width: '100%'
                   }}
                   onClick={() => setTheme('light')}
                 >
@@ -1067,7 +1095,9 @@ function App() {
                     fontFamily: "'Red Hat Display', sans-serif",
                     fontSize: '1rem',
                     fontWeight: 500,
-                    color: theme === 'dark' ? '#fff' : '#23180d'
+                    color: theme === 'dark' ? '#fff' : '#23180d',
+                    cursor: 'pointer',
+                    width: '100%'
                   }}
                   onClick={() => setTheme('dark')}
                 >
@@ -1101,9 +1131,12 @@ function App() {
                 right: 22,
                 background: 'none',
                 border: 'none',
-                fontSize: 24,
+                fontSize: '32px', // Increased from 24px
                 cursor: 'pointer',
-                color: '#888'
+                color: '#888',
+                fontWeight: 400,
+                padding: '8px', // Added padding for larger touch target
+                lineHeight: '24px' // Added to improve vertical alignment
               }}
               aria-label="Close"
             >×</button>
