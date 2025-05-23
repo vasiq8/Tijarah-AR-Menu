@@ -23,13 +23,14 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   height: 100%;
 }
 
-/* Move settings icon a little bit upwards */
+/* Move settings icon a bit further down */
 .app img[alt="settings"] {
-  top: 28px !important;
+  top: 38px !important;   /* was 28px */
 }
+
 @media (max-width: 600px) {
   .app img[alt="settings"] {
-    top: 12px !important;
+    top: 22px !important; /* was 12px */
   }
 }
 
