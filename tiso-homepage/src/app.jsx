@@ -73,6 +73,9 @@ function App() {
   // Add state to hide search bar
   const [hideSearchBar, setHideSearchBar] = useState(false);
 
+  // Add language state
+  const [language, setLanguage] = useState('en');
+
   // Apply dark theme to body and .app when selected
   useEffect(() => {
     if (theme === 'dark') {
@@ -189,9 +192,11 @@ function App() {
 
       // Create a map of category names and images
       const categoryMap = data.results.categories.reduce((acc, cat) => {
-        acc[cat.categoryRef] = cat.name.en;
+        // Use selected language with fallback to English
+        const categoryName = cat.name[language] || cat.name.en || "";
+        acc[cat.categoryRef] = categoryName;
         // Save image (may be undefined)
-        categoryImagesMap[cat.name.en] = cat.image || "";
+        categoryImagesMap[categoryName] = cat.image || "";
         return acc;
       }, {});
       
@@ -214,7 +219,8 @@ function App() {
           }
 
           productsByCategory[categoryName].push({
-            name: product.name.en || '',
+            // Use selected language with fallback to English
+            name: product.name[language] || product.name.en || '',
             description: product.description || '',
             price: price,
             calories: product.nutritionalInformation?.calorieCount 
@@ -240,10 +246,10 @@ function App() {
   // Flatten all products for search lookup
   const allProducts = Object.values(apiProducts).flat();
 
-  // Fetch data on component mount
+  // Fetch data on component mount and when language changes
   useEffect(() => {
     fetchMenuData();
-  }, []);
+  }, [language]); // Add language as dependency
 
   // Add effect to select first category after data loads
   useEffect(() => {
@@ -313,7 +319,7 @@ function App() {
       return;
     }
 
-    // Search through all products
+    // Search through all products with language awareness
     const results = allProducts.filter(product => 
       product.name.toLowerCase().includes(query)
     ).slice(0, 5); // Limit to 5 results for preview
@@ -927,15 +933,19 @@ function App() {
                 flexDirection: 'column',
                 gap: 12
               }}>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  fontFamily: "'Red Hat Display', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: 500,
-                  color: theme === 'dark' ? '#fff' : '#23180d'
-                }}>
+                <div 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontFamily: "'Red Hat Display', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme === 'dark' ? '#fff' : '#23180d',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => setLanguage('en')}
+                >
                   <span>English</span>
                   <span style={{
                     marginLeft: 12,
@@ -945,23 +955,29 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: '2px solid #16c784',
-                    background: '#16c784',
+                    border: language === 'en' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: language === 'en' ? '#16c784' : '#fff',
                   }}>
-                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                      <circle cx="10" cy="10" r="6" fill="#fff"/>
-                    </svg>
+                    {language === 'en' && (
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="6" fill="#fff"/>
+                      </svg>
+                    )}
                   </span>
                 </div>
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  fontFamily: "'Red Hat Display', sans-serif",
-                  fontSize: '1rem',
-                  fontWeight: 500,
-                  color: theme === 'dark' ? '#fff' : '#23180d'
-                }}>
+                <div 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontFamily: "'Red Hat Display', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme === 'dark' ? '#fff' : '#23180d',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => setLanguage('ar')}
+                >
                   <span>Arabic</span>
                   <span style={{
                     marginLeft: 12,
@@ -971,12 +987,14 @@ function App() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     borderRadius: '50%',
-                    border: '2px solid #bbb',
-                    background: '#fff',
+                    border: language === 'ar' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: language === 'ar' ? '#16c784' : '#fff',
                   }}>
-                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
-                      {/* Empty circle for unselected */}
-                    </svg>
+                    {language === 'ar' && (
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="6" fill="#fff"/>
+                      </svg>
+                    )}
                   </span>
                 </div>
               </div>
