@@ -210,7 +210,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     align-items: center;
     margin-top: 32px;    /* space below header */
     margin-bottom: 32px; /* space above product grid */
-    margin-left: 110px;  /* width of sidebar */
+    margin-left: 105px;  /* width of sidebar */
     margin-right: 40px;  /* right padding for symmetry */
     z-index: 5;
 }
@@ -399,7 +399,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   left: 0;
   top: 0;
   bottom: auto;
-  width: 110px;
+  width: 120px; /* was 100px */
   background: white;
   padding: 10px 15px;
   overflow-y: auto;
@@ -761,11 +761,11 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     top: auto; /* reset for mobile */
     left: auto;
     bottom: auto;
-    width: 100px; /* Increased from 70px */
+    width: 105px; /* Increased from 100px */
     padding: 6px;
     padding-left: 18px; /* Move category boxes a bit to the right */
     border-right: 1px solid rgba(223, 223, 223, 0.8); /* #DFDFDF 80% for mobile */
-    flex: 0 0 100px; /* Increased from 70px */
+    flex: 0 0 105px; /* Increased from 100px */
     background: white;
     z-index: 1;
     overflow-y: auto;
