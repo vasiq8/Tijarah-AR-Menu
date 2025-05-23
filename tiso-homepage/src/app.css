@@ -286,13 +286,18 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   font-size: 12px;
   cursor: pointer;
   margin-top: 10px;
-  width: auto;
-  min-width: 24px;
-  height: 28px;
+  width: 60px !important;
+  height: 60px !important;
+  min-width: 60px !important;
+  min-height: 60px !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px; /* Add rounded corners like Info button */
+}
+
+.product-card .ar-button {
+  margin-top: 24px !important; /* move AR button further down */
 }
 
 /* Close Button for Product */
@@ -559,13 +564,13 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 }
 
 .product-card .ar-button {
-  margin-top: auto;
+  margin-top: 24px !important; /* move AR button further down */
   padding: 8px;
   font-size: 12px;
-  width: 48px !important;
-  height: 48px !important;
-  min-width: 48px !important;
-  min-height: 48px !important;
+  width: 60px !important;
+  height: 60px !important;
+  min-width: 60px !important;
+  min-height: 60px !important;
 }
 
 .product-card img,
@@ -860,6 +865,11 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     justify-content: center;
     text-align: center;
     width: auto;
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    margin-top: 16px !important; /* move AR button further down on mobile */
   }
   .product-card > div:last-child {
     margin-top: auto;
@@ -876,8 +886,8 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
 
   .product-card .ar-button img {
-    width: 28px !important;
-    height: 28px !important;
+    width: 32px !important;
+    height: 32px !important;
   }
 
   .description-modal {
