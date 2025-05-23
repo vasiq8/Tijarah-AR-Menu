@@ -623,6 +623,7 @@ function App() {
                     if (e.target.src !== placeholderImg) {
                       e.target.src = placeholderImg;
                     }
+
                   }}
                 />
                 <div style={{
