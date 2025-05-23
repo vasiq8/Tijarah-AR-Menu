@@ -411,7 +411,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   align-items: flex-start;
   z-index: 5;
   height: calc(100vh - 110px); /* header height */
-  margin-top: 0;
+  margin-top: -35px; /* Move sidebar a bit higher */
   padding-bottom: 40px; /* Increased from 24px to 40px */
 }
 

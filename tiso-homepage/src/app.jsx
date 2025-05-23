@@ -153,21 +153,21 @@ function App() {
   const searchBarContainerStyle = {
     position: 'fixed',
     top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px',
-    // --- Desktop RTL: move search bar to left side ---
-    left: isRTL
-      ? (isSmallMobile
-          ? '130px'
-          : isMobileScreen
-          ? '65px'
-          : '235px')
-      : isSmallMobile
-      ? '130px'
-      : isMobileScreen
-      ? '65px'
-      : '235px',
-    right: isRTL
-      ? undefined
-      : undefined,
+    left:
+      isRTL && isMobileScreen
+        ? '10px' // Move search bar to the left in Arabic mode on mobile
+        : isRTL
+        ? (isSmallMobile
+            ? '130px'
+            : isMobileScreen
+            ? '65px'
+            : '235px')
+        : isSmallMobile
+        ? '130px'
+        : isMobileScreen
+        ? '65px'
+        : '235px',
+    right: undefined,
     width: isSmallMobile
       ? 'calc(100vw - 130px - 20px)'
       : isMobileScreen
@@ -179,7 +179,7 @@ function App() {
       ? undefined
       : '800px',
     display: 'flex',
-    justifyContent: isRTL ? 'flex-start' : 'flex-start',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     zIndex: 6,
     pointerEvents: 'auto'
@@ -310,6 +310,17 @@ function App() {
   const handleCategoryClick = category => {
     setSelectedCategory(category);
     console.log('Available products:', apiProducts[category]);
+    
+    // Add auto-scrolling behavior
+    setTimeout(() => {
+      const productsGrid = document.querySelector('.products-grid');
+      if (productsGrid) {
+        productsGrid.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    }, 50); // Small delay to ensure state update completes
   };
 
   // Search submit (on Enter)
