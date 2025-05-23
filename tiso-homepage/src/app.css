@@ -451,7 +451,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 .category-box .text-wrapper {
   position: absolute;
   top: 8px;
-  left: 12px;
+  left: 8px; /* Reduced from 12px to move text more to the left */
   right: auto;
   bottom: auto;
   width: auto;
@@ -816,7 +816,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
   .category-box .text-wrapper {
     top: 8px;                    /* Increased from 4px */
-    left: 10px;                  /* Increased from 6px */
+    left: 6px; /* Reduced from 10px to move text more to the left on mobile */
     font-size: 0.72rem !important;  /* slightly smaller on mobile */
     gap: 3px;                    /* Increased from 2px */
     text-align: left;

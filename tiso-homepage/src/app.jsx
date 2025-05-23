@@ -147,24 +147,39 @@ function App() {
     zIndex: 10
   };
 
+  // Add: compute isRTL for Arabic
+  const isRTL = language === 'ar';
+
   const searchBarContainerStyle = {
     position: 'fixed',
     top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px',
-    left: isSmallMobile ? '130px' : isMobileScreen ? '65px' : '235px',
-    // Remove right for mobile, set width to match products grid area
-    right: isSmallMobile ? undefined : isMobileScreen ? '18px' : undefined,
+    // --- Desktop RTL: move search bar to left side ---
+    left: isRTL
+      ? (isSmallMobile
+          ? '130px'
+          : isMobileScreen
+          ? '65px'
+          : '235px')
+      : isSmallMobile
+      ? '130px'
+      : isMobileScreen
+      ? '65px'
+      : '235px',
+    right: isRTL
+      ? undefined
+      : undefined,
     width: isSmallMobile
-      ? 'calc(100vw - 130px - 20px)' // 130px left, 20px for grid/card gap
+      ? 'calc(100vw - 130px - 20px)'
       : isMobileScreen
       ? 'calc(100vw - 65px - 20px)'
-      : 'calc(100vw - 195px - 40px)', // 195px sidebar + 40px grid padding
+      : 'calc(100vw - 195px - 40px)',
     maxWidth: isSmallMobile
       ? undefined
       : isMobileScreen
       ? undefined
       : '800px',
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: isRTL ? 'flex-start' : 'flex-start',
     alignItems: 'center',
     zIndex: 6,
     pointerEvents: 'auto'
@@ -444,7 +459,8 @@ function App() {
                 width: isSmallMobile ? 18 : 22,
                 height: isSmallMobile ? 18 : 22,
                 position: 'absolute',
-                left: 16,
+                left: isRTL ? undefined : 16,
+                right: isRTL ? 16 : undefined,
                 top: '50%',
                 transform: 'translateY(-50%)',
                 opacity: 0.5,
@@ -456,6 +472,7 @@ function App() {
               placeholder="Search"
               value={searchQuery}
               onChange={handleSearchChange}
+              dir={isRTL ? 'rtl' : 'ltr'}
               style={{
                 width: isSmallMobile ? '100%' : '100%',
                 maxWidth: isSmallMobile ? '100%' : undefined,
@@ -465,13 +482,16 @@ function App() {
                 border: 'none',
                 background: '#fff',
                 boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
-                padding: `0 ${searchQuery ? '36px' : '16px'} 0 44px`, // Added right padding for cancel button
+                padding: isRTL
+                  ? `0 44px 0 ${searchQuery ? '36px' : '16px'}`
+                  : `0 ${searchQuery ? '36px' : '16px'} 0 44px`,
                 fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
                 outline: 'none',
                 color: '#222',
                 fontFamily: 'inherit',
                 overflow: 'hidden',
-                textOverflow: 'ellipsis'
+                textOverflow: 'ellipsis',
+                textAlign: isRTL ? 'right' : 'left'
               }}
             />
             {/* Replace X icon with Cancel text button */}
@@ -483,7 +503,8 @@ function App() {
                 }}
                 style={{
                   position: 'absolute',
-                  right: 12,
+                  right: isRTL ? undefined : 12,
+                  left: isRTL ? 12 : undefined,
                   top: '50%',
                   transform: 'translateY(-50%)',
                   background: 'none',
