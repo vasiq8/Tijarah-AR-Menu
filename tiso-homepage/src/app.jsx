@@ -402,6 +402,9 @@ function App() {
 
   return (
     <div className={`app${theme === 'dark' ? ' dark-theme' : ''}`} style={theme === 'dark' ? { background: '#111215' } : {}}>
+      {/* ← add this header-bar to block any content behind */}
+      <div className="header-bar" />
+
       {/* White/Black background image at top left */}
       <img
         src={theme === 'dark' ? blackBg : whiteBg}

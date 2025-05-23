@@ -669,20 +669,13 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 /* Add a header bar for the top background */
 .header-bar {
-  width: 100%;
-  height: 110px; /* match screenshot */
-  background: #fff;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 20;
-  display: flex;
-  align-items: center;
-  padding: 0 32px;
-  box-sizing: border-box;
-  /* Optional: add shadow for separation */
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-  margin-bottom: 40px; /* Add space below header for search bar */
+  width: 100%;
+  height: 110px; /* match your header region height */
+  background: #fff; /* or dark background when theme==='dark' */
+  z-index: 5; /* reduce from 20 to 5 so header elements (z-index ≥10) show above */
 }
 
 /* Mobile Media Queries */
