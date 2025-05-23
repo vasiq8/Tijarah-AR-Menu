@@ -843,7 +843,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     justify-content: flex-start;
     align-items: flex-start;
     margin: 2px;
-    overflow: hidden.
+    overflow: hidden;
   }
 
   /* Move price/calories section and AR button higher */
