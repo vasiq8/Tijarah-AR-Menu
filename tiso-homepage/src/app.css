@@ -1030,7 +1030,18 @@ body.dark-theme,
 
 .app.dark-theme .categories-sidebar {
   background: #18191C !important;
-  border-right: 1px solid #23242A !important;
+  border-right: 1px solid #444444 !important; /* Darker, more visible grey */
+}
+
+.app[dir="rtl"].app.dark-theme .categories-sidebar {
+  border-left: 1px solid #444444 !important;
+  border-right: none !important;
+}
+
+@media (max-width: 600px) {
+  .app.dark-theme .categories-sidebar {
+    border-right: 1px solid #444444 !important; /* Match the desktop version */
+  }
 }
 
 .app.dark-theme .category-box {
@@ -1229,7 +1240,7 @@ body.dark-theme .search-results-dropdown div:hover {
 @media (max-width: 600px) {
   .app.dark-theme .categories-sidebar {
     background: #18191C !important;
-    border-right: 1px solid #23242A !important;
+    border-right: 1px solid #444444 !important; /* Match the desktop version */
   }
   .app.dark-theme .category-box {
     background: #23242A !important;
