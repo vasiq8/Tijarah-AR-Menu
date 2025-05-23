@@ -1295,3 +1295,46 @@ body.dark-theme .search-results-dropdown div:hover {
 .app[dir="rtl"] .product-card p {
   text-align: right;
 }
+
+/* RTL support for search input */
+.app[dir="rtl"] input[type="text"] {
+  text-align: right;
+  direction: rtl;
+  padding: 0 44px 0 36px !important; /* Right padding for search icon, left padding for cancel button */
+}
+
+/* Move search icon to the right side in RTL mode */
+.app[dir="rtl"] img[alt="Search"] {
+  left: auto !important;
+  right: 16px !important;
+}
+
+/* Cancel button should stay on left side in RTL */
+.app[dir="rtl"] input[type="text"] ~ button {
+  left: 12px !important;
+  right: auto !important;
+}
+
+/* Fix search results alignment in RTL */
+.app[dir="rtl"] .search-results-dropdown div,
+.app[dir="rtl"] .suggestions-list li {
+  text-align: right;
+}
+
+/* Fix cancel button placement in RTL mode */
+.app[dir="rtl"] input[type="text"] + img {
+  left: auto;
+  right: 16px;
+}
+
+/* Move cancel button to the right side in RTL mode */
+.app[dir="rtl"] input[type="text"] ~ button {
+  left: 12px !important;
+  right: auto !important;
+}
+
+/* Fix search results alignment in RTL */
+.app[dir="rtl"] .search-results-dropdown div,
+.app[dir="rtl"] .suggestions-list li {
+  text-align: right;
+}
