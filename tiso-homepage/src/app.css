@@ -412,6 +412,12 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   z-index: 5;
   height: calc(100vh - 110px); /* header height */
   margin-top: 0;
+  padding-bottom: 40px; /* Increased from 24px to 40px */
+}
+
+/* Add extra padding under the last category box */
+.categories-sidebar .category-box:last-child {
+  margin-bottom: 120px !important; /* Increased from 80px to 120px */
 }
 
 /* Make category-box perfectly square and center content */
@@ -520,6 +526,17 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   padding-top: 0;
   max-width: 1700px; /* increased from 1400px */
   width: 100%;
+  padding-bottom: 40px; /* Increased from 24px to 40px */
+}
+
+/* Increase padding under the last product card */
+.products-grid > div:last-child {
+  margin-bottom: 120px !important; /* Increased from 80px to 120px */
+}
+
+/* Add extra padding under the last product card */
+.products-grid > div:last-child {
+  margin-bottom: 32px; /* Extra space after the last product */
 }
 
 /* On desktop, add margin to products grid to push it down */
@@ -776,6 +793,11 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     overflow-y: auto !important;
     height: calc(100vh - 100px);
     max-height: calc(100vh - 100px);
+    padding-bottom: 40px; /* Increased padding at bottom */
+  }
+
+  .categories-sidebar .category-box:last-child {
+    margin-bottom: 120px !important; /* Match desktop */
   }
 
   .category-box {
@@ -826,6 +848,11 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     max-height: calc(100vh - 100px);
     overflow-y: auto;
     align-content: start; /* Pack rows at the top, keep row gap consistent */
+    padding-bottom: 40px; /* Increased padding at bottom */
+  }
+
+  .products-grid > div:last-child {
+    margin-bottom: 120px !important; /* Match desktop */
   }
 
   .product-card {
@@ -1006,6 +1033,40 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   .products-grid {
     margin-top: 0 !important;
     /* Remove extra margin if present */
+  }
+}
+
+/* Desktop-specific improvements for scroll experience */
+@media (min-width: 901px) {
+  /* Enhanced bottom spacing for categories sidebar on desktop */
+  .categories-sidebar {
+    padding-bottom: 60px !important; /* Increased from 40px to 60px */
+  }
+  
+  /* Even more padding under the last category box on desktop */
+  .categories-sidebar .category-box:last-child {
+    margin-bottom: 160px !important; /* Significantly increased from 120px */
+  }
+  
+  /* Enhanced bottom spacing for products grid on desktop */
+  .products-grid {
+    padding-bottom: 60px !important; /* Increased from 40px to 60px */
+  }
+  
+  /* Even more padding under the last product card on desktop */
+  .products-grid > div:last-child {
+    margin-bottom: 160px !important; /* Significantly increased from 120px */
+  }
+  
+  /* Add scroll padding to improve scrolling behavior */
+  html, body {
+    scroll-padding-bottom: 100px;
+  }
+  
+  /* Add scroll margin to ensure elements are visible when reached by scroll */
+  .categories-sidebar .category-box,
+  .products-grid > div {
+    scroll-margin-bottom: 40px;
   }
 }
 
