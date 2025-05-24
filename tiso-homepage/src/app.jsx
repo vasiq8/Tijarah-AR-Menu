@@ -67,8 +67,8 @@ function App() {
   // Add state for settings modal
   const [showSettings, setShowSettings] = useState(false);
 
-  // ← initialize from localStorage
-  const [theme, setTheme]       = useState(() => localStorage.getItem('theme')    || 'light');
+  // ← initialize from localStorage, with dark as default instead of light
+  const [theme, setTheme]       = useState(() => localStorage.getItem('theme')    || 'dark');
   const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'en');
 
   // ← add temp states
@@ -667,17 +667,37 @@ function App() {
               onClick={() => handleCategoryClick(category)}
               style={{ position: 'relative', overflow: 'hidden' }}
             >
-              <div className="text-wrapper" style={{ fontSize: '0.83rem', fontWeight: 600 }}>
+              <div className="text-wrapper" style={{ 
+                fontSize: '0.83rem', 
+                fontWeight: 600,
+                // RTL support - position text from right side in Arabic mode
+                left: isRTL ? 'auto' : '8px',
+                right: isRTL ? '8px' : 'auto',
+                textAlign: isRTL ? 'right' : 'left',
+                // Adjust flex direction for RTL
+                justifyContent: isRTL ? 'flex-start' : 'flex-start',
+                // Ensure ellipsis works properly
+                position: 'absolute',
+                top: '8px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '70%', // Reduced from 85% to ensure space for ellipsis
+                width: 'auto',
+                display: 'block'
+              }}>
                 {category}
               </div>
-              {/* Category image at bottom right, cut 10% outside the box, reduced size */}
+              {/* Category image at bottom right (or left in RTL), cut 10% outside the box, reduced size */}
               {categoryImages[category] && (
                 <img
                   src={categoryImages[category]}
                   alt={`${category} icon`}
                   style={{
                     position: 'absolute',
-                    right: '-10%',
+                    // Mirror position for RTL mode
+                    right: isRTL ? 'auto' : '-10%',
+                    left: isRTL ? '-10%' : 'auto',
                     bottom: '-10%',
                     width: '60%',
                     height: '60%',
