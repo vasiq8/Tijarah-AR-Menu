@@ -898,22 +898,21 @@ function App() {
               style={{
                 position: 'absolute',
                 right: '14px',
-                top: '14px',
+                top: '10px', // Changed from 14px to 10px to move it higher
                 border: 'none',
                 background: 'none',
-                fontSize: '20px',
+                fontSize: '26px',
                 cursor: 'pointer'
               }}
             >
               ×
             </button>
-            <h2 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 700, textAlign: 'center' }}>Info</h2>
+            <h2 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 700, textAlign: 'center' }}>{showDescription.name}</h2>
             <hr style={{
               margin: '14px 0 10px 0',
               border: 0,
               borderTop: '1.2px solid #eee'
             }}/>
-            <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, textAlign: 'center' }}>{showDescription.name}</h3>
             <p style={{ marginTop: '14px', fontSize: '0.98rem', color: '#222', textAlign: 'left' }}>{showDescription.description}</p>
           </div>
         )}
