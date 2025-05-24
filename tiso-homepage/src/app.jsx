@@ -150,6 +150,7 @@ function App() {
   // Add: compute isRTL for Arabic
   const isRTL = language === 'ar';
 
+  // Update the searchBarContainerStyle to ensure visibility on mobile
   const searchBarContainerStyle = {
     position: 'fixed',
     top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px',
@@ -163,27 +164,28 @@ function App() {
             ? '65px'
             : '235px')
         : isSmallMobile
-        ? '130px'
+        ? '85px' // Adjusted from 130px to 85px for small mobile
         : isMobileScreen
         ? '65px'
         : '235px',
     right: undefined,
     width: isSmallMobile
-      ? 'calc(100vw - 130px - 20px)'
+      ? 'calc(100vw - 90px - 20px)' // Adjusted width calculation for small mobile
       : isMobileScreen
       ? 'calc(100vw - 65px - 20px)'
-      // Extended width for desktop view
       : 'calc(100vw - 195px - 40px - 150px)',
     maxWidth: isSmallMobile
       ? undefined
       : isMobileScreen
       ? undefined
-      : '1200px', // Increased from 800px for desktop
+      : '1200px',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    zIndex: 6,
-    pointerEvents: 'auto'
+    zIndex: 15, // Increased from 6 to 15 to ensure it stays above other elements
+    pointerEvents: 'auto',
+    opacity: hideSearchBar ? 0 : 1, // Add opacity transition instead of completely hiding
+    transition: 'opacity 0.3s ease' // Smooth transition
   };
 
   const fetchMenuData = async () => {
@@ -462,8 +464,12 @@ function App() {
       className={`app${theme === 'dark' ? ' dark-theme' : ''}`}
       style={theme === 'dark' ? { background: '#111215', fontFamily: "'Red Hat Display', sans-serif" } : { fontFamily: "'Red Hat Display', sans-serif" }}
     >
-      {/* ← add this header-bar to block any content behind */}
-      <div className="header-bar" />
+      {/* ← modify header-bar to start at very top of screen */}
+      <div className="header-bar" style={{ 
+        zIndex: 10, 
+        top: 0,  // Changed from 10px to 0 to eliminate the gap
+        height: '130px' // Increased height to ensure coverage
+      }} />
 
       {/* White/Black background image at top left */}
       <img
@@ -482,153 +488,158 @@ function App() {
         <h1 className="logo">{companyName || "TISO MEALS"}</h1>
       </header>
 
-      {/* Search Bar with Inline Results */}
-      {!hideSearchBar && (
-        <div style={searchBarContainerStyle}>
-          <div
+      {/* Search Bar with Inline Results - Force display on mobile */}
+      <div style={{
+        ...searchBarContainerStyle,
+        display: isMobileScreen ? 'flex' : (hideSearchBar ? 'none' : 'flex') // Always show on mobile
+      }}>
+        <div
+          style={{
+            position: 'relative',
+            width: '100%',
+            margin: '0 auto'
+          }}
+        >
+          <img
+            src={searchImg}
+            alt="Search"
             style={{
-              position: 'relative',
-              width: '100%',
-              margin: '0 auto'
+              width: isSmallMobile ? 18 : 22,
+              height: isSmallMobile ? 18 : 22,
+              position: 'absolute',
+              left: isRTL ? undefined : 16,
+              right: isRTL ? 16 : undefined,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              opacity: 0.5,
+              pointerEvents: 'none'
             }}
-          >
-            <img
-              src={searchImg}
-              alt="Search"
+          />
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            dir={isRTL ? 'rtl' : 'ltr'}
+            style={{
+              width: isSmallMobile ? '100%' : '100%',
+              maxWidth: isSmallMobile ? '100%' : undefined,
+              boxSizing: 'border-box',
+              height: isSmallMobile ? 36 : 44,
+              borderRadius: 18,
+              border: 'none',
+              background: '#fff',
+              boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
+              padding: isRTL
+                ? `0 44px 0 ${searchQuery ? '36px' : '16px'}`
+                : `0 ${searchQuery ? '36px' : '16px'} 0 44px`,
+              fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
+              outline: 'none',
+              color: '#222',
+              fontFamily: 'inherit',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              textAlign: isRTL ? 'right' : 'left'
+            }}
+          />
+          {/* Replace X icon with Cancel text button */}
+          {searchQuery && (
+            <button
+              onClick={() => {
+                setSearchQuery('');
+                setSearchResults([]);
+              }}
               style={{
-                width: isSmallMobile ? 18 : 22,
-                height: isSmallMobile ? 18 : 22,
                 position: 'absolute',
-                left: isRTL ? undefined : 16,
-                right: isRTL ? 16 : undefined,
+                right: isRTL ? undefined : 12,
+                left: isRTL ? 12 : undefined,
                 top: '50%',
                 transform: 'translateY(-50%)',
-                opacity: 0.5,
-                pointerEvents: 'none'
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              dir={isRTL ? 'rtl' : 'ltr'}
-              style={{
-                width: isSmallMobile ? '100%' : '100%',
-                maxWidth: isSmallMobile ? '100%' : undefined,
-                boxSizing: 'border-box',
-                height: isSmallMobile ? 36 : 44,
-                borderRadius: 18,
+                background: 'none',
                 border: 'none',
-                background: '#fff',
-                boxShadow: '0 1px 6px rgba(0,0,0,0.06)',
-                padding: isRTL
-                  ? `0 44px 0 ${searchQuery ? '36px' : '16px'}`
-                  : `0 ${searchQuery ? '36px' : '16px'} 0 44px`,
-                fontSize: isSmallMobile ? '0.98rem' : '1.08rem',
-                outline: 'none',
-                color: '#222',
-                fontFamily: 'inherit',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                textAlign: isRTL ? 'right' : 'left'
+                padding: '0 8px',
+                height: isSmallMobile ? 26 : 30,
+                borderRadius: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                fontSize: isSmallMobile ? '12px' : '13px',
+                color: '#666',
+                fontFamily: 'inherit'
               }}
-            />
-            {/* Replace X icon with Cancel text button */}
-            {searchQuery && (
-              <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSearchResults([]);
-                }}
-                style={{
-                  position: 'absolute',
-                  right: isRTL ? undefined : 12,
-                  left: isRTL ? 12 : undefined,
-                  top: '50%',
-                  transform: 'translateY(-50%)',
-                  background: 'none',
-                  border: 'none',
-                  padding: '0 8px',
-                  height: isSmallMobile ? 26 : 30,
-                  borderRadius: '4px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  fontSize: isSmallMobile ? '12px' : '13px',
-                  color: '#666',
-                  fontFamily: 'inherit'
-                }}
-              >
-                Cancel
-              </button>
-            )}
-            {/* Update search results UI */}
-            {searchResults.length > 0 && searchQuery && (
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                right: 0,
-                background: theme === 'dark' ? '#18191C' : 'white',
-                borderRadius: '12px',
-                marginTop: '8px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-                overflow: 'hidden',
-                zIndex: 10
-              }}>
-                {searchResults.map((product, index) => (
-                  <div
-                    key={index}
-                    onClick={() => {
-                      // Find the category for this product
-                      const foundCategory = Object.keys(apiProducts).find(cat =>
-                        apiProducts[cat].some(p => p.name === product.name)
-                      );
-                      if (foundCategory) {
-                        setSelectedCategory(foundCategory);
-                        setHighlightedProductName(product.name);
-                        // Scroll to grid after render
-                        setTimeout(() => {
-                          const el = document.querySelector(`[data-product-name="${product.name}"]`);
-                          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }, 100);
-                      }
-                      setCurrentCategoryProducts([]); // Hide modal if open
-                      setProductIndex(0);
-                      setSearchQuery('');
-                      setSearchResults([]);
-                    }}
-                    style={{
-                      padding: '12px 16px',
-                      cursor: 'pointer',
-                      borderBottom:
-                        index !== searchResults.length - 1
-                          ? `1px solid ${theme === 'dark' ? '#444444' : '#eee'}` // <-- fix here
-                          : 'none',
-                      color: theme === 'dark' ? '#fff' : '#222',
-                      background: 'transparent',
-                    }}
-                  >
-                    <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
-                      {product.name}
-                    </div>
-                    <div style={{ fontSize: '0.8rem', color: theme === 'dark' ? '#bbb' : '#666' }}>
-                      {product.price}
-                    </div>
+            >
+              Cancel
+            </button>
+          )}
+          {/* Update search results UI */}
+          {searchResults.length > 0 && searchQuery && (
+            <div style={{
+              position: 'absolute',
+              top: '100%',
+              left: 0,
+              right: 0,
+              background: theme === 'dark' ? '#18191C' : 'white',
+              borderRadius: '12px',
+              marginTop: '8px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+              overflow: 'hidden',
+              zIndex: 10
+            }}>
+              {searchResults.map((product, index) => (
+                <div
+                  key={index}
+                  onClick={() => {
+                    // Find the category for this product
+                    const foundCategory = Object.keys(apiProducts).find(cat =>
+                      apiProducts[cat].some(p => p.name === product.name)
+                    );
+                    if (foundCategory) {
+                      setSelectedCategory(foundCategory);
+                      setHighlightedProductName(product.name);
+                      // Scroll to grid after render
+                      setTimeout(() => {
+                        const el = document.querySelector(`[data-product-name="${product.name}"]`);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }, 100);
+                    }
+                    setCurrentCategoryProducts([]); // Hide modal if open
+                    setProductIndex(0);
+                    setSearchQuery('');
+                    setSearchResults([]);
+                  }}
+                  style={{
+                    padding: '12px 16px',
+                    cursor: 'pointer',
+                    borderBottom:
+                      index !== searchResults.length - 1
+                        ? `1px solid ${theme === 'dark' ? '#444444' : '#eee'}` // <-- fix here
+                        : 'none',
+                    color: theme === 'dark' ? '#fff' : '#222',
+                    background: 'transparent',
+                  }}
+                >
+                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
+                    {product.name}
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
+                  <div style={{ fontSize: '0.8rem', color: theme === 'dark' ? '#bbb' : '#666' }}>
+                    {product.price}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Main Content */}
-      <div className="main-layout" style={{ marginTop: '140px' }}>
-        {/* Categories Container */}
-        <div className="categories-sidebar">
+      <div className="main-layout" style={{ marginTop: '140px', position: 'relative', zIndex: 1 }}>
+        {/* Categories Container - Moved even higher on desktop */}
+        <div className="categories-sidebar" style={{ 
+          paddingTop: screenWidth > 900 ? '5px' : '110px', // Further reduced padding for desktop to move boxes higher
+          marginTop: screenWidth > 900 ? '-60px' : '-110px', // Adjusted accordingly
+          paddingBottom: screenWidth > 900 ? '30px' : '0' // Maintain bottom padding for desktop
+        }}>
           {Object.keys(apiProducts).map((category, i) => (
             <div
               key={i}
@@ -663,9 +674,13 @@ function App() {
           ))}
         </div>
 
-        {/* Products Grid */}
+        {/* Products Grid - Add padding-top to prevent overlap with header */}
         {selectedCategory && (
-          <div className="products-grid" style={{ background: '#fff' }}>
+          <div className="products-grid" style={{ 
+            background: '#fff',
+            paddingTop: '110px', // Add padding at top to prevent scrolling under header
+            marginTop: '-110px' // Offset the padding to maintain original position
+          }}>
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div
                 key={index}
