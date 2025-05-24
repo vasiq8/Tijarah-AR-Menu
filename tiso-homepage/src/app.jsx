@@ -597,11 +597,31 @@ function App() {
                     if (foundCategory) {
                       setSelectedCategory(foundCategory);
                       setHighlightedProductName(product.name);
-                      // Scroll to grid after render
+                      
+                      // Improved scrolling behavior that works on both mobile and desktop
                       setTimeout(() => {
                         const el = document.querySelector(`[data-product-name="${product.name}"]`);
-                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      }, 100);
+                        const productsGrid = document.querySelector('.products-grid');
+                        
+                        if (el && productsGrid) {
+                          // For desktop, we need specific scrolling approach
+                          if (screenWidth > 600) {
+                            // Calculate element's position relative to the grid
+                            const gridRect = productsGrid.getBoundingClientRect();
+                            const elRect = el.getBoundingClientRect();
+                            const relativeTop = elRect.top - gridRect.top;
+                            
+                            // Scroll the grid to bring element into view
+                            productsGrid.scrollTo({
+                              top: productsGrid.scrollTop + relativeTop - 150, // Offset for header
+                              behavior: 'smooth'
+                            });
+                          } else {
+                            // On mobile, scrollIntoView works well
+                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                          }
+                        }
+                      }, 250); // Increased timeout to ensure DOM is updated
                     }
                     setCurrentCategoryProducts([]); // Hide modal if open
                     setProductIndex(0);
