@@ -172,12 +172,13 @@ function App() {
       ? 'calc(100vw - 130px - 20px)'
       : isMobileScreen
       ? 'calc(100vw - 65px - 20px)'
-      : 'calc(100vw - 195px - 40px)',
+      // Extended width for desktop view
+      : 'calc(100vw - 195px - 40px - 150px)',
     maxWidth: isSmallMobile
       ? undefined
       : isMobileScreen
       ? undefined
-      : '800px',
+      : '1200px', // Increased from 800px for desktop
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -426,12 +427,40 @@ function App() {
 
   const menuCategories = Object.keys(apiProducts);
 
+  // Apply Red Hat Display font to the entire app using useEffect
+  useEffect(() => {
+    // Add Google Fonts link if it doesn't exist yet
+    if (!document.getElementById('red-hat-display-font')) {
+      const link = document.createElement('link');
+      link.id = 'red-hat-display-font';
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800;900&display=swap';
+      document.head.appendChild(link);
+    }
+
+    // Create a style element for applying the font globally
+    const style = document.createElement('style');
+    style.textContent = `
+      * {
+        font-family: 'Red Hat Display', sans-serif !important;
+      }
+    `;
+    
+    // Append the style to the head
+    document.head.appendChild(style);
+    
+    // Clean up function
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []); // Run once on mount
+
   return (
     // add dir for RTL when Arabic is active
     <div
       dir={language === 'ar' ? 'rtl' : 'ltr'}
       className={`app${theme === 'dark' ? ' dark-theme' : ''}`}
-      style={theme === 'dark' ? { background: '#111215' } : {}}
+      style={theme === 'dark' ? { background: '#111215', fontFamily: "'Red Hat Display', sans-serif" } : { fontFamily: "'Red Hat Display', sans-serif" }}
     >
       {/* ← add this header-bar to block any content behind */}
       <div className="header-bar" />
@@ -732,7 +761,7 @@ function App() {
                   zIndex: 1,
                   position: 'relative',
                   marginTop: '0px',
-                  fontFamily: "'Red Hat Display', sans-serif"
+                  fontFamily: 'inherit'
                 }}>
                   <h3
                     style={{
@@ -744,7 +773,7 @@ function App() {
                       WebkitLineClamp: 1,
                       WebkitBoxOrient: 'vertical',
                       textOverflow: 'ellipsis',
-                      fontFamily: "'Red Hat Display', sans-serif"
+                      fontFamily: 'inherit'
                     }}
                     title={product.name}
                   >
@@ -755,7 +784,7 @@ function App() {
                     width: '100%',
                     alignItems: 'center',
                     marginBottom: '2px',
-                    fontFamily: "'Red Hat Display', sans-serif"
+                    fontFamily: 'inherit'
                   }}>
                     <div style={{ width: '50%' }}>
                       <p style={{
@@ -768,7 +797,7 @@ function App() {
                         lineHeight: 1.18,
                         maxWidth: '100%',
                         wordBreak: 'break-all',
-                        fontFamily: "'Red Hat Display', sans-serif"
+                        fontFamily: 'inherit'
                       }}>
                         {product.price}
                       </p>
@@ -782,7 +811,7 @@ function App() {
                         lineHeight: 1.18,
                         maxWidth: '100%',
                         wordBreak: 'break-all',
-                        fontFamily: "'Red Hat Display', sans-serif"
+                        fontFamily: 'inherit'
                       }}>
                         {product.calories}
                       </p>
@@ -811,7 +840,7 @@ function App() {
                           justifyContent: 'center',
                           borderRadius: '8px',
                           boxShadow: 'none',
-                          fontFamily: "'Red Hat Display', sans-serif"
+                          fontFamily: 'inherit'
                         }}
                         disabled={!product.modelUrl}
                       >
