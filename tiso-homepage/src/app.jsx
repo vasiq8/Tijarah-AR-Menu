@@ -733,8 +733,8 @@ function App() {
                   borderLeft: 'none',
                   borderRight: 'none',
                   borderRadius: '15px',
-                  minHeight: '180px', // reduced from 200px
-                  maxHeight: '210px', // optional: add a maxHeight to keep cards compact
+                  minHeight: '180px', 
+                  maxHeight: '210px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'flex-start',
@@ -742,28 +742,35 @@ function App() {
                   background: 'transparent',
                   position: 'relative',
                   overflow: 'hidden',
-                  boxShadow: 'none',
-                  borderBottom: highlightedProductName === product.name
-                    ? '4px solid #ff9800'
-                    : '1px solid #ddd',
+                  // Use outline instead of border for highlighting - outline sits on top of other elements
+                  outline: highlightedProductName === product.name 
+                    ? `4px solid #ff9800` 
+                    : 'none',
+                  // Add a very visible animation for highlighted products
                   animation: highlightedProductName === product.name
-                    ? 'blink-border 0.6s 2'
-                    : undefined
+                    ? 'pulse-highlight 0.8s 3'
+                    : undefined,
+                  // Make highlighted cards stand out with transform and z-index
+                  transform: highlightedProductName === product.name 
+                    ? 'scale(1.02)' 
+                    : 'scale(1)',
+                  zIndex: highlightedProductName === product.name ? 10 : 1,
+                  transition: 'transform 0.3s ease'
                 }}
                 onAnimationEnd={() => {
                   if (highlightedProductName === product.name) setHighlightedProductName(null);
                 }}
                 onClick={() => setShowDescription(product)}
               >
-                {/* Top overlay for dark theme */}
+                {/* Top overlay for dark theme - adjusted to not cover bottom border */}
                 {theme === 'dark' && (
                   <div
                     style={{
                       position: 'absolute',
                       left: 0,
                       right: 0,
-                      bottom: 0,
-                      height: '75%',
+                      bottom: '4px', // Changed from 0 to leave space for the highlighting border
+                      height: 'calc(75% - 4px)', // Adjusted height to account for border space
                       background: '#232429',
                       zIndex: 0,
                       borderTopLeftRadius: '15px',
@@ -771,15 +778,15 @@ function App() {
                     }}
                   />
                 )}
-                {/* Bottom overlay, now covers 75% and is thick grey with rounded top corners */}
+                {/* Bottom overlay for light theme - adjusted to not cover bottom border */}
                 {theme !== 'dark' && (
                   <div
                     style={{
                       position: 'absolute',
                       left: 0,
                       right: 0,
-                      bottom: 0,
-                      height: '75%',
+                      bottom: '4px', // Changed from 0 to leave space for the highlighting border
+                      height: 'calc(75% - 4px)', // Adjusted height to account for border space
                       background: '#f7f6f5',
                       zIndex: 0,
                       borderTopLeftRadius: '15px',
@@ -1434,14 +1441,27 @@ function App() {
         </div>
       )}
 
-      {/* Add keyframes for blinking border */}
+      {/* Enhanced keyframes for more visible blinking border */}
       <style>
         {`
-          @keyframes blink-border {
-            0%   { border-bottom: 4px solid #ff9800; }
-            25%  { border-bottom: 1px solid #ddd; }
-            50%  { border-bottom: 4px solid #ff9800; }
-            100% { border-bottom: 1px solid #ddd; }
+          @keyframes blink-border-light {
+            0%   { border-bottom: 4px solid #ff9800; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.8); }
+            25%  { border-bottom: 1px solid #ddd; box-shadow: none; }
+            50%  { border-bottom: 4px solid #ff9800; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.8); }
+            100% { border-bottom: 1px solid #ddd; box-shadow: none; }
+          }
+          
+          @keyframes blink-border-dark {
+            0%   { border-bottom: 4px solid #ff9800; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.8); }
+            25%  { border-bottom: 1px solid #444; box-shadow: none; }
+            50%  { border-bottom: 4px solid #ff9800; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.8); }
+            100% { border-bottom: 1px solid #444; box-shadow: none; }
+          }
+
+          @keyframes pulse-highlight {
+            0%   { outline-color: #ff9800; box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.2); }
+            50%  { outline-color: transparent; box-shadow: 0 0 0 4px rgba(255, 152, 0, 0); }
+            100% { outline-color: #ff9800; box-shadow: 0 0 0 4px rgba(255, 152, 0, 0.2); }
           }
         `}
       </style>
