@@ -953,11 +953,15 @@ function App() {
               style={{
                 position: 'absolute',
                 right: '14px',
-                top: '10px', // Changed from 14px to 10px to move it higher
+                top: '10px', 
                 border: 'none',
                 background: 'none',
                 fontSize: '26px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                color: '#888', // Added to match settings modal close button color
+                fontWeight: 400, // Added to match settings modal close button weight
+                padding: '4px', // Added for better touch target
+                lineHeight: '20px' // Added for better vertical alignment
               }}
             >
               ×
