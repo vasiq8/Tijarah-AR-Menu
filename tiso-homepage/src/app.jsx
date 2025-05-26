@@ -485,7 +485,7 @@ function App() {
         onClick={() => setShowSettings(true)}
       />
       <header className="navbar navbar-nobox" style={navbarStyle}>
-        <h1 className="logo">{companyName || "TISO MEALS"}</h1>
+        <h1 className="logo">{companyName || "RESTAURANT"}</h1>
       </header>
 
       {/* Search Bar with Inline Results - Force display on mobile */}
@@ -1303,7 +1303,7 @@ function App() {
             <button className="menu-close" onClick={() => setMenuOpen(false)}>
               ×
             </button>
-            <div className="menu-title">{companyName || "TISO MEALS"}</div>
+            <div className="menu-title">{companyName || "RESTAURANT"}</div>
             <img
               src={searchImg}
               alt="Search"
