@@ -70,10 +70,14 @@ function App() {
   // ← initialize from localStorage, with dark as default instead of light
   const [theme, setTheme]       = useState(() => localStorage.getItem('theme')    || 'dark');
   const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'en');
+  // Add layout state
+  const [layout, setLayout]     = useState(() => localStorage.getItem('layout')   || 'layout1');
 
   // ← add temp states
   const [tempTheme, setTempTheme]       = useState(theme);
   const [tempLanguage, setTempLanguage] = useState(language);
+  // Add temp layout state
+  const [tempLayout, setTempLayout]     = useState(layout);
 
   // Add state to hide search bar
   const [hideSearchBar, setHideSearchBar] = useState(false);
@@ -1253,14 +1257,117 @@ function App() {
                   </span>
                 </div>
               </div>
+              {/* Layout Section - Add this new section */}
+              <span style={{
+                fontWeight: 700,
+                fontSize: '1.08rem',
+                color: theme === 'dark' ? '#fff' : '#23180d',
+                fontFamily: "'Red Hat Display', sans-serif",
+                display: 'block',
+                marginTop: 28,
+                width: '100%',
+                textAlign: 'left'
+              }}>
+                Layouts
+              </span>
+              <div
+                style={{
+                  position: 'relative',
+                  left: 0,
+                  right: 0,
+                  height: '1px',
+                  background: theme === 'dark' ? '#23242A' : '#e5e5e5',
+                  margin: '10px 0 0 0',
+                  width: '100%'
+                }}
+              />
+              {/* Layout options */}
+              <div style={{
+                marginTop: 18,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+                width: '100%'
+              }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontFamily: "'Red Hat Display', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme === 'dark' ? '#fff' : '#23180d',
+                    cursor: 'pointer',
+                    width: '100%'
+                  }}
+                  onClick={() => setTempLayout('layout1')}
+                >
+                  <span>Layout 1</span>
+                  <span style={{
+                    marginLeft: 12,
+                    width: 22,
+                    height: 22,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    border: tempLayout === 'layout1' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: tempLayout === 'layout1' ? '#16c784' : '#fff',
+                    cursor: 'pointer'
+                  }}>
+                    {tempLayout === 'layout1' && (
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="6" fill="#fff"/>
+                      </svg>
+                    )}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    fontFamily: "'Red Hat Display', sans-serif",
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme === 'dark' ? '#fff' : '#23180d',
+                    cursor: 'pointer',
+                    width: '100%'
+                  }}
+                  onClick={() => setTempLayout('layout2')}
+                >
+                  <span>Layout 2</span>
+                  <span style={{
+                    marginLeft: 12,
+                    width: 22,
+                    height: 22,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    borderRadius: '50%',
+                    border: tempLayout === 'layout2' ? '2px solid #16c784' : '2px solid #bbb',
+                    background: tempLayout === 'layout2' ? '#16c784' : '#fff',
+                    cursor: 'pointer'
+                  }}>
+                    {tempLayout === 'layout2' && (
+                      <svg width="14" height="14" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="10" r="6" fill="#fff"/>
+                      </svg>
+                    )}
+                  </span>
+                </div>
+              </div>
             </div>
-            {/* Save button */}
+            {/* Save button - Update to include layout */}
             <button
               onClick={() => {
                 setTheme(tempTheme);
                 setLanguage(tempLanguage);
+                setLayout(tempLayout);
                 localStorage.setItem('theme', tempTheme);
                 localStorage.setItem('language', tempLanguage);
+                localStorage.setItem('layout', tempLayout);
                 setShowSettings(false);
               }}
               style={{
