@@ -162,7 +162,7 @@ function App() {
       : (isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px'),
     left:
       layout === 'layout2'
-        ? 0 // <-- push search bar to the left in layout 2
+        ? '40px' // Move search bar right to align with categories bar in layout 2
         : (
           isRTL && isMobileScreen
             ? '10px'
@@ -180,7 +180,7 @@ function App() {
         ),
     right: undefined,
     width: layout === 'layout2'
-      ? 'calc(100vw - 100px)'
+      ? 'calc(100vw - 80px)' // 40px left + 40px right, matches categories bar
       : isSmallMobile
         ? 'calc(100vw - 90px - 20px)' 
         : isMobileScreen
@@ -194,7 +194,7 @@ function App() {
         ? undefined
         : '1200px',
     display: 'flex',
-    justifyContent: layout === 'layout2' ? 'flex-start' : 'flex-start', // align left in layout 2
+    justifyContent: layout === 'layout2' ? 'flex-start' : 'flex-start',
     alignItems: 'center',
     zIndex: 15,
     pointerEvents: 'auto',
