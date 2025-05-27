@@ -670,15 +670,15 @@ function App() {
         <div style={{
           position: 'fixed',
           top: isSmallMobile ? '85px' : isMobileScreen ? '110px' : '140px',
-          left: '40px', // Start a bit from the right
-          right: '40px', // End a bit before the left edge
+          left: '40px',
+          right: '40px',
           display: 'flex',
           overflowX: 'auto',
           paddingLeft: 0,
           paddingRight: 0,
           zIndex: 15,
-          scrollbarWidth: 'none', // Hide scrollbar for Firefox
-          msOverflowStyle: 'none', // Hide scrollbar for IE/Edge
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
           justifyContent: isRTL ? 'flex-start' : 'flex-end',
         }}>
           <div style={{
@@ -695,23 +695,27 @@ function App() {
                   padding: '8px 18px',
                   marginRight: isRTL ? 0 : '10px',
                   marginLeft: isRTL ? '10px' : 0,
-                  background: selectedCategory === category 
-                    ? (theme === 'dark' ? '#16c784' : '#16c784') 
+                  background: selectedCategory === category
+                    ? 'transparent' // Remove bg color when selected
                     : (theme === 'dark' ? '#232429' : '#f5f5f5'),
                   borderRadius: '15px',
                   whiteSpace: 'nowrap',
                   fontSize: '0.9rem',
                   fontWeight: 600,
                   cursor: 'pointer',
-                  color: selectedCategory === category 
-                    ? '#fff' 
+                  color: selectedCategory === category
+                    ? '#ff9800' // Optionally, orange text when selected
                     : (theme === 'dark' ? '#fff' : '#333'),
                   border: 'none',
                   minWidth: 'auto',
                   position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px'
+                  gap: '8px',
+                  borderBottom: selectedCategory === category
+                    ? '4px solid #ff9800' // Orange highlight underline
+                    : 'none',
+                  transition: 'border-bottom 0.2s, color 0.2s, background 0.2s'
                 }}
               >
                 {/* Category image for layout 2 */}
