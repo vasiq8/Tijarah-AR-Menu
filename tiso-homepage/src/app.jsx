@@ -158,25 +158,29 @@ function App() {
   const searchBarContainerStyle = {
     position: 'fixed',
     top: layout === 'layout2' 
-      ? (isSmallMobile ? '150px' : isMobileScreen ? '180px' : '200px') // Higher position for layout2
+      ? (isSmallMobile ? '150px' : isMobileScreen ? '180px' : '200px')
       : (isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px'),
     left:
-      isRTL && isMobileScreen
-        ? '10px' // Move search bar to the left in Arabic mode on mobile
-        : isRTL
-        ? (isSmallMobile
-            ? '130px'
+      layout === 'layout2'
+        ? 0 // <-- push search bar to the left in layout 2
+        : (
+          isRTL && isMobileScreen
+            ? '10px'
+            : isRTL
+            ? (isSmallMobile
+                ? '130px'
+                : isMobileScreen
+                ? '65px'
+                : layout === 'layout2' ? '50px' : '235px')
+            : isSmallMobile
+            ? '85px'
             : isMobileScreen
             ? '65px'
-            : layout === 'layout2' ? '50px' : '235px')
-        : isSmallMobile
-        ? '85px' // Adjusted from 130px to 85px for small mobile
-        : isMobileScreen
-        ? '65px'
-        : layout === 'layout2' ? '50px' : '235px',
+            : layout === 'layout2' ? '50px' : '235px'
+        ),
     right: undefined,
     width: layout === 'layout2'
-      ? 'calc(100vw - 100px)' // Wider search bar for layout2
+      ? 'calc(100vw - 100px)'
       : isSmallMobile
         ? 'calc(100vw - 90px - 20px)' 
         : isMobileScreen
@@ -190,12 +194,12 @@ function App() {
         ? undefined
         : '1200px',
     display: 'flex',
-    justifyContent: 'flex-start',
+    justifyContent: layout === 'layout2' ? 'flex-start' : 'flex-start', // align left in layout 2
     alignItems: 'center',
     zIndex: 15,
     pointerEvents: 'auto',
     opacity: hideSearchBar ? 0 : 1,
-    transition: 'opacity 0.3s ease' // Smooth transition
+    transition: 'opacity 0.3s ease'
   };
 
   const fetchMenuData = async () => {
@@ -666,19 +670,24 @@ function App() {
         <div style={{
           position: 'fixed',
           top: isSmallMobile ? '85px' : isMobileScreen ? '110px' : '140px',
-          left: '0',
-          right: '0',
+          left: 0,
+          right: 0,
           display: 'flex',
           overflowX: 'auto',
-          paddingLeft: isSmallMobile ? '85px' : isMobileScreen ? '65px' : '50px',
+          // Remove paddingLeft and use justifyContent to control alignment
+          paddingLeft: 0,
           paddingRight: '20px',
           zIndex: 15,
           scrollbarWidth: 'none', // Hide scrollbar for Firefox
           msOverflowStyle: 'none', // Hide scrollbar for IE/Edge
+          justifyContent: isRTL ? 'flex-start' : 'flex-end', // RTL: left, LTR: right
         }}>
           <div style={{
             display: 'flex',
             paddingBottom: '10px',
+            // For RTL, row-reverse so first category is at right
+            flexDirection: isRTL ? 'row-reverse' : 'row',
+            width: '100%',
           }}>
             {Object.keys(apiProducts).map((category, i) => (
               <div
@@ -686,7 +695,8 @@ function App() {
                 onClick={() => handleCategoryClick(category)}
                 style={{
                   padding: '8px 18px',
-                  marginRight: '10px',
+                  marginRight: isRTL ? 0 : '10px',
+                  marginLeft: isRTL ? '10px' : 0,
                   background: selectedCategory === category 
                     ? (theme === 'dark' ? '#16c784' : '#16c784') 
                     : (theme === 'dark' ? '#232429' : '#f5f5f5'),
