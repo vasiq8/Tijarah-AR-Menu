@@ -699,10 +699,33 @@ function App() {
                     ? '#fff' 
                     : (theme === 'dark' ? '#fff' : '#333'),
                   border: 'none',
-                  minWidth: 'auto'
+                  minWidth: 'auto',
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
                 }}
               >
-                {category}
+                {/* Category image for layout 2 */}
+                {categoryImages[category] && (
+                  <img
+                    src={categoryImages[category]}
+                    alt={`${category} icon`}
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '8px',
+                      objectFit: 'cover',
+                      background: '#fff',
+                      border: 'none',
+                      boxShadow: 'none',
+                      pointerEvents: 'none',
+                      marginRight: isRTL ? 0 : '8px',
+                      marginLeft: isRTL ? '8px' : 0,
+                    }}
+                  />
+                )}
+                <span>{category}</span>
               </div>
             ))}
           </div>
@@ -1030,7 +1053,7 @@ function App() {
                 color: '#888', // Added to match settings modal close button color
                 fontWeight: 400, // Added to match settings modal close button weight
                 padding: '4px', // Added for better touch target
-                lineHeight: '20px' // Added for better vertical alignment
+                lineHeight: '20px' // Added to match settings modal close button height
               }}
             >
               ×
