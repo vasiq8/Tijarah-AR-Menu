@@ -157,7 +157,9 @@ function App() {
   // Update the searchBarContainerStyle to ensure visibility on mobile
   const searchBarContainerStyle = {
     position: 'fixed',
-    top: isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px',
+    top: layout === 'layout2' 
+      ? (isSmallMobile ? '150px' : isMobileScreen ? '180px' : '200px') // Higher position for layout2
+      : (isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px'),
     left:
       isRTL && isMobileScreen
         ? '10px' // Move search bar to the left in Arabic mode on mobile
@@ -166,29 +168,33 @@ function App() {
             ? '130px'
             : isMobileScreen
             ? '65px'
-            : '235px')
+            : layout === 'layout2' ? '50px' : '235px')
         : isSmallMobile
         ? '85px' // Adjusted from 130px to 85px for small mobile
         : isMobileScreen
         ? '65px'
-        : '235px',
+        : layout === 'layout2' ? '50px' : '235px',
     right: undefined,
-    width: isSmallMobile
-      ? 'calc(100vw - 90px - 20px)' // Adjusted width calculation for small mobile
-      : isMobileScreen
-      ? 'calc(100vw - 65px - 20px)'
-      : 'calc(100vw - 195px - 40px - 150px)',
-    maxWidth: isSmallMobile
-      ? undefined
-      : isMobileScreen
-      ? undefined
-      : '1200px',
+    width: layout === 'layout2'
+      ? 'calc(100vw - 100px)' // Wider search bar for layout2
+      : isSmallMobile
+        ? 'calc(100vw - 90px - 20px)' 
+        : isMobileScreen
+        ? 'calc(100vw - 65px - 20px)'
+        : 'calc(100vw - 195px - 40px - 150px)',
+    maxWidth: layout === 'layout2'
+      ? '1000px'
+      : isSmallMobile
+        ? undefined
+        : isMobileScreen
+        ? undefined
+        : '1200px',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    zIndex: 15, // Increased from 6 to 15 to ensure it stays above other elements
+    zIndex: 15,
     pointerEvents: 'auto',
-    opacity: hideSearchBar ? 0 : 1, // Add opacity transition instead of completely hiding
+    opacity: hideSearchBar ? 0 : 1,
     transition: 'opacity 0.3s ease' // Smooth transition
   };
 
@@ -462,7 +468,6 @@ function App() {
   }, []); // Run once on mount
 
   return (
-    // add dir for RTL when Arabic is active
     <div
       dir={language === 'ar' ? 'rtl' : 'ltr'}
       className={`app${theme === 'dark' ? ' dark-theme' : ''}`}
@@ -471,8 +476,8 @@ function App() {
       {/* ← modify header-bar to start at very top of screen */}
       <div className="header-bar" style={{ 
         zIndex: 10, 
-        top: 0,  // Changed from 10px to 0 to eliminate the gap
-        height: '130px' // Increased height to ensure coverage
+        top: 0,
+        height: layout === 'layout2' ? '180px' : '130px' // Increased height for layout2
       }} />
 
       {/* White/Black background image at top left */}
@@ -495,7 +500,7 @@ function App() {
       {/* Search Bar with Inline Results - Force display on mobile */}
       <div style={{
         ...searchBarContainerStyle,
-        display: isMobileScreen ? 'flex' : (hideSearchBar ? 'none' : 'flex') // Always show on mobile
+        display: isMobileScreen ? 'flex' : (hideSearchBar ? 'none' : 'flex') 
       }}>
         <div
           style={{
@@ -656,74 +661,134 @@ function App() {
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="main-layout" style={{ marginTop: '140px', position: 'relative', zIndex: 1 }}>
-        {/* Categories Container - Moved even higher on desktop */}
-        <div className="categories-sidebar" style={{ 
-          paddingTop: screenWidth > 900 ? '5px' : '110px', // Further reduced padding for desktop to move boxes higher
-          marginTop: screenWidth > 900 ? '-60px' : '-110px', // Adjusted accordingly
-          paddingBottom: screenWidth > 900 ? '30px' : '0' // Maintain bottom padding for desktop
+      {/* Layout 2 Horizontal Categories Bar */}
+      {layout === 'layout2' && (
+        <div style={{
+          position: 'fixed',
+          top: isSmallMobile ? '85px' : isMobileScreen ? '110px' : '140px',
+          left: '0',
+          right: '0',
+          display: 'flex',
+          overflowX: 'auto',
+          paddingLeft: isSmallMobile ? '85px' : isMobileScreen ? '65px' : '50px',
+          paddingRight: '20px',
+          zIndex: 15,
+          scrollbarWidth: 'none', // Hide scrollbar for Firefox
+          msOverflowStyle: 'none', // Hide scrollbar for IE/Edge
         }}>
-          {Object.keys(apiProducts).map((category, i) => (
-            <div
-              key={i}
-              className={`category-box ${selectedCategory === category ? 'active' : ''}`}
-              onClick={() => handleCategoryClick(category)}
-              style={{ position: 'relative', overflow: 'hidden' }}
-            >
-              <div className="text-wrapper" style={{ 
-                fontSize: '0.83rem', 
-                fontWeight: 600,
-                // RTL support - position text from right side in Arabic mode
-                left: isRTL ? 'auto' : '8px',
-                right: isRTL ? '8px' : 'auto',
-                textAlign: isRTL ? 'right' : 'left',
-                // Adjust flex direction for RTL
-                justifyContent: isRTL ? 'flex-start' : 'flex-start',
-                // Ensure ellipsis works properly
-                position: 'absolute',
-                top: '8px',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '70%', // Reduced from 85% to ensure space for ellipsis
-                width: 'auto',
-                display: 'block'
-              }}>
+          <div style={{
+            display: 'flex',
+            paddingBottom: '10px',
+          }}>
+            {Object.keys(apiProducts).map((category, i) => (
+              <div
+                key={i}
+                onClick={() => handleCategoryClick(category)}
+                style={{
+                  padding: '8px 18px',
+                  marginRight: '10px',
+                  background: selectedCategory === category 
+                    ? (theme === 'dark' ? '#16c784' : '#16c784') 
+                    : (theme === 'dark' ? '#232429' : '#f5f5f5'),
+                  borderRadius: '15px',
+                  whiteSpace: 'nowrap',
+                  fontSize: '0.9rem',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  color: selectedCategory === category 
+                    ? '#fff' 
+                    : (theme === 'dark' ? '#fff' : '#333'),
+                  border: 'none',
+                  minWidth: 'auto'
+                }}
+              >
                 {category}
               </div>
-              {/* Category image at bottom right (or left in RTL), cut 10% outside the box, reduced size */}
-              {categoryImages[category] && (
-                <img
-                  src={categoryImages[category]}
-                  alt={`${category} icon`}
-                  style={{
-                    position: 'absolute',
-                    // Mirror position for RTL mode
-                    right: isRTL ? 'auto' : '-10%',
-                    left: isRTL ? '-10%' : 'auto',
-                    bottom: '-10%',
-                    width: '60%',
-                    height: '60%',
-                    borderRadius: '10px',
-                    objectFit: 'cover',
-                    background: '#fff',
-                    border: 'none',
-                    boxShadow: 'none',
-                    pointerEvents: 'none',
-                  }}
-                />
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
+          {/* Add style to hide scrollbars */}
+          <style>{`
+            div::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
         </div>
+      )}
 
-        {/* Products Grid - Add padding-top to prevent overlap with header */}
+      {/* Main Content */}
+      <div className="main-layout" style={{ 
+        marginTop: layout === 'layout2' ? '200px' : '140px',
+        position: 'relative', 
+        zIndex: 1,
+        display: 'flex',
+        flexDirection: layout === 'layout2' ? 'column' : 'row'
+      }}>
+        {/* Categories Sidebar - Only show in Layout 1 */}
+        {layout === 'layout1' && (
+          <div className="categories-sidebar" style={{ 
+            paddingTop: screenWidth > 900 ? '5px' : '110px',
+            marginTop: screenWidth > 900 ? '-60px' : '-110px',
+            paddingBottom: screenWidth > 900 ? '30px' : '0'
+          }}>
+            {Object.keys(apiProducts).map((category, i) => (
+              <div
+                key={i}
+                className={`category-box ${selectedCategory === category ? 'active' : ''}`}
+                onClick={() => handleCategoryClick(category)}
+                style={{ position: 'relative', overflow: 'hidden' }}
+              >
+                <div className="text-wrapper" style={{ 
+                  fontSize: '0.83rem', 
+                  fontWeight: 600,
+                  left: isRTL ? 'auto' : '8px',
+                  right: isRTL ? '8px' : 'auto',
+                  textAlign: isRTL ? 'right' : 'left',
+                  justifyContent: isRTL ? 'flex-start' : 'flex-start',
+                  position: 'absolute',
+                  top: '8px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '70%',
+                  width: 'auto',
+                  display: 'block'
+                }}>
+                  {category}
+                </div>
+                {/* Category image at bottom right (or left in RTL), cut 10% outside the box, reduced size */}
+                {categoryImages[category] && (
+                  <img
+                    src={categoryImages[category]}
+                    alt={`${category} icon`}
+                    style={{
+                      position: 'absolute',
+                      right: isRTL ? 'auto' : '-10%',
+                      left: isRTL ? '-10%' : 'auto',
+                      bottom: '-10%',
+                      width: '60%',
+                      height: '60%',
+                      borderRadius: '10px',
+                      objectFit: 'cover',
+                      background: '#fff',
+                      border: 'none',
+                      boxShadow: 'none',
+                      pointerEvents: 'none',
+                    }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Products Grid - Adjust position and width based on layout */}
         {selectedCategory && (
           <div className="products-grid" style={{ 
             background: '#fff',
-            paddingTop: '110px', // Add padding at top to prevent scrolling under header
-            marginTop: '-110px' // Offset the padding to maintain original position
+            paddingTop: '110px',
+            marginTop: '-110px',
+            width: layout === 'layout2' ? '100%' : undefined, // Full width in layout2
+            marginLeft: layout === 'layout2' ? '0' : undefined // No left margin in layout2
           }}>
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div
