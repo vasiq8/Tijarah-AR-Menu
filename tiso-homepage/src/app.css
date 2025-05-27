@@ -860,8 +860,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     width: 100%;
     min-width: 0;
     flex: 1;
-    padding: 8px 8px 32px 10px; /* Add extra bottom padding for mobile and move cards right */
-    padding-left: 10px !important; /* add padding to move cards right */
+    padding: 0px; /* Add extra bottom padding for mobile and move cards right */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;                   /* Reduced from 12px to bring cards closer together */
@@ -1051,7 +1050,8 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 @media (max-width: 900px) {
   .main-layout {
-    padding-top: 140px !important; /* header (100px) + search bar (40px) */
+    padding-top: 188px !important;
+    padding: 10px;
   }
   .products-grid {
     margin-top: 0 !important;
