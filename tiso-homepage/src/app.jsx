@@ -670,22 +670,20 @@ function App() {
         <div style={{
           position: 'fixed',
           top: isSmallMobile ? '85px' : isMobileScreen ? '110px' : '140px',
-          left: 0,
-          right: 0,
+          left: '40px', // Start a bit from the right
+          right: '40px', // End a bit before the left edge
           display: 'flex',
           overflowX: 'auto',
-          // Remove paddingLeft and use justifyContent to control alignment
           paddingLeft: 0,
-          paddingRight: '20px',
+          paddingRight: 0,
           zIndex: 15,
           scrollbarWidth: 'none', // Hide scrollbar for Firefox
           msOverflowStyle: 'none', // Hide scrollbar for IE/Edge
-          justifyContent: isRTL ? 'flex-start' : 'flex-end', // RTL: left, LTR: right
+          justifyContent: isRTL ? 'flex-start' : 'flex-end',
         }}>
           <div style={{
             display: 'flex',
             paddingBottom: '10px',
-            // For RTL, row-reverse so first category is at right
             flexDirection: isRTL ? 'row-reverse' : 'row',
             width: '100%',
           }}>
