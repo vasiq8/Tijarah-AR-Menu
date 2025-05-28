@@ -472,25 +472,54 @@ function App() {
     };
   }, []); // Run once on mount
 
+  // Replace the existing language change useEffect with this enhanced version
   useEffect(() => {
-    // This specifically addresses the white screen issue when changing languages in layout2 on mobile
+    // Enhanced fix for layout2 language switching white screen issue
     if (layout === 'layout2' && screenWidth <= 900) {
       // Force grid layout recalculation
       const productsGrid = document.querySelector('.products-grid');
       if (productsGrid) {
-        // Apply a minimal change to force reflow
-        productsGrid.style.opacity = '0.99';
+        // First make grid invisible to trigger proper reflow
+        productsGrid.style.opacity = '0';
         
-        // Small delay to ensure DOM updates
-        setTimeout(() => {
-          productsGrid.style.opacity = '1';
-          
-          // Force browser to recalculate layout
-          window.dispatchEvent(new Event('resize'));
-        }, 50);
+        // Multiple attempts at different times to ensure layout recalculation
+        const delays = [50, 150, 300];
+        
+        delays.forEach(delay => {
+          setTimeout(() => {
+            // Trigger multiple layout recalculations
+            productsGrid.style.display = 'grid';
+            productsGrid.style.visibility = 'visible';
+            
+            // Force reflow
+            void productsGrid.offsetHeight;
+            
+            // Make visible again
+            productsGrid.style.opacity = '1';
+            
+            // Force layout recalculation
+            window.dispatchEvent(new Event('resize'));
+          }, delay);
+        });
+        
+        // As a final measure, force a complete rerender of products
+        if (apiProducts[selectedCategory]?.length > 0) {
+          setTimeout(() => {
+            // Store current selection
+            const currentCategory = selectedCategory;
+            
+            // Reset selection to trigger rerender
+            setSelectedCategory(null);
+            
+            // Restore selection after a brief delay
+            setTimeout(() => {
+              setSelectedCategory(currentCategory);
+            }, 50);
+          }, 200);
+        }
       }
     }
-  }, [language, layout]); // Trigger when language or layout changes
+  }, [language, layout, screenWidth, selectedCategory, apiProducts]);
 
   return (
     <div

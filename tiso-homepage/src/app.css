@@ -1537,3 +1537,28 @@ body.dark-theme .search-results-dropdown div:hover {
     width: 100% !important;
   }
 }
+
+/* Add these styles to improve layout2 RTL/LTR handling */
+@media (max-width: 900px) {
+  /* Strengthen position for Layout 2 mobile RTL/LTR switching */
+  .app.layout2[dir="rtl"] .products-grid,
+  .app.layout2[dir="ltr"] .products-grid {
+    position: relative !important;
+    visibility: visible !important;
+    display: grid !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    min-height: 50vh !important;
+  }
+  
+  /* Ensure category and language changes always reset the grid properly */
+  .app.layout2 .main-layout {
+    padding-top: 185px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    min-height: 60vh !important;
+    position: relative !important;
+  }
+}
