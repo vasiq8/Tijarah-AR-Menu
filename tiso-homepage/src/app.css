@@ -802,10 +802,10 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
   .categories-sidebar {
     position: relative;
-    top: -35px; /* Was -20px - move boxes higher */
+    top: auto; /* reset for mobile */
     left: auto;
     bottom: auto;
-    width: 70px !important;
+    width: 70px !important;    /* move divider much more left, closer to middle */
     padding: 6px;
     padding-left: 6px !important; /* was 18px, start boxes closer to the left */
     border-right: 1px solid rgba(223, 223, 223, 0.8); /* #DFDFDF 80% for mobile */
@@ -814,10 +814,9 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     z-index: 1;
     overflow-x: hidden !important; /* prevent horizontal scroll on mobile */
     overflow-y: auto !important;
-    height: calc(100vh - 80px); /* Reduced from 100px to account for new top position */
-    max-height: calc(100vh - 80px);
+    height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
     padding-bottom: 40px; /* Increased padding at bottom */
-    margin-top: -120px; /* Was -90px - increased negative margin to pull up further */
   }
 
   .categories-sidebar .category-box:last-child {
@@ -861,7 +860,8 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     width: 100%;
     min-width: 0;
     flex: 1;
-    padding: 0px; /* Add extra bottom padding for mobile and move cards right */
+    padding: 8px 8px 32px 10px; /* Add extra bottom padding for mobile and move cards right */
+    padding-left: 10px !important; /* add padding to move cards right */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;                   /* Reduced from 12px to bring cards closer together */
@@ -1051,8 +1051,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 @media (max-width: 900px) {
   .main-layout {
-    padding-top: 188px !important;
-    padding: 10px;
+    padding-top: 140px !important; /* header (100px) + search bar (40px) */
   }
   .products-grid {
     margin-top: 0 !important;
