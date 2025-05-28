@@ -280,19 +280,18 @@ function App() {
   // Flatten all products for search lookup
   const allProducts = Object.values(apiProducts).flat();
 
-  // Fetch data on component mount and when language changes
+  // Fetch data on component mount and when language/layout changes
   useEffect(() => {
-    setIsLoading(true); // <-- ensure isLoading flips to true before fetch
+    setIsLoading(true);
+    setSelectedCategory(null); // Reset category before fetching new data
     fetchMenuData();
-  }, [language]); // Add language as dependency
+  }, [language, layout]);
 
   // Add effect to select first category after data loads
   useEffect(() => {
     if (!isLoading && Object.keys(apiProducts).length > 0) {
       const firstCategory = Object.keys(apiProducts)[0];
       setSelectedCategory(firstCategory);
-      // REMOVE this line:
-      // handleCategoryClick(firstCategory);
     }
   }, [isLoading, apiProducts]);
 
