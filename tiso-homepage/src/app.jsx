@@ -82,9 +82,6 @@ function App() {
   // Add state to hide search bar
   const [hideSearchBar, setHideSearchBar] = useState(false);
 
-  // Add state to track previously selected category across language changes
-  const [lastSelectedCategoryIndex, setLastSelectedCategoryIndex] = useState(0);
-
   // Apply dark theme to body and .app when selected
   useEffect(() => {
     if (theme === 'dark') {
@@ -270,30 +267,9 @@ function App() {
       });
 
       console.log('Processed categories:', Object.keys(productsByCategory));
-      
-      // Save the data
       setApiProducts(productsByCategory);
       setCategoryImages(categoryImagesMap);
       setCompanyName(data.results.company?.name || "");
-
-      // Important: Maintain category selection across language changes
-      const categoryNames = Object.keys(productsByCategory);
-      if (categoryNames.length > 0) {
-        // Use the same index as before if possible, otherwise use the first category
-        const indexToSelect = Math.min(lastSelectedCategoryIndex, categoryNames.length - 1);
-        const newCategory = categoryNames[indexToSelect];
-        
-        // Force reselection of category with new language data
-        setSelectedCategory(newCategory);
-        
-        // Force current category products to update
-        if (productsByCategory[newCategory]) {
-          setCurrentCategoryProducts(productsByCategory[newCategory]);
-          setProductIndex(0);
-        }
-        
-        console.log(`Language changed: Selected category "${newCategory}" at index ${indexToSelect}`);
-      }
     } catch (error) {
       console.error("Error fetching menu data:", error);
     } finally {
@@ -348,16 +324,9 @@ function App() {
     }
   };
 
-  // Update category click handler to also record the index
+  // Update category click handler
   const handleCategoryClick = category => {
     setSelectedCategory(category);
-    
-    // Save the index of the selected category for language changes
-    const categoryIndex = Object.keys(apiProducts).findIndex(cat => cat === category);
-    if (categoryIndex !== -1) {
-      setLastSelectedCategoryIndex(categoryIndex);
-    }
-    
     console.log('Available products:', apiProducts[category]);
     
     // Add auto-scrolling behavior
@@ -502,41 +471,6 @@ function App() {
       document.head.removeChild(style);
     };
   }, []); // Run once on mount
-
-  // Add this function or modify existing language change handler
-  const handleLanguageChange = (newLanguage) => {
-    // Close any open modals
-    setIsProductDetailsOpen(false);
-    
-    // Set the new language
-    setLanguage(newLanguage);
-    
-    // Force direction change based on language
-    if (newLanguage === 'ar') {
-      document.querySelector('.app').setAttribute('dir', 'rtl');
-    } else {
-      document.querySelector('.app').setAttribute('dir', 'ltr');
-    }
-  };
-
-  // Make sure to use this handler in the language toggle button
-  // For example:
-  // <button onClick={() => handleLanguageChange(language === 'en' ? 'ar' : 'en')}>
-  //   {language === 'en' ? 'عربي' : 'English'}
-  // </button>
-
-  // Modify the useEffect that watches for language changes
-  useEffect(() => {
-    // Fetch data when language changes
-    fetchMenuData();
-    
-    // Important: Close any open modals when language changes
-    setIsProductDetailsOpen(false);
-    
-    // Reset product view state
-    setProductIndex(0);
-    
-  }, [language]);
 
   return (
     <div
@@ -689,12 +623,14 @@ function App() {
                         const productsGrid = document.querySelector('.products-grid');
                         
                         if (el && productsGrid) {
-                          // For desktop, we need to calculate the scroll position
+                          // For desktop, we need specific scrolling approach
                           if (screenWidth > 600) {
+                            // Calculate element's position relative to the grid
                             const gridRect = productsGrid.getBoundingClientRect();
                             const elRect = el.getBoundingClientRect();
                             const relativeTop = elRect.top - gridRect.top;
                             
+                            // Scroll the grid to bring element into view
                             productsGrid.scrollTo({
                               top: productsGrid.scrollTop + relativeTop - 150, // Offset for header
                               behavior: 'smooth'
