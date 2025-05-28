@@ -471,6 +471,10 @@ function App() {
     };
   }, []); // Run once on mount
 
+  // Add this before your return (or at the top of render)
+  const allCats = Object.keys(apiProducts);
+  const displayCat = selectedCategory ?? allCats[0] ?? null;
+
   return (
     <div
       className={`app ${layout} ${theme === 'dark' ? 'dark-theme' : ''}`}
@@ -819,15 +823,15 @@ function App() {
         )}
 
         {/* Products Grid - Adjust position and width based on layout */}
-        {selectedCategory && (
+        {displayCat && (
           <div className="products-grid" style={{ 
             background: '#fff',
             paddingTop: '0',
             marginTop: '0',
-            width: layout === 'layout2' ? '100%' : undefined, // Full width in layout2
-            marginLeft: layout === 'layout2' ? '0' : undefined // No left margin in layout2
+            width: layout === 'layout2' ? '100%' : undefined,
+            marginLeft: layout === 'layout2' ? '0' : undefined
           }}>
-            {apiProducts[selectedCategory]?.map((product, index) => (
+            {apiProducts[displayCat]?.map((product, index) => (
               <div
                 key={index}
                 className={`product-card`}
