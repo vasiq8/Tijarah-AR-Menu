@@ -899,8 +899,8 @@ function App() {
                   alt={product.name}
                   className="product-image"
                   style={{
-                    width: "98.56px",
-                    height: "98.56px",
+                    width: "92px",
+                    height: "92px", 
                     objectFit: "cover",
                     borderRadius: "50%",
                     border: "2.6px solid #000",
@@ -909,7 +909,15 @@ function App() {
                     marginBottom: "10px",
                     alignSelf: 'center',
                     zIndex: 1,
-                    position: 'relative'
+                    position: 'relative',
+                    display: 'block',
+                    boxSizing: 'border-box', // Changed from content-box to border-box
+                    flexShrink: 0,
+                    overflow: 'hidden',
+                    minWidth: "92px", // Add minimum width constraint
+                    minHeight: "92px", // Add minimum height constraint
+                    maxWidth: "92px", // Add maximum width constraint
+                    maxHeight: "92px" // Add maximum height constraint
                   }}
                   onError={e => {
                     if (e.target.src !== placeholderImg) {
