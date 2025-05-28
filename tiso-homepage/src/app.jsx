@@ -832,7 +832,9 @@ function App() {
             paddingTop: '0',
             marginTop: '0',
             width: layout === 'layout2' ? '100%' : undefined, // Full width in layout2
-            marginLeft: layout === 'layout2' ? '0' : undefined // No left margin in layout2
+            marginLeft: layout === 'layout2' ? '0' : undefined, // No left margin in layout2
+            // Add extra bottom padding for layout2 to prevent last card cutoff
+            paddingBottom: layout === 'layout2' ? 120 : undefined
           }}>
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div
@@ -1050,6 +1052,10 @@ function App() {
                 </div>
               </div>
             ))}
+            {/* Extra spacer for layout2 to ensure last card is visible */}
+            {layout === 'layout2' && (
+              <div style={{ height: 120, gridColumn: '1/-1', pointerEvents: 'none' }} />
+            )}
           </div>
         )}
 
