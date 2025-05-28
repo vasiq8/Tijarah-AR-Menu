@@ -203,7 +203,7 @@ function App() {
   };
 
   const fetchMenuData = async () => {
-    setIsLoading(true);
+    setIsLoading(true); // <-- always set true at start
     try {
       const apiUrl = 'https://qa-k8s.tisostudio.com/menu-management/menu/?_q=&orderType=pickup&locationRef=67a396bc0e2b3511b0396447&companyRef=67a395910e2b3511b0396281';
       
@@ -273,7 +273,7 @@ function App() {
     } catch (error) {
       console.error("Error fetching menu data:", error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // <-- always set false at end
     }
   };
 
@@ -282,6 +282,7 @@ function App() {
 
   // Fetch data on component mount and when language changes
   useEffect(() => {
+    setIsLoading(true); // <-- ensure isLoading flips to true before fetch
     fetchMenuData();
   }, [language]); // Add language as dependency
 
@@ -470,10 +471,6 @@ function App() {
       document.head.removeChild(style);
     };
   }, []); // Run once on mount
-
-  // Add this before your return (or at the top of render)
-  const allCats = Object.keys(apiProducts);
-  const displayCat = selectedCategory ?? allCats[0] ?? null;
 
   return (
     <div
@@ -823,15 +820,15 @@ function App() {
         )}
 
         {/* Products Grid - Adjust position and width based on layout */}
-        {displayCat && (
+        {selectedCategory && (
           <div className="products-grid" style={{ 
             background: '#fff',
             paddingTop: '0',
             marginTop: '0',
-            width: layout === 'layout2' ? '100%' : undefined,
-            marginLeft: layout === 'layout2' ? '0' : undefined
+            width: layout === 'layout2' ? '100%' : undefined, // Full width in layout2
+            marginLeft: layout === 'layout2' ? '0' : undefined // No left margin in layout2
           }}>
-            {apiProducts[displayCat]?.map((product, index) => (
+            {apiProducts[selectedCategory]?.map((product, index) => (
               <div
                 key={index}
                 className={`product-card`}
