@@ -472,6 +472,26 @@ function App() {
     };
   }, []); // Run once on mount
 
+  useEffect(() => {
+    // This specifically addresses the white screen issue when changing languages in layout2 on mobile
+    if (layout === 'layout2' && screenWidth <= 900) {
+      // Force grid layout recalculation
+      const productsGrid = document.querySelector('.products-grid');
+      if (productsGrid) {
+        // Apply a minimal change to force reflow
+        productsGrid.style.opacity = '0.99';
+        
+        // Small delay to ensure DOM updates
+        setTimeout(() => {
+          productsGrid.style.opacity = '1';
+          
+          // Force browser to recalculate layout
+          window.dispatchEvent(new Event('resize'));
+        }, 50);
+      }
+    }
+  }, [language, layout]); // Trigger when language or layout changes
+
   return (
     <div
       className={`app ${layout} ${theme === 'dark' ? 'dark-theme' : ''}`}
