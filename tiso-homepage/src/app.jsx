@@ -82,9 +82,6 @@ function App() {
   // Add state to hide search bar
   const [hideSearchBar, setHideSearchBar] = useState(false);
 
-  // Add this new state for layout transition
-  const [isLayoutTransitioning, setIsLayoutTransitioning] = useState(false);
-
   // Apply dark theme to body and .app when selected
   useEffect(() => {
     if (theme === 'dark') {
@@ -475,35 +472,10 @@ function App() {
     };
   }, []); // Run once on mount
 
-  // Modify the existing language-dependent useEffect to handle layout transitions
+  // Replace the language/layout effect with the original fetch logic
   useEffect(() => {
     setIsLoading(true);
-    
-    // For Layout 2 on mobile, add special handling to prevent blank screen
-    if (layout === 'layout2' && isMobileScreen) {
-      setIsLayoutTransitioning(true);
-      
-      // Small delay to ensure DOM is ready for the new language direction
-      setTimeout(() => {
-        fetchMenuData();
-        
-        // Force a layout recalculation after data is fetched
-        setTimeout(() => {
-          setIsLayoutTransitioning(false);
-          
-          // If we already have a selected category, refresh it
-          if (selectedCategory) {
-            // This will force the products grid to re-render
-            const currentCategory = selectedCategory;
-            setSelectedCategory(null);
-            setTimeout(() => setSelectedCategory(currentCategory), 50);
-          }
-        }, 300);
-      }, 100);
-    } else {
-      // Normal flow for desktop or Layout 1
-      fetchMenuData();
-    }
+    fetchMenuData();
   }, [language, layout]); // Add layout as a dependency
 
   return (
@@ -860,35 +832,8 @@ function App() {
             paddingTop: '0',
             marginTop: '0',
             width: layout === 'layout2' ? '100%' : undefined, // Full width in layout2
-            marginLeft: layout === 'layout2' ? '0' : undefined, // No left margin in layout2
-            // Add fade-in effect when transitioning
-            opacity: isLayoutTransitioning ? 0 : 1,
-            transition: 'opacity 0.3s ease-in-out',
-            visibility: isLayoutTransitioning ? 'hidden' : 'visible',
-            minHeight: isLayoutTransitioning ? '300px' : 'auto',
+            marginLeft: layout === 'layout2' ? '0' : undefined // No left margin in layout2
           }}>
-            {/* Show loading indicator during transition */}
-            {isLayoutTransitioning && (
-              <div style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                textAlign: 'center',
-                color: theme === 'dark' ? '#fff' : '#333'
-              }}>
-                <div style={{
-                  display: 'inline-block',
-                  width: '40px',
-                  height: '40px',
-                  border: '3px solid rgba(0,0,0,0.1)',
-                  borderRadius: '50%',
-                  borderTopColor: '#ff9800',
-                  animation: 'spin 1s ease-in-out infinite'
-                }}></div>
-              </div>
-            )}
-            
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div
                 key={index}
