@@ -1522,3 +1522,16 @@ body.dark-theme .search-results-dropdown div:hover {
     padding-top: 185px !important;
   }
 }
+
+/* --- FORCE DARK BACKGROUND FOR LAYOUT 2 PRODUCTS GRID --- */
+.app.dark-theme.layout2 .products-grid {
+  background: #18191C !important;
+  /* Fill the viewport below the grid with dark color */
+  min-height: 100vh !important;
+  box-shadow: 0 100vh 0 0 #18191C;
+}
+
+/* Also ensure the main-layout is dark in layout2 dark mode */
+.app.dark-theme.layout2 .main-layout {
+  background: #18191C !important;
+}

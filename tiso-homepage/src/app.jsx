@@ -827,15 +827,29 @@ function App() {
 
         {/* Products Grid - Add isLayoutTransitioning handling */}
         {selectedCategory && (
-          <div className="products-grid" style={{ 
-            background: '#fff',
-            paddingTop: '0',
-            marginTop: '0',
-            width: layout === 'layout2' ? '100%' : undefined, // Full width in layout2
-            marginLeft: layout === 'layout2' ? '0' : undefined, // No left margin in layout2
-            // Add extra bottom padding for layout2 to prevent last card cutoff
-            paddingBottom: layout === 'layout2' ? 120 : undefined
-          }}>
+          <div
+            className="products-grid"
+            style={{
+              background: layout === 'layout2'
+                ? (theme === 'dark' ? '#18191C' : '#fff')
+                : '#fff',
+              paddingTop: '0',
+              marginTop: '0',
+              width: layout === 'layout2' ? '100%' : undefined,
+              marginLeft: layout === 'layout2' ? '0' : undefined,
+              paddingBottom: layout === 'layout2' ? 120 : undefined,
+              minHeight: layout === 'layout2'
+                ? `max(480px, calc(100vh - 320px))`
+                : undefined, // Ensure grid fills vertical space in layout 2
+              boxShadow: layout === 'layout2'
+                ? (theme === 'dark'
+                    ? '0 0 0 100vmax #18191C'
+                    : '0 0 0 100vmax #fff')
+                : undefined,
+              // The boxShadow above ensures the background color fills beyond the grid when there are few cards
+              zIndex: 1,
+            }}
+          >
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div
                 key={index}
