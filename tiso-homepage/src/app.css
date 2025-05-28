@@ -1433,3 +1433,26 @@ body.dark-theme .search-results-dropdown div:hover {
 .app[dir="rtl"] .suggestions-list li {
   text-align: right;
 }
+
+/* only for Layout 2, bump content down */
+.app.layout2 .main-layout {
+  padding-top: 228px !important;
+}
+
+@media (min-width: 901px) {
+  /* only for Layout 2 on desktop, bump content down more */
+  .app.layout2 .main-layout {
+    padding-top: 300px !important; /* ← adjust this value until it sits perfectly */
+  }
+}
+
+/* Only for Layout 2, move search bar further down */
+.app.layout2 .search-bar-container-fix {
+  top: 220px !important;
+}
+
+@media (max-width: 900px) {
+  .app.layout2 .search-bar-container-fix {
+    top: 170px !important;
+  }
+}

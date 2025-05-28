@@ -473,8 +473,8 @@ function App() {
 
   return (
     <div
+      className={`app ${layout} ${theme === 'dark' ? 'dark-theme' : ''}`}
       dir={language === 'ar' ? 'rtl' : 'ltr'}
-      className={`app${theme === 'dark' ? ' dark-theme' : ''}`}
       style={theme === 'dark' ? { background: '#111215', fontFamily: "'Red Hat Display', sans-serif" } : { fontFamily: "'Red Hat Display', sans-serif" }}
     >
       {/* ← modify header-bar to start at very top of screen */}
@@ -502,10 +502,15 @@ function App() {
       </header>
 
       {/* Search Bar with Inline Results - Force display on mobile */}
-      <div style={{
-        ...searchBarContainerStyle,
-        display: isMobileScreen ? 'flex' : (hideSearchBar ? 'none' : 'flex') 
-      }}>
+      <div
+        className={layout === 'layout2' ? 'search-bar-container-fix' : ''}
+        style={{
+          ...searchBarContainerStyle,
+          // Remove top override for layout2, let CSS handle it
+          top: layout === 'layout2' ? undefined : searchBarContainerStyle.top,
+          display: isMobileScreen ? 'flex' : (hideSearchBar ? 'none' : 'flex')
+        }}
+      >
         <div
           style={{
             position: 'relative',
@@ -752,7 +757,7 @@ function App() {
 
       {/* Main Content */}
       <div className="main-layout" style={{ 
-        marginTop: layout === 'layout2' ? '200px' : '140px',
+        marginTop: layout === 'layout2' ? '320px' : '140px',
         position: 'relative', 
         zIndex: 1,
         display: 'flex',
@@ -820,8 +825,8 @@ function App() {
         {selectedCategory && (
           <div className="products-grid" style={{ 
             background: '#fff',
-            paddingTop: '110px',
-            marginTop: '-110px',
+            paddingTop: '0',
+            marginTop: '0',
             width: layout === 'layout2' ? '100%' : undefined, // Full width in layout2
             marginLeft: layout === 'layout2' ? '0' : undefined // No left margin in layout2
           }}>
