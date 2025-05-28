@@ -679,18 +679,15 @@ function App() {
           right: '40px',
           display: 'flex',
           overflowX: 'auto',
-          paddingLeft: 0,
-          paddingRight: 0,
           zIndex: 15,
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-          justifyContent: isRTL ? 'flex-start' : 'flex-end',
+          direction: isRTL ? 'rtl' : 'ltr', // <-- set scroll direction
         }}>
           <div style={{
             display: 'flex',
+            flexDirection: 'row', // <-- always row
+            width: 'max-content',
+            flexWrap: 'nowrap',
             paddingBottom: '10px',
-            flexDirection: isRTL ? 'row-reverse' : 'row',
-            width: '100%',
           }}>
             {Object.keys(apiProducts).map((category, i) => (
               <div
@@ -701,7 +698,7 @@ function App() {
                   marginRight: isRTL ? 0 : '10px',
                   marginLeft: isRTL ? '10px' : 0,
                   background: selectedCategory === category
-                    ? 'transparent' // Remove bg color when selected
+                    ? 'transparent'
                     : (theme === 'dark' ? '#232429' : '#f5f5f5'),
                   borderRadius: '15px',
                   whiteSpace: 'nowrap',
@@ -709,7 +706,7 @@ function App() {
                   fontWeight: 600,
                   cursor: 'pointer',
                   color: selectedCategory === category
-                    ? '#ff9800' // Optionally, orange text when selected
+                    ? '#ff9800'
                     : (theme === 'dark' ? '#fff' : '#333'),
                   border: 'none',
                   minWidth: 'auto',
@@ -718,7 +715,7 @@ function App() {
                   alignItems: 'center',
                   gap: '8px',
                   borderBottom: selectedCategory === category
-                    ? '4px solid #ff9800' // Orange highlight underline
+                    ? '4px solid #ff9800'
                     : 'none',
                   transition: 'border-bottom 0.2s, color 0.2s, background 0.2s'
                 }}
