@@ -291,7 +291,8 @@ function App() {
     if (!isLoading && Object.keys(apiProducts).length > 0) {
       const firstCategory = Object.keys(apiProducts)[0];
       setSelectedCategory(firstCategory);
-      handleCategoryClick(firstCategory);
+      // REMOVE this line:
+      // handleCategoryClick(firstCategory);
     }
   }, [isLoading, apiProducts]);
 
@@ -338,7 +339,7 @@ function App() {
           behavior: 'smooth'
         });
       }
-    }, 50); // Small delay to ensure state update completes
+    }, 50);
   };
 
   // Search submit (on Enter)
