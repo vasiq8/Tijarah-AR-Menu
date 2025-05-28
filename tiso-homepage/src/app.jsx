@@ -472,43 +472,6 @@ function App() {
     };
   }, []); // Run once on mount
 
-  // Replace the existing language change useEffect with this non-blinking version
-  useEffect(() => {
-    // Fix for layout2 language switching white screen issue
-    if (layout === 'layout2' && screenWidth <= 900) {
-      const productsGrid = document.querySelector('.products-grid');
-      if (productsGrid) {
-        // Add a stabilizing class
-        productsGrid.classList.add('language-transition');
-        
-        // Force a single layout recalculation
-        window.dispatchEvent(new Event('resize'));
-        
-        // Use a single, clean approach to refresh content
-        if (apiProducts[selectedCategory]?.length > 0) {
-          // Store current selection
-          const currentCategory = selectedCategory;
-          const tempCategory = Object.keys(apiProducts).find(cat => cat !== currentCategory) || null;
-          
-          // Briefly switch to another category and back
-          setSelectedCategory(tempCategory);
-          
-          // Use requestAnimationFrame for smoother transition
-          requestAnimationFrame(() => {
-            setTimeout(() => {
-              setSelectedCategory(currentCategory);
-              
-              // Remove the transition class after content is stable
-              setTimeout(() => {
-                productsGrid.classList.remove('language-transition');
-              }, 100);
-            }, 50);
-          });
-        }
-      }
-    }
-  }, [language, layout, screenWidth, selectedCategory, apiProducts]);
-
   return (
     <div
       className={`app ${layout} ${theme === 'dark' ? 'dark-theme' : ''}`}

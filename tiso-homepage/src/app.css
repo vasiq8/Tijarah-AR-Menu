@@ -1019,27 +1019,18 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   /* Only for Layout-2 on mobile, carve out 40px gutters */
   .app.layout2 .products-grid {
     margin: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
     padding: 8px !important;
     box-sizing: border-box !important;
-    left: 0 !important;
-    right: 0 !important;
-    position: relative !important;
   }
 
   /* Move search bar and grid up in layout 2 */
   .app.layout2 .search-bar-container-fix {
-    top: 150px !important;
-    left: 40px !important;
-    right: 40px !important;
+    top: 140px !important;
   }
-  
   .app.layout2 .main-layout {
-    padding-top: 185px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
+    padding-top: 180px !important;
   }
 }
 
@@ -1117,29 +1108,6 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   .products-grid > div {
     scroll-margin-bottom: 40px;
   }
-}
-
-/* Add this to your app.css to prevent blinking/refreshing during language change */
-.products-grid.language-transition {
-  transition: none !important;
-  min-height: 50vh !important;
-}
-
-/* Fix layout2 language switching to prevent continuous refreshing */
-.app.layout2 .products-grid {
-  transition: none !important;
-  will-change: contents;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-
-/* Prevent flickering and continuous refreshing in layout2 */
-.app.layout2[dir="rtl"] .products-grid,
-.app.layout2[dir="ltr"] .products-grid {
-  position: relative !important;
-  visibility: visible !important;
-  display: grid !important;
-  transform: translateZ(0);
 }
 
 /* Dark Theme Overrides */
@@ -1549,39 +1517,8 @@ body.dark-theme .search-results-dropdown div:hover {
   /* Move search bar and grid up in layout 2 */
   .app.layout2 .search-bar-container-fix {
     top: 150px !important;
-    left: 40px !important;
-    right: 40px !important;
   }
-  
   .app.layout2 .main-layout {
     padding-top: 185px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-  }
-}
-
-/* Add these styles to improve layout2 RTL/LTR handling */
-@media (max-width: 900px) {
-  /* Strengthen position for Layout 2 mobile RTL/LTR switching */
-  .app.layout2[dir="rtl"] .products-grid,
-  .app.layout2[dir="ltr"] .products-grid {
-    position: relative !important;
-    visibility: visible !important;
-    display: grid !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    min-height: 50vh !important;
-  }
-  
-  /* Ensure category and language changes always reset the grid properly */
-  .app.layout2 .main-layout {
-    padding-top: 185px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    width: 100% !important;
-    min-height: 60vh !important;
-    position: relative !important;
   }
 }
