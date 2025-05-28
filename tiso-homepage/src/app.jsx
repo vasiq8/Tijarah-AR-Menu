@@ -162,7 +162,7 @@ function App() {
       : (isSmallMobile ? '90px' : isMobileScreen ? '120px' : '140px'),
     left:
       layout === 'layout2'
-        ? '40px' // Move search bar right to align with categories bar in layout 2
+        ? '32px' // Match category bar left
         : (
           isRTL && isMobileScreen
             ? '10px'
@@ -180,14 +180,14 @@ function App() {
         ),
     right: undefined,
     width: layout === 'layout2'
-      ? 'calc(100vw - 80px)' // 40px left + 40px right, matches categories bar
+      ? 'calc(100vw - 64px)' // 32px left + 32px right
       : isSmallMobile
         ? 'calc(100vw - 90px - 20px)' 
         : isMobileScreen
         ? 'calc(100vw - 65px - 20px)'
         : 'calc(100vw - 195px - 40px - 150px)',
     maxWidth: layout === 'layout2'
-      ? '1000px'
+      ? 'calc(100vw - 64px)'
       : isSmallMobile
         ? undefined
         : isMobileScreen
@@ -682,8 +682,8 @@ function App() {
         <div style={{
           position: 'fixed',
           top: isSmallMobile ? '85px' : isMobileScreen ? '110px' : '140px',
-          left: '40px',
-          right: '40px',
+          left: '32px', // Increased from 24px/40px to 32px for a bit more width
+          right: '32px', // Increased from 24px/40px to 32px for a bit more width
           display: 'flex',
           overflowX: 'auto',
           zIndex: 15,
