@@ -802,10 +802,10 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
   .categories-sidebar {
     position: relative;
-    top: auto; /* reset for mobile */
+    top: -35px; /* Was -20px - move boxes higher */
     left: auto;
     bottom: auto;
-    width: 70px !important;    /* move divider much more left, closer to middle */
+    width: 70px !important;
     padding: 6px;
     padding-left: 6px !important; /* was 18px, start boxes closer to the left */
     border-right: 1px solid rgba(223, 223, 223, 0.8); /* #DFDFDF 80% for mobile */
@@ -814,9 +814,10 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     z-index: 1;
     overflow-x: hidden !important; /* prevent horizontal scroll on mobile */
     overflow-y: auto !important;
-    height: calc(100vh - 100px);
-    max-height: calc(100vh - 100px);
+    height: calc(100vh - 80px); /* Reduced from 100px to account for new top position */
+    max-height: calc(100vh - 80px);
     padding-bottom: 40px; /* Increased padding at bottom */
+    margin-top: -120px; /* Was -90px - increased negative margin to pull up further */
   }
 
   .categories-sidebar .category-box:last-child {
