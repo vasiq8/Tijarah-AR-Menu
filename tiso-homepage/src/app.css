@@ -1015,6 +1015,23 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     margin-top: 0 !important;
     padding-top: 0 !important;
   }
+
+  /* Only for Layout-2 on mobile, carve out 40px gutters */
+  .app.layout2 .products-grid {
+    margin: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Move search bar and grid up in layout 2 */
+  .app.layout2 .search-bar-container-fix {
+    top: 140px !important;
+  }
+  .app.layout2 .main-layout {
+    padding-top: 180px !important;
+  }
 }
 
 /* --- For desktop, increase padding to push grid further down --- */
@@ -1454,5 +1471,54 @@ body.dark-theme .search-results-dropdown div:hover {
 @media (max-width: 900px) {
   .app.layout2 .search-bar-container-fix {
     top: 170px !important;
+  }
+}
+
+/* only for Layout-2, on all screen sizes, restore a 40px gutter each side */
+.app.layout2 .products-grid {
+  margin: 0 40px !important;
+  box-sizing: border-box;
+}
+
+/* Layout-2 grid: center, constrain width, and preserve gutters/padding */
+.app.layout2 .products-grid {
+  /* center the grid */
+  margin: 0 auto !important;
+  /* carve out 40px gutters on either side */
+  max-width: calc(100% - 80px) !important;
+  /* preserve your existing grid padding */
+  padding: 32px 40px 40px 40px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+/* layout-2 only */
+.app.layout2 .products-grid {
+  /* 1) center it… */
+  margin: 0 auto !important;
+  /* 2) carve out 40px gutters on either side… */
+  max-width: calc(100vw - 80px) !important;
+  /* 3) keep your inside padding */
+  padding: 32px 40px 40px 40px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+@media (max-width: 900px) {
+  /* Only for Layout-2 on mobile, carve out 40px gutters */
+  .app.layout2 .products-grid {
+    margin: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Move search bar and grid up in layout 2 */
+  .app.layout2 .search-bar-container-fix {
+    top: 150px !important;
+  }
+  .app.layout2 .main-layout {
+    padding-top: 185px !important;
   }
 }
