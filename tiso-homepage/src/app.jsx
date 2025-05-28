@@ -472,50 +472,38 @@ function App() {
     };
   }, []); // Run once on mount
 
-  // Replace the existing language change useEffect with this enhanced version
+  // Replace the existing language change useEffect with this non-blinking version
   useEffect(() => {
-    // Enhanced fix for layout2 language switching white screen issue
+    // Fix for layout2 language switching white screen issue
     if (layout === 'layout2' && screenWidth <= 900) {
-      // Force grid layout recalculation
       const productsGrid = document.querySelector('.products-grid');
       if (productsGrid) {
-        // First make grid invisible to trigger proper reflow
-        productsGrid.style.opacity = '0';
+        // Add a stabilizing class
+        productsGrid.classList.add('language-transition');
         
-        // Multiple attempts at different times to ensure layout recalculation
-        const delays = [50, 150, 300];
+        // Force a single layout recalculation
+        window.dispatchEvent(new Event('resize'));
         
-        delays.forEach(delay => {
-          setTimeout(() => {
-            // Trigger multiple layout recalculations
-            productsGrid.style.display = 'grid';
-            productsGrid.style.visibility = 'visible';
-            
-            // Force reflow
-            void productsGrid.offsetHeight;
-            
-            // Make visible again
-            productsGrid.style.opacity = '1';
-            
-            // Force layout recalculation
-            window.dispatchEvent(new Event('resize'));
-          }, delay);
-        });
-        
-        // As a final measure, force a complete rerender of products
+        // Use a single, clean approach to refresh content
         if (apiProducts[selectedCategory]?.length > 0) {
-          setTimeout(() => {
-            // Store current selection
-            const currentCategory = selectedCategory;
-            
-            // Reset selection to trigger rerender
-            setSelectedCategory(null);
-            
-            // Restore selection after a brief delay
+          // Store current selection
+          const currentCategory = selectedCategory;
+          const tempCategory = Object.keys(apiProducts).find(cat => cat !== currentCategory) || null;
+          
+          // Briefly switch to another category and back
+          setSelectedCategory(tempCategory);
+          
+          // Use requestAnimationFrame for smoother transition
+          requestAnimationFrame(() => {
             setTimeout(() => {
               setSelectedCategory(currentCategory);
+              
+              // Remove the transition class after content is stable
+              setTimeout(() => {
+                productsGrid.classList.remove('language-transition');
+              }, 100);
             }, 50);
-          }, 200);
+          });
         }
       }
     }

@@ -1119,6 +1119,29 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
 }
 
+/* Add this to your app.css to prevent blinking/refreshing during language change */
+.products-grid.language-transition {
+  transition: none !important;
+  min-height: 50vh !important;
+}
+
+/* Fix layout2 language switching to prevent continuous refreshing */
+.app.layout2 .products-grid {
+  transition: none !important;
+  will-change: contents;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Prevent flickering and continuous refreshing in layout2 */
+.app.layout2[dir="rtl"] .products-grid,
+.app.layout2[dir="ltr"] .products-grid {
+  position: relative !important;
+  visibility: visible !important;
+  display: grid !important;
+  transform: translateZ(0);
+}
+
 /* Dark Theme Overrides */
 body.dark-theme,
 .app.dark-theme {
