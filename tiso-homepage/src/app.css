@@ -1268,8 +1268,9 @@ body.dark-theme,
 .app.dark-theme .ar-button {
   background: #23242A !important;
   color: #16c784 !important;
-  border: 1.5px solid #16c784 !important;
+  border: none !important;
 }
+
 
 .app.dark-theme .ar-button:disabled {
   color: #aaa !important;
@@ -1351,12 +1352,17 @@ body.dark-theme .search-results-dropdown div:hover {
   .app.dark-theme .products-grid {
     background: #18191C !important;
   }
-  .app.dark-theme .product-card {
-    background: #18191c !important;
-    border: none !important;
-    color: #fff !important;
-    box-shadow: none !important;
-  }
+  /* only remove the box and side borders in dark mode, keep bottom-border available */
+.app.dark-theme .product-card {
+  background: #18191c !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  /* no more “border: none !important;” */
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
   .app.dark-theme .product-card h3,
   .app.dark-theme .product-card p {
     color: #fff !important;
@@ -1563,4 +1569,13 @@ html, body, #root {
 body.dark-theme, .app.dark-theme {
   background-color: #111215 !important;
 }
+/* this will work in both layout1 and layout2 */
+.product-card.highlighted {
+  /* light mode fallback */
+  border-bottom: 4px solid #ff9800 !important;
+}
 
+/* dark mode override (if you need extra specificity) */
+.app.dark-theme .product-card.highlighted {
+  border-bottom: 4px solid #ff9800 !important;
+}

@@ -836,7 +836,7 @@ function App() {
             {apiProducts[selectedCategory]?.map((product, index) => (
               <div
                 key={index}
-                className={`product-card`}
+                className={`product-card${highlightedProductName === product.name ? ' highlighted' : ''}`}
                 data-product-name={product.name}
                 style={{
                   padding: '10px',
