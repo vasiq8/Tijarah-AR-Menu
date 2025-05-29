@@ -660,16 +660,16 @@ function App() {
         <div style={{
           position: 'fixed',
           top: isSmallMobile ? '85px' : isMobileScreen ? '110px' : '140px',
-          left: '32px', // Increased from 24px/40px to 32px for a bit more width
-          right: '32px', // Increased from 24px/40px to 32px for a bit more width
+          left: '32px',
+          right: '32px',
           display: 'flex',
           overflowX: 'auto',
           zIndex: 15,
-          direction: isRTL ? 'rtl' : 'ltr', // <-- set scroll direction
+          direction: isRTL ? 'rtl' : 'ltr',
         }}>
           <div style={{
             display: 'flex',
-            flexDirection: 'row', // <-- always row
+            flexDirection: 'row',
             width: 'max-content',
             flexWrap: 'nowrap',
             paddingBottom: '10px',
@@ -735,6 +735,11 @@ function App() {
             }
           `}</style>
         </div>
+      )}
+
+      {/* Add extra vertical spacer for layout 2 */}
+      {layout === 'layout2' && (
+        <div style={{ height: 15 }} />
       )}
 
       {/* Main Content */}
