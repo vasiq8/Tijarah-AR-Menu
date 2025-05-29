@@ -308,7 +308,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 }
 
 .product-card .ar-button {
-  margin-top: 24px !important; /* move AR button further down */
+  margin-top: 24px !important; 
 }
 
 /* Close Button for Product */
