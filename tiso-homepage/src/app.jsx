@@ -636,7 +636,7 @@ function App() {
                     cursor: 'pointer',
                     borderBottom:
                       index !== searchResults.length - 1
-                        ? `1px solid ${theme === 'dark' ? '#444444' : '#eee'}` // <-- fix here
+                        ? `1px solid ${theme === 'dark' ? '#444444' : '#eee'}` 
                         : 'none',
                     color: theme === 'dark' ? '#fff' : '#222',
                     background: 'transparent',
@@ -845,8 +845,8 @@ function App() {
                   borderLeft: 'none',
                   borderRight: 'none',
                   borderRadius: '15px',
-                  minHeight: '190px', // increased from 180px
-                  maxHeight: '220px', // increased from 210px
+                  minHeight: '190px', 
+                  maxHeight: '220px', 
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'flex-start',
@@ -1145,8 +1145,8 @@ function App() {
                 ? '0 8px 32px rgba(0,0,0,0.45)'
                 : '0 8px 32px rgba(0,0,0,0.13)',
               padding: '28px 28px 24px 28px', // Reduced padding
-              minWidth: '280px', // Reduced from 320px
-              minHeight: '160px', // Reduced from 180px
+              minWidth: '280px', 
+              minHeight: '160px', 
               zIndex: 10001,
               display: 'flex',
               flexDirection: 'column',
