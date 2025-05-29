@@ -902,6 +902,10 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   .category-box img {
     width: 72% !important;
     height: 72% !important;
+    background: transparent !important;
+    border: none;
+    box-shadow: none;
+    pointer-events: none;
   }
 
   .products-grid {
@@ -1579,3 +1583,10 @@ body.dark-theme, .app.dark-theme {
 .app.dark-theme .product-card.highlighted {
   border-bottom: 4px solid #ff9800 !important;
 }
+.app.dark-theme .category-box img {
+  background: transparent !important;
+}
+.app.layout2 img[alt$=" icon"] {
+  background: transparent !important;
+}
+
