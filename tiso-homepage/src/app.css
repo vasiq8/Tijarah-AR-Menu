@@ -509,7 +509,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 /* Products Grid */
 .products-grid {
-  position: relative; /* was fixed */
+  position: relative; /* Add a mask to fade out the top of the grid so cards appear to go under the search bar */
   left: 0;
   top: 0;
   right: 0;
@@ -527,6 +527,58 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   max-width: 1700px; /* increased from 1400px */
   width: 100%;
   padding-bottom: 40px; /* Increased from 24px to 40px */
+}
+
+@media (min-width: 901px) {
+  .products-grid::before {
+    content: "";
+    position: fixed;
+    top: 110px; /* header height */
+    left: 0;
+    width: 100vw;
+    height: 80px; /* height of the fade, adjust as needed */
+    pointer-events: none;
+    z-index: 10;
+    background: linear-gradient(
+      to bottom,
+      #fff 80%,
+      rgba(255,255,255,0.01) 100%
+    );
+    /* For dark theme, override below */
+  }
+  .app.dark-theme .products-grid::before {
+    background: linear-gradient(
+      to bottom,
+      #18191C 80%,
+      rgba(24,25,28,0.01) 100%
+    );
+  }
+}
+
+/* --- Layout 2: Fade mask at top of products grid on desktop only --- */
+@media (min-width: 901px) {
+  .app.layout2 .products-grid::before {
+    content: "";
+    position: fixed;
+    top: 180px; /* match the top of the grid under the search bar in layout 2 */
+    left: 0;
+    width: 100vw;
+    height: 80px; /* height of the fade, adjust as needed */
+    pointer-events: none;
+    z-index: 10;
+    background: linear-gradient(
+      to bottom,
+      #fff 80%,
+      rgba(255,255,255,0.01) 100%
+    );
+  }
+  .app.dark-theme.layout2 .products-grid::before {
+    background: linear-gradient(
+      to bottom,
+      #18191C 80%,
+      rgba(24,25,28,0.01) 100%
+    );
+  }
 }
 
 /* Increase padding under the last product card */
@@ -1179,60 +1231,6 @@ body.dark-theme,
   color: #fff !important;
 }
 
-.app.dark-theme .product-card .ar-button {
-  background: #23242A !important;
-  color: #16c784 !important;
-  border: none !important;
-}
-
-.app.dark-theme .product-card .ar-button:disabled {
-  background: #23242A !important;
-  color: #16c784 !important;
-  border: none !important;
-}
-
-.app.dark-theme .product-card .ar-button img {
-  background: #23242A !important;
-}
-
-.app.dark-theme .menu-dropdown,
-.app.dark-theme .search-dropdown {
-  background: #18191C !important;
-  border: 1.8px solid #23242A !important;
-  color: #fff !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.28);
-}
-
-.app.dark-theme .menu-header,
-.app.dark-theme .search-header {
-  border-bottom: 1px solid #23242A !important;
-  background: #18191C !important;
-  color: #fff !important;
-}
-
-.app.dark-theme .menu-title,
-.app.dark-theme .search-title {
-  color: #fff !important;
-}
-
-.app.dark-theme .menu-category {
-  color: #fff !important;
-}
-
-.app.dark-theme .menu-category:hover {
-  color: #16c784 !important;
-}
-
-.app.dark-theme .product-details {
-  background: #18191C !important;
-  border: 1px solid #23242A !important;
-  color: #fff !important;
-}
-
-.app.dark-theme .product-info {
-  color: #fff !important;
-}
-
 .app.dark-theme .ar-modal.desktop {
   background: #18191C !important;
   color: #fff !important;
@@ -1530,7 +1528,6 @@ body.dark-theme .search-results-dropdown div:hover {
   background: #18191C !important;
   /* Fill the viewport below the grid with dark color */
   min-height: 100vh !important;
-  box-shadow: 0 100vh 0 0 #18191C;
 }
 
 /* Also ensure the main-layout is dark in layout2 dark mode */
