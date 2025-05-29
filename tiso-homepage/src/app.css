@@ -1535,3 +1535,19 @@ body.dark-theme .search-results-dropdown div:hover {
 .app.dark-theme.layout2 .main-layout {
   background: #18191C !important;
 }
+
+/* --- Layout 2: Improved scroll and bottom spacing for products grid --- */
+.app.layout2 .products-grid {
+  scroll-padding-top: 160px !important; /* ≈ header (110px) + search bar (50px) */
+  padding-bottom: 200px !important;     /* give extra space below last card */
+}
+
+/* Optional: each item has room above it when scrolled into view */
+.app.layout2 .products-grid > div {
+  scroll-margin-top: 160px !important;
+}
+
+/* Clean up the last-child margin override—keep only the big one */
+.app.layout2 .products-grid > div:last-child {
+  margin-bottom: 200px !important;
+}
