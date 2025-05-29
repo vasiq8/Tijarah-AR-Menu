@@ -183,12 +183,12 @@ function App() {
   const fetchMenuData = async () => {
     setIsLoading(true); // <-- always set true at start
     try {
-      const apiUrl = 'https://qa-k8s.tisostudio.com/menu-management/menu/?_q=&orderType=pickup&locationRef=67a396bc0e2b3511b0396447&companyRef=67a395910e2b3511b0396281';
-      
-      // Extract locationRef from URL
-      const urlParams = new URL(apiUrl).searchParams;
-      const extractedLocationRef = urlParams.get('locationRef');
-      setLocationRef(extractedLocationRef);
+      if (!companyRef || !locationRef) {
+        console.error('Missing companyRef or locationRef');
+        setIsLoading(false);
+        return;
+      }
+      const apiUrl = `https://qa-k8s.tisostudio.com/menu-management/menu/?_q=&orderType=pickup&locationRef=${locationRef}&companyRef=${companyRef}`;
       
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -224,7 +224,7 @@ function App() {
           let price = '';
           if (product.variants && product.variants.length > 0) {
             const variant = product.variants[0];
-            const matchingPrice = variant.prices.find(p => p.locationRef === extractedLocationRef);
+            const matchingPrice = variant.prices.find(p => p.locationRef === locationRef);
             if (matchingPrice) {
               price = `${product.currency} ${matchingPrice.price}`;
             }
