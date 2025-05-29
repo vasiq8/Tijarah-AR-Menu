@@ -160,7 +160,7 @@ function App() {
         ),
     right: undefined,
     width: layout === 'layout2'
-      ? 'calc(100vw - 64px)' // 32px left + 32px right
+      ? 'calc(100vw - 64px)'
       : isSmallMobile
         ? 'calc(100vw - 90px - 20px)' 
         : isMobileScreen
@@ -845,8 +845,8 @@ function App() {
                   borderLeft: 'none',
                   borderRight: 'none',
                   borderRadius: '15px',
-                  minHeight: '190px', // increased from 180px
-                  maxHeight: '220px', // increased from 210px
+                  minHeight: '190px', 
+                  maxHeight: '220px',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'flex-start',
@@ -1145,8 +1145,8 @@ function App() {
                 ? '0 8px 32px rgba(0,0,0,0.45)'
                 : '0 8px 32px rgba(0,0,0,0.13)',
               padding: '28px 28px 24px 28px', // Reduced padding
-              minWidth: '280px', // Reduced from 320px
-              minHeight: '160px', // Reduced from 180px
+              minWidth: '280px', 
+              minHeight: '160px', 
               zIndex: 10001,
               display: 'flex',
               flexDirection: 'column',
@@ -1173,7 +1173,7 @@ function App() {
             </div>
             <div style={{
               width: '100%',
-              maxWidth: '280px', // Reduced from 320px
+              maxWidth: '280px', 
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center'
@@ -1514,7 +1514,7 @@ function App() {
                 right: 22,
                 background: 'none',
                 border: 'none',
-                fontSize: '32px', // Increased from 24px
+                fontSize: '32px', 
                 cursor: 'pointer',
                 color: '#888',
                 fontWeight: 400,

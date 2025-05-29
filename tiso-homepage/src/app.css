@@ -25,12 +25,12 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 /* Move settings icon a bit further down */
 .app img[alt="settings"] {
-  top: 38px !important;   /* was 28px */
+  top: 38px !important;   
 }
 
 @media (max-width: 600px) {
   .app img[alt="settings"] {
-    top: 22px !important; /* was 12px */
+    top: 22px !important; 
   }
 }
 
@@ -400,7 +400,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   left: 0;
   top: 0;
   bottom: auto;
-  width: 90px; /* reduced from 120px */
+  width: 90px; 
   background: white;
   padding: 10px 15px;
   overflow-x: hidden; /* prevent horizontal scroll */
@@ -412,12 +412,12 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   z-index: 5;
   height: calc(100vh - 110px); /* header height */
   margin-top: -35px; /* Move sidebar a bit higher */
-  padding-bottom: 40px; /* Increased from 24px to 40px */
+  padding-bottom: 40px; 
 }
 
 /* Add extra padding under the last category box */
 .categories-sidebar .category-box:last-child {
-  margin-bottom: 120px !important; /* Increased from 80px to 120px */
+  margin-bottom: 120px !important; 
 }
 
 /* Make category-box perfectly square and center content */
@@ -451,7 +451,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 .category-box .text-wrapper {
   position: absolute;
   top: 8px;
-  left: 8px; /* Reduced from 12px to move text more to the left */
+  left: 8px; 
   right: auto;
   bottom: auto;
   width: auto;
@@ -516,7 +516,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   bottom: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); /* wider cards for desktop */
-  gap: 32px 12px; /* decrease horizontal gap from 24px to 12px */
+  gap: 32px 12px; 
   background: #fff; /* white background for desktop */
   padding: 32px 40px 40px 40px; /* more padding for desktop */
   overflow-y: auto;
@@ -524,9 +524,9 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   align-content: flex-start;
   margin-top: 0 !important;
   padding-top: 0;
-  max-width: 1700px; /* increased from 1400px */
+  max-width: 1700px; 
   width: 100%;
-  padding-bottom: 40px; /* Increased from 24px to 40px */
+  padding-bottom: 40px; 
 }
 
 @media (min-width: 901px) {
@@ -583,7 +583,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 /* Increase padding under the last product card */
 .products-grid > div:last-child {
-  margin-bottom: 120px !important; /* Increased from 80px to 120px */
+  margin-bottom: 120px !important; 
 }
 
 /* Add extra padding under the last product card */
@@ -598,7 +598,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     gap: 20px 9px; /* decrease horizontal gap from 24px to 12px */
     background: #fff;
     padding: 32px 40px 40px 40px;
-    max-width: 2000px; /* increased from 1400px */
+    max-width: 2000px; 
     width: 100%;
     margin-top: 0 !important;
     padding-top: 0 !important;
@@ -750,7 +750,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   width: 100%;
   height: 110px; /* match your header region height */
   background: #fff; /* or dark background when theme==='dark' */
-  z-index: 5; /* reduce from 20 to 5 so header elements (z-index ≥10) show above */
+  z-index: 5; 
 }
 
 /* Mobile Media Queries */
@@ -848,7 +848,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
   /* Mobile Categories */
   .main-layout {
-      padding-top: 140px; /* header (100px) + search bar (approx 40px) */
+      padding-top: 140px; 
       margin-top: 0 !important;
       display: flex;
       flex-direction: row;
@@ -884,18 +884,18 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     min-height: 68px !important;
     max-width: 68px !important;
     max-height: 68px !important;
-    font-size: 5px;             /* slightly smaller */
-    border-radius: 14px;         /* Increased from 10px */
-    margin-bottom: 12px;         /* Increased from 8px */
+    font-size: 5px;   
+    border-radius: 14px;   
+    margin-bottom: 12px;     
     padding: 0 !important;
     justify-content: flex-start !important;
     align-items: flex-start !important;
   }
   .category-box .text-wrapper {
-    top: 8px;                    /* Increased from 4px */
+    top: 8px;               
     left: 6px; /* Reduced from 10px to move text more to the left on mobile */
     font-size: 0.72rem !important;  /* slightly smaller on mobile */
-    gap: 3px;                    /* Increased from 2px */
+    gap: 3px;                  
     text-align: left;
   }
 
@@ -941,11 +941,11 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     border: 1px solid #333;
     box-shadow: 0 1px 4px rgba(0,0,0,0.08);
     padding: 6px;                /* Slightly reduced */
-    border-radius: 10px;         /* Increased from 6px */
-    height: 120px;               /* Increased from 90px */
+    border-radius: 10px;         
+    height: 120px;             
     min-height: 145px;           /* Slightly reduced */
     max-height: 120px;
-    gap: 4px;                    /* Increased from 2px */
+    gap: 4px;                
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -970,15 +970,15 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
   .product-card img,
   .product-card .product-image {
-    width: 92px !important;      /* Reduced from 90px */
-    height: 85px !important;     /* Reduced from 90px */
+    width: 92px !important;    
+    height: 85px !important;     
     border: none; /* Remove border */
     margin: 0 auto 4px auto;
     display: block;
     border-radius: 50%;
   }
   .product-card h3 {
-    font-size: 10px;             /* Reduced from 12px */
+    font-size: 10px;            
     line-height: 1.1;
     margin-bottom: 2px;
     color: #000 !important;
@@ -988,7 +988,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
     margin-top: 7px !important; /* Slightly less space for mobile */
   }
   .product-card p {
-    font-size: 9px;              /* Reduced from 11px */
+    font-size: 9px;             
     line-height: 1.2;
     margin-bottom: 2px;
     color: #000 !important;
@@ -998,7 +998,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
   .product-card .info-button,
   .product-card .ar-button {
-    font-size: 10px;             /* Reduced from 11px */
+    font-size: 10px;             
     padding: 2px 4px;
     height: 18px;
     min-width: 24px;
@@ -1034,7 +1034,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   }
 
   .description-modal {
-    max-width: 80% !important; /* Decreased from 90% */
+    max-width: 80% !important; 
     width: 260px !important;   /* Set a fixed width for mobile */
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
@@ -1095,7 +1095,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 /* --- For desktop, increase padding to push grid further down --- */
 @media (min-width: 901px) {
   .main-layout {
-    padding-top: 240px !important; /* was 200px, now more space */
+    padding-top: 240px !important; 
   }
   .products-grid {
     margin-top: 0 !important;
@@ -1116,7 +1116,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 /* Adjust main-layout to account for header + search bar height */
 @media (min-width: 901px) {
   .main-layout {
-    padding-top: 240px !important; /* header (110px) + search bar (60-80px) */
+    padding-top: 240px !important; 
   }
   .products-grid {
     margin-top: 0 !important;
@@ -1126,7 +1126,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 
 @media (max-width: 900px) {
   .main-layout {
-    padding-top: 140px !important; /* header (100px) + search bar (40px) */
+    padding-top: 140px !important; 
   }
   .products-grid {
     margin-top: 0 !important;
@@ -1138,7 +1138,7 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
 @media (min-width: 901px) {
   /* Enhanced bottom spacing for categories sidebar on desktop */
   .categories-sidebar {
-    padding-bottom: 60px !important; /* Increased from 40px to 60px */
+    padding-bottom: 60px !important; 
   }
   
   /* Even more padding under the last category box on desktop */
@@ -1148,12 +1148,12 @@ body.dark-theme, .app.dark-theme, .app.dark-theme #root, .app.dark-theme html {
   
   /* Enhanced bottom spacing for products grid on desktop */
   .products-grid {
-    padding-bottom: 60px !important; /* Increased from 40px to 60px */
+    padding-bottom: 60px !important; 
   }
   
   /* Even more padding under the last product card on desktop */
   .products-grid > div:last-child {
-    margin-bottom: 160px !important; /* Significantly increased from 120px */
+    margin-bottom: 160px !important; 
   }
   
   /* Add scroll padding to improve scrolling behavior */
