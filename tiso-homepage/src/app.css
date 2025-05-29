@@ -1551,3 +1551,17 @@ body.dark-theme .search-results-dropdown div:hover {
 .app.layout2 .products-grid > div:last-child {
   margin-bottom: 200px !important;
 }
+/* make root and app fill the screen */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.app {
+  min-height: 100vh;
+}
+/* global dark‐mode background */
+body.dark-theme, .app.dark-theme {
+  background-color: #111215 !important;
+}
+
