@@ -79,9 +79,6 @@ function App() {
   // Add temp layout state
   const [tempLayout, setTempLayout]     = useState(layout);
 
-  // Add state to hide search bar
-  const [hideSearchBar, setHideSearchBar] = useState(false);
-
   // Apply dark theme to body and .app when selected
   useEffect(() => {
     if (theme === 'dark') {
@@ -90,23 +87,6 @@ function App() {
       document.body.classList.remove('dark-theme');
     }
   }, [theme]);
-
-  // Hide search bar when scrolled to bottom, show when not at bottom
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const windowHeight = window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      // If at bottom (allowing 2px tolerance)
-      if (windowHeight + scrollY >= docHeight - 2) {
-        setHideSearchBar(true);
-      } else {
-        setHideSearchBar(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Responsive positions and sizes
   const isMobileScreen = screenWidth <= 600;
@@ -154,7 +134,7 @@ function App() {
   // Add: compute isRTL for Arabic
   const isRTL = language === 'ar';
 
-  // Update the searchBarContainerStyle to ensure visibility on mobile
+  // Update searchBarContainerStyle: remove opacity and transition related to hideSearchBar
   const searchBarContainerStyle = {
     position: 'fixed',
     top: layout === 'layout2' 
@@ -198,8 +178,6 @@ function App() {
     alignItems: 'center',
     zIndex: 15,
     pointerEvents: 'auto',
-    opacity: hideSearchBar ? 0 : 1,
-    transition: 'opacity 0.3s ease'
   };
 
   const fetchMenuData = async () => {
@@ -515,7 +493,7 @@ function App() {
           ...searchBarContainerStyle,
           // Remove top override for layout2, let CSS handle it
           top: layout === 'layout2' ? undefined : searchBarContainerStyle.top,
-          display: isMobileScreen ? 'flex' : (hideSearchBar ? 'none' : 'flex')
+          display: 'flex' // Always show
         }}
       >
         <div
