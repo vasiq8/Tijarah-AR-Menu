@@ -71,13 +71,13 @@ function App() {
   const [theme, setTheme]       = useState(() => localStorage.getItem('theme')    || 'dark');
   const [language, setLanguage] = useState(() => localStorage.getItem('language') || 'en');
   // Add layout state
-  const [layout, setLayout]     = useState(() => localStorage.getItem('layout')   || 'layout1');
+  const [layout, setLayout]     = useState(() => localStorage.getItem('layout')   || 'layout2');
 
   // ← add temp states
-  const [tempTheme, setTempTheme]       = useState(theme);
-  const [tempLanguage, setTempLanguage] = useState(language);
+  const [tempTheme, setTempTheme]       = useState(theme || 'dark');
+  const [tempLanguage, setTempLanguage] = useState(language || 'en');
   // Add temp layout state
-  const [tempLayout, setTempLayout]     = useState(layout);
+  const [tempLayout, setTempLayout]     = useState(layout || 'layout2');
 
   // Apply dark theme to body and .app when selected
   useEffect(() => {
