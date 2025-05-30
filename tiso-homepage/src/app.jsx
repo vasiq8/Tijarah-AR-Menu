@@ -576,7 +576,7 @@ function App() {
             </button>
           )}
           {/* Update search results UI */}
-          {searchResults.length > 0 && searchQuery && (
+          {searchQuery && (
             <div style={{
               position: 'absolute',
               top: '100%',
@@ -589,67 +589,78 @@ function App() {
               overflow: 'hidden',
               zIndex: 10
             }}>
-              {searchResults.map((product, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    // Find the category for this product
-                    const foundCategory = Object.keys(apiProducts).find(cat =>
-                      apiProducts[cat].some(p => p.name === product.name)
-                    );
-                    if (foundCategory) {
-                      setSelectedCategory(foundCategory);
-                      setHighlightedProductName(product.name);
-                      
-                      // Improved scrolling behavior that works on both mobile and desktop
-                      setTimeout(() => {
-                        const el = document.querySelector(`[data-product-name="${product.name}"]`);
-                        const productsGrid = document.querySelector('.products-grid');
+              {searchResults.length > 0 ? (
+                searchResults.map((product, index) => (
+                  <div
+                    key={index}
+                    onClick={() => {
+                      // Find the category for this product
+                      const foundCategory = Object.keys(apiProducts).find(cat =>
+                        apiProducts[cat].some(p => p.name === product.name)
+                      );
+                      if (foundCategory) {
+                        setSelectedCategory(foundCategory);
+                        setHighlightedProductName(product.name);
                         
-                        if (el && productsGrid) {
-                          // For desktop, we need specific scrolling approach
-                          if (screenWidth > 600) {
-                            // Calculate element's position relative to the grid
-                            const gridRect = productsGrid.getBoundingClientRect();
-                            const elRect = el.getBoundingClientRect();
-                            const relativeTop = elRect.top - gridRect.top;
-                            
-                            // Scroll the grid to bring element into view
-                            productsGrid.scrollTo({
-                              top: productsGrid.scrollTop + relativeTop - 150, // Offset for header
-                              behavior: 'smooth'
-                            });
-                          } else {
-                            // On mobile, scrollIntoView works well
-                            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Improved scrolling behavior that works on both mobile and desktop
+                        setTimeout(() => {
+                          const el = document.querySelector(`[data-product-name="${product.name}"]`);
+                          const productsGrid = document.querySelector('.products-grid');
+                          
+                          if (el && productsGrid) {
+                            // For desktop, we need specific scrolling approach
+                            if (screenWidth > 600) {
+                              // Calculate element's position relative to the grid
+                              const gridRect = productsGrid.getBoundingClientRect();
+                              const elRect = el.getBoundingClientRect();
+                              const relativeTop = elRect.top - gridRect.top;
+                              
+                              // Scroll the grid to bring element into view
+                              productsGrid.scrollTo({
+                                top: productsGrid.scrollTop + relativeTop - 150, // Offset for header
+                                behavior: 'smooth'
+                              });
+                            } else {
+                              // On mobile, scrollIntoView works well
+                              el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
                           }
-                        }
-                      }, 250); // Increased timeout to ensure DOM is updated
-                    }
-                    setCurrentCategoryProducts([]); // Hide modal if open
-                    setProductIndex(0);
-                    setSearchQuery('');
-                    setSearchResults([]);
-                  }}
-                  style={{
-                    padding: '12px 16px',
-                    cursor: 'pointer',
-                    borderBottom:
-                      index !== searchResults.length - 1
-                        ? `1px solid ${theme === 'dark' ? '#444444' : '#eee'}` // <-- fix here
-                        : 'none',
-                    color: theme === 'dark' ? '#fff' : '#222',
-                    background: 'transparent',
-                  }}
-                >
-                  <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
-                    {product.name}
+                        }, 250); // Increased timeout to ensure DOM is updated
+                      }
+                      setCurrentCategoryProducts([]); // Hide modal if open
+                      setProductIndex(0);
+                      setSearchQuery('');
+                      setSearchResults([]);
+                    }}
+                    style={{
+                      padding: '12px 16px',
+                      cursor: 'pointer',
+                      borderBottom:
+                        index !== searchResults.length - 1
+                          ? `1px solid ${theme === 'dark' ? '#444444' : '#eee'}` // <-- fix here
+                          : 'none',
+                      color: theme === 'dark' ? '#fff' : '#222',
+                      background: 'transparent',
+                    }}
+                  >
+                    <div style={{ fontWeight: 600, fontSize: '0.9rem', marginBottom: '4px', color: theme === 'dark' ? '#fff' : '#222' }}>
+                      {product.name}
+                    </div>
+                    <div style={{ fontSize: '0.8rem', color: theme === 'dark' ? '#bbb' : '#666' }}>
+                      {product.price}
+                    </div>
                   </div>
-                  <div style={{ fontSize: '0.8rem', color: theme === 'dark' ? '#bbb' : '#666' }}>
-                    {product.price}
-                  </div>
+                ))
+              ) : (
+                <div style={{
+                  padding: '16px',
+                  color: theme === 'dark' ? '#bbb' : '#888',
+                  textAlign: 'center',
+                  fontSize: '0.98rem'
+                }}>
+                  No results found
                 </div>
-              ))}
+              )}
             </div>
           )}
         </div>
